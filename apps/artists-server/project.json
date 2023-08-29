@@ -1,0 +1,77 @@
+{
+	"name": "artists-server",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/artists-server/src",
+	"projectType": "application",
+	"targets": {
+		"build": {
+			"executor": "@nx/esbuild:esbuild",
+			"outputs": ["{options.outputPath}"],
+			"defaultConfiguration": "production",
+			"options": {
+				"platform": "node",
+				"outputPath": "dist/apps/artists-server",
+				"format": ["cjs"],
+				"bundle": false,
+				"main": "apps/artists-server/src/main.ts",
+				"tsConfig": "apps/artists-server/tsconfig.app.json",
+				"assets": ["apps/artists-server/src/assets"],
+				"generatePackageJson": true,
+				"esbuildOptions": {
+					"sourcemap": true,
+					"outExtension": {
+						".js": ".js"
+					}
+				}
+			},
+			"configurations": {
+				"development": {},
+				"production": {
+					"esbuildOptions": {
+						"sourcemap": false,
+						"outExtension": {
+							".js": ".js"
+						}
+					}
+				}
+			}
+		},
+		"serve": {
+			"executor": "@nx/js:node",
+			"defaultConfiguration": "development",
+			"options": {
+				"buildTarget": "artists-server:build"
+			},
+			"configurations": {
+				"development": {
+					"buildTarget": "artists-server:build:development"
+				},
+				"production": {
+					"buildTarget": "artists-server:build:production"
+				}
+			}
+		},
+		"lint": {
+			"executor": "@nx/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["apps/artists-server/**/*.ts"]
+			}
+		},
+		"test": {
+			"executor": "@nx/jest:jest",
+			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+			"options": {
+				"jestConfig": "apps/artists-server/jest.config.ts",
+				"passWithNoTests": true
+			},
+			"configurations": {
+				"ci": {
+					"ci": true,
+					"codeCoverage": true
+				}
+			}
+		}
+	},
+	"tags": ["type:app", "scope:backend"]
+}
