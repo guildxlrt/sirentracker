@@ -1,9 +1,9 @@
-import { ArtistId } from "./Artist"
-import { Song } from "./Song"
+import { ArtistId } from "./artist"
+import { BaseEntity } from "../base-entity"
+import { Song } from "./song"
 import { EntityGenres, GenreType, ReleaseType } from "Shared-utils"
 
-export class Release {
-	id: number
+export class Release extends BaseEntity {
 	title: string
 	releaseType: ReleaseType
 	songs: Song[]
@@ -16,6 +16,8 @@ export class Release {
 
 	constructor(
 		id: number,
+		createdAt: Date,
+		updatedAt: Date,
 		title: string,
 		releaseType: ReleaseType,
 		songs: Song[],
@@ -28,7 +30,8 @@ export class Release {
 		coverUrl?: string,
 		descript?: string
 	) {
-		this.id = id
+		super(id, createdAt, updatedAt)
+
 		this.title = title
 		this.releaseType = releaseType
 		this.songs = songs

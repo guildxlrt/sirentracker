@@ -8,5 +8,5 @@ export interface ReleaseRepository {
 
 	create(params: any): Promise<boolean>
 
-	get(id: number): Promise<Release | null>
+	get(id: number): Promise<Release>
 }

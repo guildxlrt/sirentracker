@@ -1,15 +1,16 @@
 import { DataServices } from "Infra-backend"
 import { SongIdDTO } from "Dto"
-import { Song, SongRepository } from "Domain"
+import { Song } from "Domain"
+import { BaseUsecase } from "../base-usecase"
 
-export class SongUsecases implements SongRepository {
+export class GetSongUsecase implements BaseUsecase<SongIdDTO, Song> {
 	private readonly service: DataServices
 
 	constructor(service: DataServices) {
 		this.service = service
 	}
 
-	async get(id: SongIdDTO): Promise<Song | null> {
+	async execute(id: SongIdDTO): Promise<Song> {
 		return await this.service.song.get(id)
 	}
 }

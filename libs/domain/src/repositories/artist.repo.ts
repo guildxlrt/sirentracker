@@ -8,7 +8,9 @@ export interface ArtistRepository {
 
 	create(data: any): Promise<boolean>
 
-	get(id: number): Promise<Artist | null>
-
 	modify(data: any): Promise<boolean>
+
+	getById(id: number): Promise<Artist>
+
+	getByEmail(id: string): Promise<Artist>
 }

@@ -1,8 +1,8 @@
 import { Artist, ArtistRepository } from "Domain"
-import { ArtistIdDTO, CreateArtistDTO, ModifyArtistDTO } from "Dto"
+import { ArtistIdDTO, CreateArtistDTO, EmailDTO, ModifyArtistDTO } from "Dto"
 import { GenreType } from "Shared-utils"
 
-export class ArtistImplementation implements ArtistRepository {
+export class ArtistImplement implements ArtistRepository {
 	async getAll(): Promise<Artist[]> {
 		const dbRes: Artist[] = []
 
@@ -19,13 +19,19 @@ export class ArtistImplementation implements ArtistRepository {
 		return true
 	}
 
-	async get(params: ArtistIdDTO): Promise<Artist> {
+	async modify(params: ModifyArtistDTO): Promise<boolean> {
+		return true
+	}
+
+	async getById(params: ArtistIdDTO): Promise<Artist> {
 		const dbRes: any = {}
 
 		return dbRes
 	}
 
-	async modify(params: ModifyArtistDTO): Promise<boolean> {
-		return true
+	async getByEmail(params: EmailDTO): Promise<Artist> {
+		const dbRes: any = {}
+
+		return dbRes
 	}
 }

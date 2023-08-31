@@ -1,0 +1,6 @@
+export * from "./create-artist.usecase"
+export * from "./fetch-all-artists.usecase"
+export * from "./find-artists-by-genre.usecase"
+export * from "./get-artist-by-email.usecase"
+export * from "./get-artist-by-id.usecase"
+export * from "./modify-artist.usecase"

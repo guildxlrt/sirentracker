@@ -16,4 +16,3 @@ export interface ModifyFanDTO {
 }
 
 export type FanIdDTO = Pick<Fan, "id">["id"]
-export type FanEmailDTO = Pick<Fan, "email">["email"]

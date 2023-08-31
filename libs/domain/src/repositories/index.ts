@@ -1,3 +1,4 @@
+export * from "./user-connect.repos"
 export * from "./artist.repo"
 export * from "./fan.repo"
 export * from "./release.repo"
