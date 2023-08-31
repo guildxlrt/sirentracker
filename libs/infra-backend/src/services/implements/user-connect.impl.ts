@@ -16,12 +16,12 @@ export class UserConnectImplement implements UserConnectRepository {
 		return
 	}
 
-	async emailUpdate(params: EmailCleanDTO): Promise<boolean> {
+	async updateEmail(params: EmailCleanDTO): Promise<boolean> {
 		//
 		return true
 	}
 
-	async passUpdate(params: PassCleanDTO): Promise<boolean> {
+	async updatePass(params: PassCleanDTO): Promise<boolean> {
 		//
 		return true
 	}

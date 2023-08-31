@@ -1,5 +1,5 @@
 export * from "./signup.usecase"
 export * from "./login.usecase"
 export * from "./logout.usecase"
-export * from "./email-update.usecase"
-export * from "./pass-update.usecase"
+export * from "./update-email.usecase"
+export * from "./update-pass.usecase"

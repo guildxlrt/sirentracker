@@ -1,11 +1,11 @@
-export interface UserConnectRepository {
-	signup(params: any): Promise<boolean>
+export abstract class UserConnectRepository {
+	abstract signup(params: any): Promise<boolean>
 
-	login(params: any): Promise<Credential>
+	abstract login(params: any): Promise<Credential>
 
-	logout(): Promise<void>
+	abstract logout(): Promise<void>
 
-	emailUpdate(params: any): Promise<boolean>
+	abstract updateEmail(params: any): Promise<boolean>
 
-	passUpdate(params: any): Promise<boolean>
+	abstract updatePass(params: any): Promise<boolean>
 }

@@ -1,12 +1,10 @@
-import { DataServices } from "Infra-backend"
+import { DatabaseServices } from "Infra-backend"
 import { UserConnectDTO } from "Dto"
 import { BaseUsecase } from "../base-usecase"
 
-export class LoginUsecase implements BaseUsecase<UserConnectDTO, Credential> {
-	private readonly service: DataServices
-
-	constructor(service: DataServices) {
-		this.service = service
+export class LoginUsecase extends BaseUsecase<UserConnectDTO, Credential> {
+	constructor(service: DatabaseServices) {
+		super(service)
 	}
 
 	async execute(params: UserConnectDTO): Promise<Credential> {

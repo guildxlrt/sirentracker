@@ -1,12 +1,10 @@
-import { DataServices } from "Infra-backend"
+import { DatabaseServices } from "Infra-backend"
 
 import { BaseUsecase } from "../base-usecase"
 
-export class LogoutUsecase implements BaseUsecase<void, void> {
-	private readonly service: DataServices
-
-	constructor(service: DataServices) {
-		this.service = service
+export class LogoutUsecase extends BaseUsecase<void, void> {
+	constructor(service: DatabaseServices) {
+		super(service)
 	}
 
 	async execute(): Promise<void> {

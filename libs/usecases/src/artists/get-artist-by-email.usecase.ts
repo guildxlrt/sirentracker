@@ -1,13 +1,11 @@
-import { DataServices } from "Infra-backend"
+import { DatabaseServices } from "Infra-backend"
 import { EmailDTO } from "Dto"
 import { Artist } from "Domain"
 import { BaseUsecase } from "../base-usecase"
 
-export class GetArtistByEmailUsecase implements BaseUsecase<EmailDTO, Artist> {
-	private readonly service: DataServices
-
-	constructor(service: DataServices) {
-		this.service = service
+export class GetArtistByEmailUsecase extends BaseUsecase<EmailDTO, Artist> {
+	constructor(service: DatabaseServices) {
+		super(service)
 	}
 
 	async execute(email: EmailDTO): Promise<Artist> {

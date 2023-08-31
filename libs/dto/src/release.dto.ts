@@ -13,3 +13,4 @@ export interface CreateReleaseDTO {
 }
 
 export type ReleaseIdDTO = Pick<Release, "id">["id"]
+export type ReleasePriceDTO = Pick<Release, "price">["price"]

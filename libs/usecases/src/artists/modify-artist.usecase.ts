@@ -1,12 +1,10 @@
-import { DataServices } from "Infra-backend"
+import { DatabaseServices } from "Infra-backend"
 import { ModifyArtistDTO } from "Dto"
 import { BaseUsecase } from "../base-usecase"
 
-export class ModifyArtistUsecase implements BaseUsecase<ModifyArtistDTO, boolean> {
-	private readonly service: DataServices
-
-	constructor(service: DataServices) {
-		this.service = service
+export class ModifyArtistUsecase extends BaseUsecase<ModifyArtistDTO, boolean> {
+	constructor(service: DatabaseServices) {
+		super(service)
 	}
 
 	async execute(params: ModifyArtistDTO): Promise<boolean> {

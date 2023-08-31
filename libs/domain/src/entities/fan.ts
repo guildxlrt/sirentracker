@@ -1,8 +1,8 @@
 import { BaseEntity } from "../base-entity"
-import { UserCredId } from "./user-connect"
+import { UserConnectId } from "./user-connect"
 
 export class Fan extends BaseEntity {
-	user_credential: UserCredId
+	user_credential: UserConnectId
 	name: string
 	bio: string
 	avatarUrl: string
@@ -24,3 +24,5 @@ export class Fan extends BaseEntity {
 		this.avatarUrl = avatarUrl
 	}
 }
+
+export type FanId = Pick<Fan, "id">["id"]

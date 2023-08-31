@@ -1,12 +1,10 @@
-import { DataServices } from "Infra-backend"
+import { DatabaseServices } from "Infra-backend"
 import { Artist } from "Domain"
 import { BaseUsecase } from "../base-usecase"
 
-export class FetchAllArtistsUsecase implements BaseUsecase<void, Artist[]> {
-	private readonly service: DataServices
-
-	constructor(service: DataServices) {
-		this.service = service
+export class FetchAllArtistsUsecase extends BaseUsecase<void, Artist[]> {
+	constructor(service: DatabaseServices) {
+		super(service)
 	}
 
 	async execute(): Promise<Artist[]> {

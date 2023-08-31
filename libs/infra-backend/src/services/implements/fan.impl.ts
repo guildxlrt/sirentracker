@@ -6,19 +6,19 @@ export class FanImplement implements FanRepository {
 		return true
 	}
 
-	async getById(params: FanIdDTO): Promise<Fan> {
-		const dbRes: any = {}
-
-		return dbRes
-	}
-
-	async getByEmail(params: EmailDTO): Promise<Fan> {
-		const dbRes: any = {}
-
-		return dbRes
-	}
-
 	async modify(params: ModifyFanDTO): Promise<boolean> {
 		return false
+	}
+
+	async getById(id: FanIdDTO): Promise<Fan> {
+		const dbRes: any = {}
+
+		return dbRes
+	}
+
+	async getByEmail(email: EmailDTO): Promise<Fan> {
+		const dbRes: any = {}
+
+		return dbRes
 	}
 }

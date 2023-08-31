@@ -1,12 +1,10 @@
-import { DataServices } from "Infra-backend"
+import { DatabaseServices } from "Infra-backend"
 import { Release } from "Domain"
 import { BaseUsecase } from "../base-usecase"
 
-export class FetchAllReleasesUsecase implements BaseUsecase<void, Release[]> {
-	private readonly service: DataServices
-
-	constructor(service: DataServices) {
-		this.service = service
+export class FetchAllReleasesUsecase extends BaseUsecase<void, Release[]> {
+	constructor(service: DatabaseServices) {
+		super(service)
 	}
 
 	async execute(): Promise<Release[]> {

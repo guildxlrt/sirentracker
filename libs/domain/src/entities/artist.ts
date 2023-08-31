@@ -1,9 +1,9 @@
 import { EntityGenres, GenreType } from "Shared-utils"
-import { UserCredId } from "./user-connect"
+import { UserConnectId } from "./user-connect"
 import { BaseEntity } from "../base-entity"
 
 export class Artist extends BaseEntity {
-	user_credential: UserCredId
+	user_credential: UserConnectId
 	name: string
 	bio: string
 	avatarUrl: string

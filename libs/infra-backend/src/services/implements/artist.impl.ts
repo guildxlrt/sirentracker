@@ -9,7 +9,7 @@ export class ArtistImplement implements ArtistRepository {
 		return dbRes
 	}
 
-	async findManyByGenre(params: GenreType): Promise<Artist[]> {
+	async findManyByGenre(genre: GenreType): Promise<Artist[]> {
 		const dbRes: Artist[] = []
 
 		return dbRes
@@ -23,13 +23,13 @@ export class ArtistImplement implements ArtistRepository {
 		return true
 	}
 
-	async getById(params: ArtistIdDTO): Promise<Artist> {
+	async getById(id: ArtistIdDTO): Promise<Artist> {
 		const dbRes: any = {}
 
 		return dbRes
 	}
 
-	async getByEmail(params: EmailDTO): Promise<Artist> {
+	async getByEmail(email: EmailDTO): Promise<Artist> {
 		const dbRes: any = {}
 
 		return dbRes

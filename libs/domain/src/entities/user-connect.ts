@@ -12,4 +12,5 @@ export class UserConnect extends BaseEntity {
 	}
 }
 
-export type UserCredId = Pick<UserConnect, "id">["id"]
+export type UserConnectId = Pick<UserConnect, "id">["id"]
+export type UserConnectEmail = Pick<UserConnect, "email">["email"]

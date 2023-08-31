@@ -1,5 +1,5 @@
 import { Release, ReleaseRepository } from "Domain"
-import { CreateReleaseDTO, ReleaseIdDTO } from "Dto"
+import { ArtistIdDTO, CreateReleaseDTO, ReleaseIdDTO, ReleasePriceDTO } from "Dto"
 import { GenreType } from "Shared-utils"
 
 export class ReleaseImplement implements ReleaseRepository {
@@ -9,7 +9,13 @@ export class ReleaseImplement implements ReleaseRepository {
 		return dbRes
 	}
 
-	async findManyByGenre(params: GenreType): Promise<Release[]> {
+	async findManyByGenre(genre: GenreType): Promise<Release[]> {
+		const dbRes: Release[] = []
+
+		return dbRes
+	}
+
+	async findManyByArtist(params: ArtistIdDTO): Promise<Release[]> {
 		const dbRes: Release[] = []
 
 		return dbRes
@@ -19,9 +25,13 @@ export class ReleaseImplement implements ReleaseRepository {
 		return true
 	}
 
-	async get(params: ReleaseIdDTO): Promise<Release> {
+	async get(id: ReleaseIdDTO): Promise<Release> {
 		const dbRes: any = {}
 
 		return dbRes
+	}
+
+	async modifyPrice(price: ReleasePriceDTO): Promise<boolean> {
+		return true
 	}
 }
