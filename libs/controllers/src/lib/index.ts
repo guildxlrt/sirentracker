@@ -1,1 +1,1 @@
-export * from "./controllers"
+export * from "./artist.controller"

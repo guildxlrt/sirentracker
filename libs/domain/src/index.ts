@@ -1,4 +1,2 @@
-export * from "./entities"
-export * from "./repositories"
-export * from "./base-entity"
-export * from "./base-repos"
+export * from "./lib"
+export * from "./assets"
