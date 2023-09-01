@@ -1,9 +1,9 @@
-import { BaseReposResponse } from "../../assets"
+import { IResponse } from "../../assets"
 import { ReleaseId } from "../entities"
 import { Order, OrderId } from "../entities"
 
 export abstract class OrderRepository {
-	abstract make(id: ReleaseId): Promise<BaseReposResponse<boolean>>
+	abstract make(id: ReleaseId): Promise<IResponse<boolean>>
 
-	abstract get(id: OrderId): Promise<BaseReposResponse<Order>>
+	abstract get(id: OrderId): Promise<IResponse<Order>>
 }

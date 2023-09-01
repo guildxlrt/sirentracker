@@ -1,12 +1,12 @@
-import { BaseReposResponse, BaseReposUser } from "../../assets"
+import { IResponse, BaseReposUser } from "../../assets"
 import { Fan, FanId, UserConnectEmail } from "../entities"
 
 export abstract class FanRepository implements BaseReposUser<Fan> {
-	abstract create(data: any): Promise<BaseReposResponse<boolean>>
+	abstract create(data: any): Promise<IResponse<boolean>>
 
-	abstract modify(data: any): Promise<BaseReposResponse<boolean>>
+	abstract modify(data: any): Promise<IResponse<boolean>>
 
-	abstract getById(id: FanId): Promise<BaseReposResponse<Fan>>
+	abstract getById(id: FanId): Promise<IResponse<Fan>>
 
-	abstract getByEmail(email: UserConnectEmail): Promise<BaseReposResponse<Fan>>
+	abstract getByEmail(email: UserConnectEmail): Promise<IResponse<Fan>>
 }

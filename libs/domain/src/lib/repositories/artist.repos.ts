@@ -1,17 +1,17 @@
 import { GenreType } from "Shared-utils"
 import { Artist, ArtistId, UserConnectEmail } from "../entities"
-import { BaseReposResponse, BaseReposSearch, BaseReposUser } from "../../assets"
+import { IResponse, BaseReposSearch, BaseReposUser } from "../../assets"
 
 export abstract class ArtistRepository implements BaseReposUser<Artist>, BaseReposSearch<Artist> {
-	abstract fetchAll(): Promise<BaseReposResponse<Artist[]>>
+	abstract fetchAll(): Promise<IResponse<Artist[]>>
 
-	abstract findManyByGenre(genre: GenreType): Promise<BaseReposResponse<Artist[]>>
+	abstract findManyByGenre(genre: GenreType): Promise<IResponse<Artist[]>>
 
-	abstract create(params: unknown): Promise<BaseReposResponse<boolean>>
+	abstract create(params: unknown): Promise<IResponse<boolean>>
 
-	abstract modify(params: unknown): Promise<BaseReposResponse<boolean>>
+	abstract modify(params: unknown): Promise<IResponse<boolean>>
 
-	abstract getById(id: ArtistId): Promise<BaseReposResponse<Artist>>
+	abstract getById(id: ArtistId): Promise<IResponse<Artist>>
 
-	abstract getByEmail(email: UserConnectEmail): Promise<BaseReposResponse<Artist>>
+	abstract getByEmail(email: UserConnectEmail): Promise<IResponse<Artist>>
 }

@@ -2,7 +2,7 @@ import { UserConnectRepository } from "Domain"
 import { UserConnectDTO, CleanPassDTO, CleanEmailDTO, CleanSignupDTO, ResponseDTO } from "Dto"
 
 export class UserConnectImplement implements UserConnectRepository {
-	async signup(params: CleanSignupDTO): Promise<ResponseDTO<boolean>> {
+	async signUp(params: CleanSignupDTO): Promise<ResponseDTO<boolean>> {
 		const res = new ResponseDTO(200, null, true)
 
 		return res

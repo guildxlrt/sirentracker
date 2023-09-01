@@ -10,31 +10,31 @@ import {
 	GetArtistByEmailUsecase,
 	GetArtistByIdUsecase,
 	ModifyArtistUsecase,
-} from "Usecases"
+} from "interactors"
 import { databaseServices } from "Infra-backend"
 
-const fetchAllArtistsUsecase = new FetchAllArtistsUsecase(databaseServices)
-const findArtistsByGenreUsecase = new FindArtistsByGenreUsecase(databaseServices)
-const createArtistUsecase = new CreateArtistUsecase(databaseServices)
-const modifyArtistUsecase = new ModifyArtistUsecase(databaseServices)
-const getArtistByIdUsecase = new GetArtistByIdUsecase(databaseServices)
-const getArtistByEmailUsecase = new GetArtistByEmailUsecase(databaseServices)
+const fetchAllArtists = new FetchAllArtistsUsecase(databaseServices)
+const findArtistsByGenre = new FindArtistsByGenreUsecase(databaseServices)
+const createArtist = new CreateArtistUsecase(databaseServices)
+const modifyArtist = new ModifyArtistUsecase(databaseServices)
+const getArtistById = new GetArtistByIdUsecase(databaseServices)
+const getArtistByEmail = new GetArtistByEmailUsecase(databaseServices)
 
 interface IAuthorController {
 	fetchAll(request: unknown, reply: unknown): Promise<ResponseDTO<Artist[]>>
-	findMunknownByGenre(request: unknown, reply: unknown): Promise<ResponseDTO<Artist[]>>
+	findManyByGenre(request: unknown, reply: unknown): Promise<ResponseDTO<Artist[]>>
 	create(request: unknown, reply: unknown): Promise<ResponseDTO<boolean>>
 	modify(request: unknown, reply: unknown): Promise<ResponseDTO<boolean>>
 	getById(request: unknown, reply: unknown): Promise<ResponseDTO<Artist>>
 	getByEmail(request: unknown, reply: unknown): Promise<ResponseDTO<Artist>>
 }
 
-export class AuthorController implements IAuthorController {
+export class AuthorsController implements IAuthorController {
 	async fetchAll(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<Artist[]>> {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const { data, error, status } = await fetchAllArtistsUsecase.execute()
+			const { data, error, status } = await fetchAllArtists.execute()
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(status).send(data)
@@ -43,7 +43,7 @@ export class AuthorController implements IAuthorController {
 		}
 	}
 
-	async findMunknownByGenre(
+	async findManyByGenre(
 		request: FastifyRequest<IParams<GenreType>>,
 		reply: FastifyReply
 	): Promise<ResponseDTO<Artist[]>> {
@@ -52,7 +52,7 @@ export class AuthorController implements IAuthorController {
 		try {
 			const input = request.params
 
-			const { data, error, status } = await findArtistsByGenreUsecase.execute(input)
+			const { data, error, status } = await findArtistsByGenre.execute(input)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -65,10 +65,12 @@ export class AuthorController implements IAuthorController {
 		request: FastifyRequest<IParams<CreateArtistDTO>>,
 		reply: FastifyReply
 	): Promise<ResponseDTO<boolean>> {
+		if (request.method !== "POST") return reply.status(405).send({ error: apiError.e405.msg })
+
 		try {
 			const input = request.params
 
-			const { data, error, status } = await createArtistUsecase.execute(input)
+			const { data, error, status } = await createArtist.execute(input)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(202).send(data)
@@ -81,10 +83,12 @@ export class AuthorController implements IAuthorController {
 		request: FastifyRequest<IParams<ModifyArtistDTO>>,
 		reply: FastifyReply
 	): Promise<ResponseDTO<boolean>> {
+		if (request.method !== "PUT") return reply.status(405).send({ error: apiError.e405.msg })
+
 		const input = request.params
 
 		try {
-			const { data, error, status } = await modifyArtistUsecase.execute(input)
+			const { data, error, status } = await modifyArtist.execute(input)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -97,10 +101,12 @@ export class AuthorController implements IAuthorController {
 		request: FastifyRequest<IParams<ArtistIdDTO>>,
 		reply: FastifyReply
 	): Promise<ResponseDTO<Artist>> {
+		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
+
 		const input = request.params
 
 		try {
-			const { data, error, status } = await getArtistByIdUsecase.execute(input)
+			const { data, error, status } = await getArtistById.execute(input)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -113,10 +119,12 @@ export class AuthorController implements IAuthorController {
 		request: FastifyRequest<IParams<EmailDTO>>,
 		reply: FastifyReply
 	): Promise<ResponseDTO<Artist>> {
+		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
+
 		const input = request.params
 
 		try {
-			const { data, error, status } = await getArtistByEmailUsecase.execute(input)
+			const { data, error, status } = await getArtistByEmail.execute(input)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)

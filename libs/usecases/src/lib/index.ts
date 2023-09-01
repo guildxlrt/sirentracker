@@ -1,6 +1,0 @@
-export * from "./user-connect"
-export * from "./artists"
-export * from "./fans"
-export * from "./releases"
-export * from "./songs"
-export * from "./orders"

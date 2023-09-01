@@ -1,13 +1,13 @@
-import { BaseReposResponse } from "../../assets"
+import { IResponse } from "../../assets"
 
 export abstract class UserConnectRepository {
-	abstract signup(params: any): Promise<BaseReposResponse<boolean>>
+	abstract signUp(params: any): Promise<IResponse<boolean>>
 
-	abstract login(params: any): Promise<BaseReposResponse<Credential>>
+	abstract login(params: any): Promise<IResponse<Credential>>
 
-	abstract logout(): Promise<BaseReposResponse<unknown>>
+	abstract logout(): Promise<IResponse<unknown>>
 
-	abstract changeEmail(params: any): Promise<BaseReposResponse<boolean>>
+	abstract changeEmail(params: any): Promise<IResponse<boolean>>
 
-	abstract changePass(params: any): Promise<BaseReposResponse<boolean>>
+	abstract changePass(params: any): Promise<IResponse<boolean>>
 }

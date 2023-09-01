@@ -12,6 +12,6 @@ export class SignUpUsecase extends BaseUsecase<SignupDTO, ResponseDTO<boolean>> 
 
 		const validData: CleanSignupDTO = { email: email, password: password }
 
-		return await this.service.userConnect.signup(validData)
+		return await this.service.userConnect.signUp(validData)
 	}
 }

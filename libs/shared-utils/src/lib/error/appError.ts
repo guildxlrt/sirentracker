@@ -4,7 +4,7 @@ export interface IError {
 	readonly stack: string | unknown
 }
 
-export class ApplicationError implements IError {
+export class AppError implements IError {
 	readonly location: string
 	readonly name: string
 	readonly message: string
