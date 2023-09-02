@@ -56,3 +56,8 @@ export class CreateReleaseDTO implements INewRelease {
 
 export type ReleaseIdDTO = Pick<Release, "id">["id"]
 export type ReleasePriceDTO = Pick<Release, "price">["price"]
+
+export type ModifyReleasePriceDTO = {
+	id: Pick<Release, "id">["id"]
+	newAmount: number
+}

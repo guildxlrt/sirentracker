@@ -1,5 +1,11 @@
 import { Release, ReleaseRepository } from "Domain"
-import { ArtistIdDTO, CreateReleaseDTO, ReleaseIdDTO, ReleasePriceDTO, ResponseDTO } from "Dto"
+import {
+	ArtistIdDTO,
+	CreateReleaseDTO,
+	ModifyReleasePriceDTO,
+	ReleaseIdDTO,
+	ResponseDTO,
+} from "Dto"
 import { GenreType } from "Shared-utils"
 
 export class ReleaseImplement implements ReleaseRepository {
@@ -41,7 +47,7 @@ export class ReleaseImplement implements ReleaseRepository {
 		return res
 	}
 
-	async modifyPrice(price: ReleasePriceDTO): Promise<ResponseDTO<boolean>> {
+	async modifyPrice(price: ModifyReleasePriceDTO): Promise<ResponseDTO<boolean>> {
 		const res = new ResponseDTO(200, null, true)
 
 		return res

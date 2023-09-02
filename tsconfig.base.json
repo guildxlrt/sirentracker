@@ -15,11 +15,11 @@
 		"skipDefaultLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
-			"interactors": ["libs/interactors/src/index.ts"],
 			"Controllers": ["libs/controllers/src/index.ts"],
 			"Domain": ["libs/domain/src/index.ts"],
 			"Dto": ["libs/dto/src/index.ts"],
 			"Infra-backend": ["libs/infra-backend/src/index.ts"],
+			"Interactors": ["libs/interactors/src/index.ts"],
 			"Shared-utils": ["libs/shared-utils/src/index.ts"]
 		}
 	},

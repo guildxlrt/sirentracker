@@ -1,15 +1,14 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-import { IParams } from "../assets"
 import { apiError } from "Shared-utils"
 import {} from "Domain"
-import { ChangeEmailDTO, ChangePassDTO, ResponseDTO, SignupDTO, UserConnectDTO } from "Dto"
+import { ChangeEmailDTO, ChangePassDTO, LoginDTO, ResponseDTO, SignupDTO } from "Dto"
 import {
 	ChangeEmailUsecase,
 	ChangePassUsecase,
 	LoginUsecase,
 	LogoutUsecase,
 	SignUpUsecase,
-} from "interactors"
+} from "Interactors"
 import { databaseServices } from "Infra-backend"
 
 const signUp = new SignUpUsecase(databaseServices)
@@ -18,7 +17,7 @@ const logout = new LogoutUsecase(databaseServices)
 const changeEmail = new ChangeEmailUsecase(databaseServices)
 const changePassword = new ChangePassUsecase(databaseServices)
 
-interface IAuthorController {
+interface IUserConnectController {
 	signUp(request: unknown, reply: unknown): Promise<ResponseDTO<boolean>>
 	login(request: unknown, reply: unknown): Promise<ResponseDTO<Credential>>
 	logout(request: unknown, reply: unknown): Promise<ResponseDTO<unknown>>
@@ -26,17 +25,14 @@ interface IAuthorController {
 	changePass(request: unknown, reply: unknown): Promise<ResponseDTO<boolean>>
 }
 
-export class AuthorController implements IAuthorController {
-	async signUp(
-		request: FastifyRequest<IParams<SignupDTO>>,
-		reply: FastifyReply
-	): Promise<ResponseDTO<boolean>> {
+export class UserConnectController implements IUserConnectController {
+	async signUp(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
 		if (request.method !== "POST") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const input = request.params
+			const body: SignupDTO = request.body as SignupDTO
 
-			const { data, error, status } = await signUp.execute(input)
+			const { data, error, status } = await signUp.execute(body)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(status).send(data)
@@ -45,16 +41,13 @@ export class AuthorController implements IAuthorController {
 		}
 	}
 
-	async login(
-		request: FastifyRequest<IParams<UserConnectDTO>>,
-		reply: FastifyReply
-	): Promise<ResponseDTO<Credential>> {
+	async login(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<Credential>> {
 		if (request.method !== "POST") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const input = request.params
+			const body: LoginDTO = request.body as LoginDTO
 
-			const { data, error, status } = await login.execute(input)
+			const { data, error, status } = await login.execute(body)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -76,16 +69,13 @@ export class AuthorController implements IAuthorController {
 		}
 	}
 
-	async changeEmail(
-		request: FastifyRequest<IParams<ChangeEmailDTO>>,
-		reply: FastifyReply
-	): Promise<ResponseDTO<boolean>> {
+	async changeEmail(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
 		if (request.method !== "PUT") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const input = request.params
+		const body: ChangeEmailDTO = request.body as ChangeEmailDTO
 
 		try {
-			const { data, error, status } = await changeEmail.execute(input)
+			const { data, error, status } = await changeEmail.execute(body)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -94,16 +84,13 @@ export class AuthorController implements IAuthorController {
 		}
 	}
 
-	async changePass(
-		request: FastifyRequest<IParams<ChangePassDTO>>,
-		reply: FastifyReply
-	): Promise<ResponseDTO<boolean>> {
+	async changePass(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
 		if (request.method !== "PUT") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const input = request.params
+		const body: ChangePassDTO = request.body as ChangePassDTO
 
 		try {
-			const { data, error, status } = await changePassword.execute(input)
+			const { data, error, status } = await changePassword.execute(body)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)

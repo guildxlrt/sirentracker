@@ -1,0 +1,77 @@
+{
+	"name": "admin-server",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/admin-server/src",
+	"projectType": "application",
+	"targets": {
+		"build": {
+			"executor": "@nx/esbuild:esbuild",
+			"outputs": ["{options.outputPath}"],
+			"defaultConfiguration": "production",
+			"options": {
+				"platform": "node",
+				"outputPath": "dist/apps/admin-server",
+				"format": ["cjs"],
+				"bundle": false,
+				"main": "apps/admin-server/src/main.ts",
+				"tsConfig": "apps/admin-server/tsconfig.app.json",
+				"assets": ["apps/admin-server/src/assets"],
+				"generatePackageJson": true,
+				"esbuildOptions": {
+					"sourcemap": true,
+					"outExtension": {
+						".js": ".js"
+					}
+				}
+			},
+			"configurations": {
+				"development": {},
+				"production": {
+					"esbuildOptions": {
+						"sourcemap": false,
+						"outExtension": {
+							".js": ".js"
+						}
+					}
+				}
+			}
+		},
+		"serve": {
+			"executor": "@nx/js:node",
+			"defaultConfiguration": "development",
+			"options": {
+				"buildTarget": "admin-server:build"
+			},
+			"configurations": {
+				"development": {
+					"buildTarget": "admin-server:build:development"
+				},
+				"production": {
+					"buildTarget": "admin-server:build:production"
+				}
+			}
+		},
+		"lint": {
+			"executor": "@nx/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["apps/admin-server/**/*.ts"]
+			}
+		},
+		"test": {
+			"executor": "@nx/jest:jest",
+			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+			"options": {
+				"jestConfig": "apps/admin-server/jest.config.ts",
+				"passWithNoTests": true
+			},
+			"configurations": {
+				"ci": {
+					"ci": true,
+					"codeCoverage": true
+				}
+			}
+		}
+	},
+	"tags": ["type:app", "scope:backend"]
+}

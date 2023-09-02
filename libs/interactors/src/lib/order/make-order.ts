@@ -1,13 +1,13 @@
 import { DatabaseServices } from "Infra-backend"
-import { OrderIdDTO, ResponseDTO } from "Dto"
+import { MakeOrderDTO, OrderIdDTO, ResponseDTO } from "Dto"
 import { BaseUsecase } from "../../assets"
 
-export class MakeOrderUsecase extends BaseUsecase<OrderIdDTO, ResponseDTO<boolean>> {
+export class MakeOrderUsecase extends BaseUsecase<MakeOrderDTO, ResponseDTO<boolean>> {
 	constructor(service: DatabaseServices) {
 		super(service)
 	}
 
-	async execute(params: OrderIdDTO): Promise<ResponseDTO<boolean>> {
+	async execute(params: MakeOrderDTO): Promise<ResponseDTO<boolean>> {
 		return await this.service.order.make(params)
 	}
 }

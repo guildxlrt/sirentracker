@@ -1,9 +1,10 @@
 import { IResponse } from "../../assets"
-import { ReleaseId } from "../entities"
-import { Order, OrderId } from "../entities"
+import { FanId, Order, OrderId } from "../entities"
 
 export abstract class OrderRepository {
-	abstract make(id: ReleaseId): Promise<IResponse<boolean>>
+	abstract make(params: any): Promise<IResponse<boolean>>
 
 	abstract get(id: OrderId): Promise<IResponse<Order>>
+
+	abstract findManyByUser(id: FanId): Promise<IResponse<Order[]>>
 }

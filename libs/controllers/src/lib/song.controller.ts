@@ -1,32 +1,29 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-import { IParams } from "../assets"
 import { apiError } from "Shared-utils"
 import { ArtistId, ReleaseId, Song, SongId } from "Domain"
 import { ResponseDTO } from "Dto"
-import { FindSongsByArtistUsecase, FindSongsByReleaseUsecase, GetSongUsecase } from "interactors"
+import { FindSongsByArtistUsecase, FindSongsByReleaseUsecase, GetSongUsecase } from "Interactors"
 import { databaseServices } from "Infra-backend"
+import { ParamsId } from "../assets"
 
 const getSong = new GetSongUsecase(databaseServices)
 const findSongsByArtist = new FindSongsByArtistUsecase(databaseServices)
 const findSongsByRelease = new FindSongsByReleaseUsecase(databaseServices)
 
-interface IAuthorController {
+interface ISongController {
 	get(request: unknown, reply: unknown): Promise<ResponseDTO<Song>>
 	findManyByArtist(request: unknown, reply: unknown): Promise<ResponseDTO<Song[]>>
 	findManyByRelease(request: unknown, reply: unknown): Promise<ResponseDTO<Song[]>>
 }
 
-export class SongsController implements IAuthorController {
-	async get(
-		request: FastifyRequest<IParams<SongId>>,
-		reply: FastifyReply
-	): Promise<ResponseDTO<Song>> {
+export class SongsController implements ISongController {
+	async get(request: FastifyRequest<ParamsId>, reply: FastifyReply): Promise<ResponseDTO<Song>> {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const input = request.params
+			const { id } = request.params
 
-			const { data, error, status } = await getSong.execute(input)
+			const { data, error, status } = await getSong.execute(id)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(status).send(data)
@@ -36,15 +33,15 @@ export class SongsController implements IAuthorController {
 	}
 
 	async findManyByArtist(
-		request: FastifyRequest<IParams<ArtistId>>,
+		request: FastifyRequest<ParamsId>,
 		reply: FastifyReply
 	): Promise<ResponseDTO<Song[]>> {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const input = request.params
+			const { id } = request.params
 
-			const { data, error, status } = await findSongsByArtist.execute(input)
+			const { data, error, status } = await findSongsByArtist.execute(id)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -54,15 +51,15 @@ export class SongsController implements IAuthorController {
 	}
 
 	async findManyByRelease(
-		request: FastifyRequest<IParams<ReleaseId>>,
+		request: FastifyRequest<ParamsId>,
 		reply: FastifyReply
 	): Promise<ResponseDTO<Song[]>> {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const input = request.params
+			const { id } = request.params
 
-			const { data, error, status } = await findSongsByRelease.execute(input)
+			const { data, error, status } = await findSongsByRelease.execute(id)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(202).send(data)

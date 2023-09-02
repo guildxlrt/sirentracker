@@ -2,7 +2,7 @@ import { UserConnect } from "Domain"
 
 export type EmailDTO = string
 
-export type UserConnectDTO = Pick<UserConnect, "email" | "password">
+export type LoginDTO = Pick<UserConnect, "email" | "password">
 
 // EMAIL
 export type CleanEmailDTO = Pick<UserConnect, "password">["password"]

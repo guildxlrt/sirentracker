@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-	displayName: "interactors",
+	displayName: "Interactors",
 	preset: "../../jest.preset.js",
 	testEnvironment: "node",
 	transform: {

@@ -1,15 +1,15 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-import { IParams } from "../assets"
-import { GenreType, apiError } from "Shared-utils"
+import { apiError } from "Shared-utils"
 import { Fan } from "Domain"
-import { FanIdDTO, CreateFanDTO, EmailDTO, ModifyFanDTO, ResponseDTO } from "Dto"
+import { CreateFanDTO, ModifyFanDTO, ResponseDTO } from "Dto"
 import {
 	CreateFanUsecase,
 	GetFanByEmailUsecase,
 	GetFanByIdUsecase,
 	ModifyFanUsecase,
-} from "interactors"
+} from "Interactors"
 import { databaseServices } from "Infra-backend"
+import { ParamsEmail, ParamsId } from "../assets"
 
 const createFan = new CreateFanUsecase(databaseServices)
 const modifyFan = new ModifyFanUsecase(databaseServices)
@@ -24,16 +24,13 @@ interface IFanController {
 }
 
 export class FanController implements IFanController {
-	async create(
-		request: FastifyRequest<IParams<CreateFanDTO>>,
-		reply: FastifyReply
-	): Promise<ResponseDTO<boolean>> {
+	async create(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
 		if (request.method !== "POST") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const input = request.params
+			const body: CreateFanDTO = request.body as CreateFanDTO
 
-			const { data, error, status } = await createFan.execute(input)
+			const { data, error, status } = await createFan.execute(body)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(202).send(data)
@@ -42,16 +39,13 @@ export class FanController implements IFanController {
 		}
 	}
 
-	async modify(
-		request: FastifyRequest<IParams<ModifyFanDTO>>,
-		reply: FastifyReply
-	): Promise<ResponseDTO<boolean>> {
+	async modify(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
 		if (request.method !== "PUT") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const input = request.params
+		const body: ModifyFanDTO = request.body as ModifyFanDTO
 
 		try {
-			const { data, error, status } = await modifyFan.execute(input)
+			const { data, error, status } = await modifyFan.execute(body)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -61,15 +55,15 @@ export class FanController implements IFanController {
 	}
 
 	async getById(
-		request: FastifyRequest<IParams<FanIdDTO>>,
+		request: FastifyRequest<ParamsId>,
 		reply: FastifyReply
 	): Promise<ResponseDTO<Fan>> {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const input = request.params
+		const { id } = request.params
 
 		try {
-			const { data, error, status } = await getFanById.execute(input)
+			const { data, error, status } = await getFanById.execute(id)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -79,15 +73,15 @@ export class FanController implements IFanController {
 	}
 
 	async getByEmail(
-		request: FastifyRequest<IParams<EmailDTO>>,
+		request: FastifyRequest<ParamsEmail>,
 		reply: FastifyReply
 	): Promise<ResponseDTO<Fan>> {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const input = request.params
+		const { email } = request.params
 
 		try {
-			const { data, error, status } = await getFanByEmail.execute(input)
+			const { data, error, status } = await getFanByEmail.execute(email)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)

@@ -13,5 +13,5 @@ export abstract class ReleaseRepository implements BaseReposSearch<Release> {
 
 	abstract get(id: ReleaseId): Promise<IResponse<Release>>
 
-	abstract modifyPrice(price: ReleasePrice): Promise<IResponse<boolean>>
+	abstract modifyPrice(params: any): Promise<IResponse<boolean>>
 }

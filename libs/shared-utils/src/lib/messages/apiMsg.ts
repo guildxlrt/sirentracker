@@ -1,5 +1,7 @@
 export const apiMsg = {
 	hello: {
-		msg: "Hello from Mars 🪐🛸👽",
+		fan: "hello fan 👂🏻 📻 🎧",
+		artist: "hello artist 🎶 🎸 🎤",
+		admin: "hello admin 👮🏻 🚓 🚨",
 	},
 }

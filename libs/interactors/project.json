@@ -1,5 +1,5 @@
 {
-	"name": "interactors",
+	"name": "Interactors",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"sourceRoot": "libs/interactors/src",
 	"projectType": "library",

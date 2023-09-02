@@ -1,8 +1,8 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-import { IParams } from "../assets"
-import { GenreType, apiError } from "Shared-utils"
-import { ArtistId, Release } from "Domain"
-import { ArtistIdDTO, CreateReleaseDTO, ReleasePriceDTO, ResponseDTO } from "Dto"
+import { ParamsGenre, ParamsId } from "../assets"
+import { apiError } from "Shared-utils"
+import { Release } from "Domain"
+import { ArtistIdDTO, CreateReleaseDTO, ModifyReleasePriceDTO, ResponseDTO } from "Dto"
 import {
 	CreateReleaseUsecase,
 	FetchAllReleasesUsecase,
@@ -10,7 +10,7 @@ import {
 	FindReleasesByGenreUsecase,
 	GetReleaseUsecase,
 	ModifyReleasePriceUsecase,
-} from "interactors"
+} from "Interactors"
 import { databaseServices } from "Infra-backend"
 
 const fetchAllReleases = new FetchAllReleasesUsecase(databaseServices)
@@ -20,7 +20,7 @@ const createRelease = new CreateReleaseUsecase(databaseServices)
 const modifyReleasePrice = new ModifyReleasePriceUsecase(databaseServices)
 const getRelease = new GetReleaseUsecase(databaseServices)
 
-interface IAuthorController {
+interface IReleaseController {
 	fetchAll(request: unknown, reply: unknown): Promise<ResponseDTO<Release[]>>
 	findManyByGenre(request: unknown, reply: unknown): Promise<ResponseDTO<Release[]>>
 	findManyByArtist(request: unknown, reply: unknown): Promise<ResponseDTO<Release[]>>
@@ -29,7 +29,7 @@ interface IAuthorController {
 	modifyPrice(request: unknown, reply: unknown): Promise<ResponseDTO<boolean>>
 }
 
-export class AuthorController implements IAuthorController {
+export class ReleaseController implements IReleaseController {
 	async fetchAll(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<Release[]>> {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
@@ -44,15 +44,15 @@ export class AuthorController implements IAuthorController {
 	}
 
 	async findManyByGenre(
-		request: FastifyRequest<IParams<GenreType>>,
+		request: FastifyRequest<ParamsGenre>,
 		reply: FastifyReply
 	): Promise<ResponseDTO<Release[]>> {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const input = request.params
+			const { genre } = request.params
 
-			const { data, error, status } = await findReleasesByGenre.execute(input)
+			const { data, error, status } = await findReleasesByGenre.execute(genre)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -62,15 +62,15 @@ export class AuthorController implements IAuthorController {
 	}
 
 	async findManyByArtist(
-		request: FastifyRequest<IParams<ArtistId>>,
+		request: FastifyRequest<ParamsId>,
 		reply: FastifyReply
 	): Promise<ResponseDTO<Release[]>> {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const input = request.params
+			const { id } = request.params
 
-			const { data, error, status } = await findReleasesByArtist.execute(input)
+			const { data, error, status } = await findReleasesByArtist.execute(id)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -79,16 +79,13 @@ export class AuthorController implements IAuthorController {
 		}
 	}
 
-	async create(
-		request: FastifyRequest<IParams<CreateReleaseDTO>>,
-		reply: FastifyReply
-	): Promise<ResponseDTO<boolean>> {
+	async create(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
 		if (request.method !== "POST") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const input = request.params
+			const body: CreateReleaseDTO = request.body as CreateReleaseDTO
 
-			const { data, error, status } = await createRelease.execute(input)
+			const { data, error, status } = await createRelease.execute(body)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(202).send(data)
@@ -97,16 +94,13 @@ export class AuthorController implements IAuthorController {
 		}
 	}
 
-	async modifyPrice(
-		request: FastifyRequest<IParams<ReleasePriceDTO>>,
-		reply: FastifyReply
-	): Promise<ResponseDTO<boolean>> {
+	async modifyPrice(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
 		if (request.method !== "PUT") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const input = request.params
+		const body: ModifyReleasePriceDTO = request.body as ModifyReleasePriceDTO
 
 		try {
-			const { data, error, status } = await modifyReleasePrice.execute(input)
+			const { data, error, status } = await modifyReleasePrice.execute(body)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -116,15 +110,15 @@ export class AuthorController implements IAuthorController {
 	}
 
 	async get(
-		request: FastifyRequest<IParams<ArtistIdDTO>>,
+		request: FastifyRequest<ParamsId>,
 		reply: FastifyReply
 	): Promise<ResponseDTO<Release>> {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const input = request.params
+		const { id } = request.params
 
 		try {
-			const { data, error, status } = await getRelease.execute(input)
+			const { data, error, status } = await getRelease.execute(id)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
