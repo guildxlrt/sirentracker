@@ -2,13 +2,19 @@ import { FastifyReply, FastifyRequest } from "fastify"
 import { apiError } from "Shared-utils"
 import { Order } from "Domain"
 import { MakeOrderDTO, ResponseDTO } from "Dto"
-import { FindOrdersByUserUsecase, GetOrderUsecase, MakeOrderUsecase } from "Interactors"
+import {
+	FindOrdersByUserUsecase,
+	GetOrderUsecase,
+	MakeOrderUsecase,
+	GetUserOrdersUsecase,
+} from "Interactors"
 import { databaseServices } from "Infra-backend"
 import { ParamsId } from "../assets"
 
 const makeOrder = new MakeOrderUsecase(databaseServices)
 const getOrder = new GetOrderUsecase(databaseServices)
-const findOrdersByUserUsecase = new FindOrdersByUserUsecase(databaseServices)
+const findOrdersByUser = new FindOrdersByUserUsecase(databaseServices)
+const getUserOrders = new GetUserOrdersUsecase(databaseServices)
 
 interface IOrderController {
 	make(request: unknown, reply: unknown): Promise<ResponseDTO<boolean>>
@@ -56,7 +62,23 @@ export class OrderController implements IOrderController {
 		const { id } = request.params
 
 		try {
-			const { data, error, status } = await findOrdersByUserUsecase.execute(id)
+			const { data, error, status } = await findOrdersByUser.execute(id)
+			if (error) reply.status(status).send({ error: error })
+
+			return reply.status(200).send(data)
+		} catch (error) {
+			return reply.status(500).send({ error: apiError.e500.msg })
+		}
+	}
+
+	async getUserOrders(
+		request: FastifyRequest,
+		reply: FastifyReply
+	): Promise<ResponseDTO<Order[]>> {
+		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
+
+		try {
+			const { data, error, status } = await getUserOrders.execute()
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)

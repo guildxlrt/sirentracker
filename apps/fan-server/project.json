@@ -1,7 +1,7 @@
 {
-	"name": "artists-server",
+	"name": "fan-server",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "apps/artists-server/src",
+	"sourceRoot": "apps/fan-server/src",
 	"projectType": "application",
 	"targets": {
 		"build": {
@@ -10,12 +10,12 @@
 			"defaultConfiguration": "production",
 			"options": {
 				"platform": "node",
-				"outputPath": "dist/apps/artists-server",
+				"outputPath": "dist/apps/fan-server",
 				"format": ["cjs"],
 				"bundle": false,
-				"main": "apps/artists-server/src/main.ts",
-				"tsConfig": "apps/artists-server/tsconfig.app.json",
-				"assets": ["apps/artists-server/src/assets"],
+				"main": "apps/fan-server/src/main.ts",
+				"tsConfig": "apps/fan-server/tsconfig.app.json",
+				"assets": ["apps/fan-server/src/assets"],
 				"generatePackageJson": true,
 				"esbuildOptions": {
 					"sourcemap": true,
@@ -27,6 +27,7 @@
 			"configurations": {
 				"development": {},
 				"production": {
+					"generateLockfile": true,
 					"esbuildOptions": {
 						"sourcemap": false,
 						"outExtension": {
@@ -40,14 +41,14 @@
 			"executor": "@nx/js:node",
 			"defaultConfiguration": "development",
 			"options": {
-				"buildTarget": "artists-server:build"
+				"buildTarget": "fan-server:build"
 			},
 			"configurations": {
 				"development": {
-					"buildTarget": "artists-server:build:development"
+					"buildTarget": "fan-server:build:development"
 				},
 				"production": {
-					"buildTarget": "artists-server:build:production"
+					"buildTarget": "fan-server:build:production"
 				}
 			}
 		},
@@ -55,14 +56,14 @@
 			"executor": "@nx/linter:eslint",
 			"outputs": ["{options.outputFile}"],
 			"options": {
-				"lintFilePatterns": ["apps/artists-server/**/*.ts"]
+				"lintFilePatterns": ["apps/fan-server/**/*.ts"]
 			}
 		},
 		"test": {
 			"executor": "@nx/jest:jest",
 			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
 			"options": {
-				"jestConfig": "apps/artists-server/jest.config.ts",
+				"jestConfig": "apps/fan-server/jest.config.ts",
 				"passWithNoTests": true
 			},
 			"configurations": {
@@ -71,7 +72,12 @@
 					"codeCoverage": true
 				}
 			}
+		},
+		"docker-build": {
+			"dependsOn": ["build"],
+			"command": "docker build -f apps/fan-server/Dockerfile . -t fan-server"
 		}
 	},
-	"tags": ["type:app", "scope:backend"]
+	"tags": ["type:app", "scope:backend", "scope:api"],
+	"implicitDependencies": ["shared-utils", "controllers"]
 }

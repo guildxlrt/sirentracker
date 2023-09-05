@@ -3,7 +3,7 @@ import { ArtistIdDTO, CreateArtistDTO, EmailDTO, ModifyArtistDTO, ResponseDTO } 
 import { GenreType } from "Shared-utils"
 
 export class ArtistImplement implements ArtistRepository {
-	async fetchAll(): Promise<ResponseDTO<Artist[]>> {
+	async getAll(): Promise<ResponseDTO<Artist[]>> {
 		const dbRes: Artist[] = []
 
 		const res = new ResponseDTO(200, null, dbRes)

@@ -11,7 +11,7 @@ export interface BaseReposUser<T> {
 }
 
 export interface BaseReposSearch<T> {
-	fetchAll(): Promise<IResponse<T[]>>
+	getAll(): Promise<IResponse<T[]>>
 
 	findManyByGenre(genre: GenreType): Promise<IResponse<T[]>>
 }

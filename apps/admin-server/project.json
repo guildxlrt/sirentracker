@@ -71,7 +71,12 @@
 					"codeCoverage": true
 				}
 			}
+		},
+		"docker-build": {
+			"dependsOn": ["build"],
+			"command": "docker build -f apps/admin-server/Dockerfile . -t admin-server"
 		}
 	},
-	"tags": ["type:app", "scope:backend"]
+	"tags": ["type:app", "scope:backend", "scope:api"],
+	"implicitDependencies": ["shared-utils", "controllers"]
 }

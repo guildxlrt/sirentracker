@@ -7,4 +7,6 @@ export abstract class OrderRepository {
 	abstract get(id: OrderId): Promise<IResponse<Order>>
 
 	abstract findManyByUser(id: FanId): Promise<IResponse<Order[]>>
+
+	abstract getUserOrders(): Promise<IResponse<Order[]>>
 }

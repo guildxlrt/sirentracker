@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { apiError } from "Shared-utils"
-import { ArtistId, ReleaseId, Song, SongId } from "Domain"
+import { Song } from "Domain"
 import { ResponseDTO } from "Dto"
 import { FindSongsByArtistUsecase, FindSongsByReleaseUsecase, GetSongUsecase } from "Interactors"
 import { databaseServices } from "Infra-backend"

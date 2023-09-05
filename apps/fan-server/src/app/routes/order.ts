@@ -6,4 +6,5 @@ const orderCtrl = controllers.order
 export default async function (route: FastifyInstance) {
 	route.post("/order", orderCtrl.make)
 	route.get("/order/:id", orderCtrl.get)
+	route.get("/orders", orderCtrl.getUserOrders)
 }

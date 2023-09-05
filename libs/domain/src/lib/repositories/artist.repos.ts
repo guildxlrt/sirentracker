@@ -3,7 +3,7 @@ import { Artist, ArtistId, UserConnectEmail } from "../entities"
 import { IResponse, BaseReposSearch, BaseReposUser } from "../../assets"
 
 export abstract class ArtistRepository implements BaseReposUser<Artist>, BaseReposSearch<Artist> {
-	abstract fetchAll(): Promise<IResponse<Artist[]>>
+	abstract getAll(): Promise<IResponse<Artist[]>>
 
 	abstract findManyByGenre(genre: GenreType): Promise<IResponse<Artist[]>>
 

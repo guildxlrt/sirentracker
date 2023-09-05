@@ -4,7 +4,7 @@ import { Artist } from "Domain"
 import { CreateArtistDTO, ModifyArtistDTO, ResponseDTO } from "Dto"
 import {
 	CreateArtistUsecase,
-	FetchAllArtistsUsecase,
+	GetAllArtistsUsecase,
 	FindArtistsByGenreUsecase,
 	GetArtistByEmailUsecase,
 	GetArtistByIdUsecase,
@@ -15,7 +15,7 @@ import { ParamsEmail, ParamsGenre, ParamsId } from "../assets"
 
 const createArtist = new CreateArtistUsecase(databaseServices)
 const modifyArtist = new ModifyArtistUsecase(databaseServices)
-const fetchAllArtists = new FetchAllArtistsUsecase(databaseServices)
+const getAllArtists = new GetAllArtistsUsecase(databaseServices)
 const findArtistsByGenre = new FindArtistsByGenreUsecase(databaseServices)
 const getArtistById = new GetArtistByIdUsecase(databaseServices)
 const getArtistByEmail = new GetArtistByEmailUsecase(databaseServices)
@@ -23,7 +23,7 @@ const getArtistByEmail = new GetArtistByEmailUsecase(databaseServices)
 interface IArtistController {
 	create(request: unknown, reply: unknown): Promise<ResponseDTO<boolean>>
 	modify(request: unknown, reply: unknown): Promise<ResponseDTO<boolean>>
-	fetchAll(request: unknown, reply: unknown): Promise<ResponseDTO<Artist[]>>
+	getAll(request: unknown, reply: unknown): Promise<ResponseDTO<Artist[]>>
 	findManyByGenre(request: unknown, reply: unknown): Promise<ResponseDTO<Artist[]>>
 	getById(request: unknown, reply: unknown): Promise<ResponseDTO<Artist>>
 	getByEmail(request: unknown, reply: unknown): Promise<ResponseDTO<Artist>>
@@ -60,11 +60,11 @@ export class ArtistsController implements IArtistController {
 		}
 	}
 
-	async fetchAll(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<Artist[]>> {
+	async getAll(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<Artist[]>> {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const { data, error, status } = await fetchAllArtists.execute()
+			const { data, error, status } = await getAllArtists.execute()
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(status).send(data)

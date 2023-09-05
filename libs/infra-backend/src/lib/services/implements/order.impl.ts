@@ -15,8 +15,18 @@ export class OrderImplement implements OrderRepository {
 	}
 
 	async findManyByUser(id: FanIdDTO): Promise<ResponseDTO<Order[]>> {
-		const dbRes: any = {}
+		const dbRes: Order[] = []
 
-		return dbRes
+		const res = new ResponseDTO(200, null, dbRes)
+
+		return res
+	}
+
+	async getUserOrders(): Promise<ResponseDTO<Order[]>> {
+		const dbRes: Order[] = []
+
+		const res = new ResponseDTO(200, null, dbRes)
+
+		return res
 	}
 }

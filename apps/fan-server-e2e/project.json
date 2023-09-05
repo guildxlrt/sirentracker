@@ -1,13 +1,13 @@
 {
-	"name": "artists-server-e2e",
+	"name": "fan-server-e2e",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"implicitDependencies": ["artists-server"],
+	"implicitDependencies": ["fan-server"],
 	"targets": {
 		"e2e": {
 			"executor": "@nx/jest:jest",
 			"outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
 			"options": {
-				"jestConfig": "apps/artists-server-e2e/jest.config.ts",
+				"jestConfig": "apps/fan-server-e2e/jest.config.ts",
 				"passWithNoTests": true
 			}
 		},
@@ -15,7 +15,7 @@
 			"executor": "@nx/linter:eslint",
 			"outputs": ["{options.outputFile}"],
 			"options": {
-				"lintFilePatterns": ["apps/artists-server-e2e/**/*.{js,ts}"]
+				"lintFilePatterns": ["apps/fan-server-e2e/**/*.{js,ts}"]
 			}
 		}
 	}

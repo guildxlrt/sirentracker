@@ -12,7 +12,8 @@
 	},
 	"private": true,
 	"workspaces": [
-		"packages/*"
+		"apps/*",
+		"libs/*"
 	],
 	"dependencies": {
 		"@fastify/autoload": "~5.7.1",
