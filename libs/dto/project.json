@@ -4,21 +4,11 @@
 	"sourceRoot": "libs/dto/src",
 	"projectType": "library",
 	"targets": {
-		"build": {
-			"executor": "@nx/js:tsc",
-			"outputs": ["{options.outputPath}"],
-			"options": {
-				"outputPath": "dist/libs/dto",
-				"main": "libs/dto/src/index.ts",
-				"tsConfig": "libs/dto/tsconfig.lib.json",
-				"assets": ["libs/dto/*.md"]
-			}
-		},
 		"lint": {
 			"executor": "@nx/linter:eslint",
 			"outputs": ["{options.outputFile}"],
 			"options": {
-				"lintFilePatterns": ["libs/dto/**/*.ts", "libs/dto/package.json"]
+				"lintFilePatterns": ["libs/dto/**/*.ts"]
 			}
 		},
 		"test": {
@@ -37,5 +27,5 @@
 		}
 	},
 	"tags": ["type:lib", "scope:shared"],
- 	"implicitDependencies": ["shared-utils", "domain"]
+	"implicitDependencies": ["shared-utils", "domain"]
 }

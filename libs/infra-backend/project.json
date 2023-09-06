@@ -4,24 +4,11 @@
 	"sourceRoot": "libs/infra-backend/src",
 	"projectType": "library",
 	"targets": {
-		"build": {
-			"executor": "@nx/js:tsc",
-			"outputs": ["{options.outputPath}"],
-			"options": {
-				"outputPath": "dist/libs/infra-backend",
-				"main": "libs/infra-backend/src/index.ts",
-				"tsConfig": "libs/infra-backend/tsconfig.lib.json",
-				"assets": ["libs/infra-backend/*.md"]
-			}
-		},
 		"lint": {
 			"executor": "@nx/linter:eslint",
 			"outputs": ["{options.outputFile}"],
 			"options": {
-				"lintFilePatterns": [
-					"libs/infra-backend/**/*.ts",
-					"libs/infra-backend/package.json"
-				]
+				"lintFilePatterns": ["libs/infra-backend/**/*.ts"]
 			}
 		},
 		"test": {
@@ -40,5 +27,5 @@
 		}
 	},
 	"tags": ["type:lib", "scope:shared"],
- 	"implicitDependencies": ["shared-utils", "domain", "dto"]
+	"implicitDependencies": ["shared-utils", "domain", "dto"]
 }

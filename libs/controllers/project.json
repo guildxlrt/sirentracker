@@ -4,21 +4,11 @@
 	"sourceRoot": "libs/controllers/src",
 	"projectType": "library",
 	"targets": {
-		"build": {
-			"executor": "@nx/js:tsc",
-			"outputs": ["{options.outputPath}"],
-			"options": {
-				"outputPath": "dist/libs/controllers",
-				"main": "libs/controllers/src/index.ts",
-				"tsConfig": "libs/controllers/tsconfig.lib.json",
-				"assets": ["libs/controllers/*.md"]
-			}
-		},
 		"lint": {
 			"executor": "@nx/linter:eslint",
 			"outputs": ["{options.outputFile}"],
 			"options": {
-				"lintFilePatterns": ["libs/controllers/**/*.ts", "libs/controllers/package.json"]
+				"lintFilePatterns": ["libs/controllers/**/*.ts"]
 			}
 		},
 		"test": {

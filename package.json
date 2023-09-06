@@ -4,10 +4,10 @@
 	"license": "MIT",
 	"scripts": {
 		"format": "nx format:write",
-		"lint": "nx run-many -t lint --projects=tag:type:lib,tag:scope:api",
+		"lint": "nx run-many -t lint --projects=tag:scope:api",
 		"prepare": "husky install",
-		"build": "nx run-many -t build --projects=tag:type:lib,tag:scope:api",
-		"serve": "nx run fans-server:serve",
+		"build": "nx run-many -t build --projects=tag:scope:api",
+		"serve": "nx run fan-server:serve",
 		"graph": "nx reset && nx graph"
 	},
 	"private": true,

@@ -4,21 +4,11 @@
 	"sourceRoot": "libs/interactors/src",
 	"projectType": "library",
 	"targets": {
-		"build": {
-			"executor": "@nx/js:tsc",
-			"outputs": ["{options.outputPath}"],
-			"options": {
-				"outputPath": "dist/libs/interactors",
-				"main": "libs/interactors/src/index.ts",
-				"tsConfig": "libs/interactors/tsconfig.lib.json",
-				"assets": ["libs/interactors/*.md"]
-			}
-		},
 		"lint": {
 			"executor": "@nx/linter:eslint",
 			"outputs": ["{options.outputFile}"],
 			"options": {
-				"lintFilePatterns": ["libs/interactors/**/*.ts", "libs/interactors/package.json"]
+				"lintFilePatterns": ["libs/interactors/**/*.ts"]
 			}
 		},
 		"test": {

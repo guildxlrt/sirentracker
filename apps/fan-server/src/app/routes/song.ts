@@ -5,6 +5,6 @@ const songCtrl = controllers.song
 
 export default async function (route: FastifyInstance) {
 	route.get("/song/:id", songCtrl.get)
-	route.get("/song/:id", songCtrl.findManyByArtist)
-	route.get("/song/:id", songCtrl.findManyByRelease)
+	route.get("/song-by-artist/:id", songCtrl.findManyByArtist)
+	route.get("/song-by-release/:id", songCtrl.findManyByRelease)
 }

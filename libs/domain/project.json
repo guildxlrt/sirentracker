@@ -4,21 +4,11 @@
 	"sourceRoot": "libs/domain/src",
 	"projectType": "library",
 	"targets": {
-		"build": {
-			"executor": "@nx/js:tsc",
-			"outputs": ["{options.outputPath}"],
-			"options": {
-				"outputPath": "dist/libs/domain",
-				"main": "libs/domain/src/index.ts",
-				"tsConfig": "libs/domain/tsconfig.lib.json",
-				"assets": ["libs/domain/*.md"]
-			}
-		},
 		"lint": {
 			"executor": "@nx/linter:eslint",
 			"outputs": ["{options.outputFile}"],
 			"options": {
-				"lintFilePatterns": ["libs/domain/**/*.ts", "libs/domain/package.json"]
+				"lintFilePatterns": ["libs/domain/**/*.ts"]
 			}
 		},
 		"test": {

@@ -1,5 +1,5 @@
 import { DatabaseServices } from "Infra-backend"
-import { MakeOrderDTO, OrderIdDTO, ResponseDTO } from "Dto"
+import { MakeOrderDTO, ResponseDTO } from "Dto"
 import { BaseUsecase } from "../../assets"
 
 export class MakeOrderUsecase extends BaseUsecase<MakeOrderDTO, ResponseDTO<boolean>> {
