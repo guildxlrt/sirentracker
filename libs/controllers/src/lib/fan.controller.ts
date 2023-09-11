@@ -28,9 +28,9 @@ export class FanController implements IFanController {
 		if (request.method !== "POST") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const body: CreateFanDTO = request.body as CreateFanDTO
+			const inputs: CreateFanDTO = request.body as CreateFanDTO
 
-			const { data, error, status } = await createFan.execute(body)
+			const { data, error, status } = await createFan.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(202).send(data)
@@ -42,10 +42,10 @@ export class FanController implements IFanController {
 	async modify(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
 		if (request.method !== "PUT") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const body: ModifyFanDTO = request.body as ModifyFanDTO
+		const inputs: ModifyFanDTO = request.body as ModifyFanDTO
 
 		try {
-			const { data, error, status } = await modifyFan.execute(body)
+			const { data, error, status } = await modifyFan.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)

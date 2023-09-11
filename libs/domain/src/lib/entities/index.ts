@@ -1,4 +1,4 @@
-export * from "./user-connect"
+export * from "./user-auth"
 export * from "./artist"
 export * from "./fan"
 export * from "./song"

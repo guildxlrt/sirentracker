@@ -34,9 +34,9 @@ export class ArtistsController implements IArtistController {
 		if (request.method !== "POST") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const body: CreateArtistDTO = request.body as CreateArtistDTO
+			const inputs: CreateArtistDTO = request.body as CreateArtistDTO
 
-			const { data, error, status } = await createArtist.execute(body)
+			const { data, error, status } = await createArtist.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(202).send(data)
@@ -48,10 +48,10 @@ export class ArtistsController implements IArtistController {
 	async modify(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
 		if (request.method !== "PUT") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const body: ModifyArtistDTO = request.body as ModifyArtistDTO
+		const inputs: ModifyArtistDTO = request.body as ModifyArtistDTO
 
 		try {
-			const { data, error, status } = await modifyArtist.execute(body)
+			const { data, error, status } = await modifyArtist.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)

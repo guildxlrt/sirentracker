@@ -1,6 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { apiError } from "Shared-utils"
-import {} from "Domain"
 import { ChangeEmailDTO, ChangePassDTO, LoginDTO, ResponseDTO, SignupDTO } from "Dto"
 import {
 	ChangeEmailUsecase,
@@ -17,7 +16,7 @@ const logout = new LogoutUsecase(databaseServices)
 const changeEmail = new ChangeEmailUsecase(databaseServices)
 const changePassword = new ChangePassUsecase(databaseServices)
 
-interface IUserConnectController {
+interface IUserAuthController {
 	signUp(request: unknown, reply: unknown): Promise<ResponseDTO<boolean>>
 	login(request: unknown, reply: unknown): Promise<ResponseDTO<Credential>>
 	logout(request: unknown, reply: unknown): Promise<ResponseDTO<unknown>>
@@ -25,14 +24,17 @@ interface IUserConnectController {
 	changePass(request: unknown, reply: unknown): Promise<ResponseDTO<boolean>>
 }
 
-export class UserConnectController implements IUserConnectController {
+export class UserAuthController implements IUserAuthController {
 	async signUp(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
 		if (request.method !== "POST") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const body: SignupDTO = request.body as SignupDTO
+			const inputs: SignupDTO = request.body as SignupDTO
 
-			const { data, error, status } = await signUp.execute(body)
+			const validate = inputs.validate()
+			if (validate.error) return reply.status(400).send({ error: apiError.e400.msg })
+
+			const { data, error, status } = await signUp.execute(validate)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(status).send(data)
@@ -45,9 +47,9 @@ export class UserConnectController implements IUserConnectController {
 		if (request.method !== "POST") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const body: LoginDTO = request.body as LoginDTO
+			const inputs: LoginDTO = request.body as LoginDTO
 
-			const { data, error, status } = await login.execute(body)
+			const { data, error, status } = await login.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -72,10 +74,13 @@ export class UserConnectController implements IUserConnectController {
 	async changeEmail(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
 		if (request.method !== "PUT") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const body: ChangeEmailDTO = request.body as ChangeEmailDTO
-
 		try {
-			const { data, error, status } = await changeEmail.execute(body)
+			const inputs: ChangeEmailDTO = request.body as ChangeEmailDTO
+
+			const validate = inputs.validate()
+			if (validate.error) return reply.status(400).send({ error: apiError.e400.msg })
+
+			const { data, error, status } = await changeEmail.execute(validate)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -87,10 +92,13 @@ export class UserConnectController implements IUserConnectController {
 	async changePass(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
 		if (request.method !== "PUT") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const body: ChangePassDTO = request.body as ChangePassDTO
-
 		try {
-			const { data, error, status } = await changePassword.execute(body)
+			const inputs: ChangePassDTO = request.body as ChangePassDTO
+
+			const validate = inputs.validate()
+			if (validate.error) return reply.status(400).send({ error: apiError.e400.msg })
+
+			const { data, error, status } = await changePassword.execute(validate)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)

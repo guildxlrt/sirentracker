@@ -1,5 +1,5 @@
 export * from "./response.dto"
-export * from "./user-connect.dto"
+export * from "./user-auth.dto"
 export * from "./release.dto"
 export * from "./song.dto"
 export * from "./artist.dto"

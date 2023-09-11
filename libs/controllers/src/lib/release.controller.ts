@@ -37,9 +37,9 @@ export class ReleaseController implements IReleaseController {
 		if (request.method !== "POST") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const body: CreateReleaseDTO = request.body as CreateReleaseDTO
+			const inputs: CreateReleaseDTO = request.body as CreateReleaseDTO
 
-			const { data, error, status } = await createRelease.execute(body)
+			const { data, error, status } = await createRelease.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(202).send(data)
@@ -51,10 +51,10 @@ export class ReleaseController implements IReleaseController {
 	async modifyPrice(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
 		if (request.method !== "PUT") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const body: ModifyReleasePriceDTO = request.body as ModifyReleasePriceDTO
+		const inputs: ModifyReleasePriceDTO = request.body as ModifyReleasePriceDTO
 
 		try {
-			const { data, error, status } = await modifyReleasePrice.execute(body)
+			const { data, error, status } = await modifyReleasePrice.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)

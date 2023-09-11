@@ -1,11 +1,15 @@
 export const apiError = {
-	e405: {
-		status: 405,
-		msg: "bad request method",
+	e400: {
+		status: 400,
+		msg: "Bad Request",
 	},
 	e404: {
 		status: 404,
 		msg: "ressource not fount",
+	},
+	e405: {
+		status: 405,
+		msg: "Method Not Allowed",
 	},
 	e418: {
 		status: 418,

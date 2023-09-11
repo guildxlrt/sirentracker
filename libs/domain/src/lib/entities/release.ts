@@ -1,34 +1,33 @@
 import { BaseEntity } from "../../assets"
 import { Song } from "./song"
-import { EntityGenres, ReleaseType } from "Shared-utils"
-import { UserConnectId } from "./user-connect"
+import { GenresArray, ReleaseType } from "Shared-utils"
+import { UserConnectId } from "./user-auth"
 
 export class Release extends BaseEntity {
-	user_id: UserConnectId
+	artist_id: UserConnectId
 	title: string
 	releaseType: ReleaseType
 	descript: string | null
 	price: null | number
-	genres: EntityGenres
+	genres: GenresArray
 	songs: Song[]
 	coverUrl?: string
 
 	constructor(
 		id: number,
 		createdAt: Date,
-		updatedAt: Date,
-		user_id: UserConnectId,
+		artist_id: UserConnectId,
 		title: string,
 		releaseType: ReleaseType,
 		descript: string | null,
 		price: null | number,
-		genres: EntityGenres,
+		genres: GenresArray,
 		songs: Song[],
 		coverUrl?: string
 	) {
-		super(id, createdAt, updatedAt)
+		super(id, createdAt)
 
-		this.user_id = user_id
+		this.artist_id = artist_id
 		this.title = title
 		this.releaseType = releaseType
 		this.descript = descript

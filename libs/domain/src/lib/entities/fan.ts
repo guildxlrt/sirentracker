@@ -1,5 +1,5 @@
 import { BaseEntity } from "../../assets"
-import { UserConnectId } from "./user-connect"
+import { UserConnectId } from "./user-auth"
 
 export class Fan extends BaseEntity {
 	user_credential: UserConnectId
@@ -10,13 +10,12 @@ export class Fan extends BaseEntity {
 	constructor(
 		id: number,
 		createdAt: Date,
-		updatedAt: Date,
 		user_credential: number,
 		name: string,
 		bio: string,
 		avatarUrl: string
 	) {
-		super(id, createdAt, updatedAt)
+		super(id, createdAt)
 
 		this.user_credential = user_credential
 		this.name = name

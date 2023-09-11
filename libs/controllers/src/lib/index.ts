@@ -3,9 +3,9 @@ import { FanController } from "./fan.controller"
 import { OrderController } from "./order.controller"
 import { ReleaseController } from "./release.controller"
 import { SongsController } from "./song.controller"
-import { UserConnectController } from "./user-connect.controller"
+import { UserAuthController } from "./user-auth.controller"
 
-const userConnectController = new UserConnectController()
+const userAuthController = new UserAuthController()
 const artistController = new ArtistsController()
 const fanController = new FanController()
 const releaseController = new ReleaseController()
@@ -13,7 +13,7 @@ const songsController = new SongsController()
 const orderController = new OrderController()
 
 export const controllers = {
-	userConnect: userConnectController,
+	userAuth: userAuthController,
 	artist: artistController,
 	fan: fanController,
 	release: releaseController,

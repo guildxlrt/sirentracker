@@ -1,5 +1,5 @@
-import { EntityGenres, GenreType } from "Shared-utils"
-import { UserConnectId } from "./user-connect"
+import { GenresArray, GenreType } from "Shared-utils"
+import { UserConnectId } from "./user-auth"
 import { BaseEntity } from "../../assets"
 
 export class Artist extends BaseEntity {
@@ -7,13 +7,12 @@ export class Artist extends BaseEntity {
 	name: string
 	bio: string
 	avatarUrl: string
-	members: string[] | null
-	genres: EntityGenres
+	members: string[]
+	genres: GenresArray
 
 	constructor(
 		id: number,
 		createdAt: Date,
-		updatedAt: Date,
 		user_credential: number,
 		name: string,
 		bio: string,
@@ -23,7 +22,7 @@ export class Artist extends BaseEntity {
 		genre2?: GenreType,
 		genre3?: GenreType
 	) {
-		super(id, createdAt, updatedAt)
+		super(id, createdAt)
 
 		this.user_credential = user_credential
 		this.name = name
@@ -31,7 +30,7 @@ export class Artist extends BaseEntity {
 		this.avatarUrl = avatarUrl
 
 		if (members !== null && members.length >= 1) this.members = members
-		else this.members = null
+		else this.members = []
 
 		this.genres = [genre1, genre2, genre3]
 	}

@@ -1,7 +1,14 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 # environment files
+.env
+.env.local
 apps/*/.env
 apps/*/.env.local
+libs/*/.env
+libs/*/.env.local
+
+# prisma
+#prisma/migrations
 
 # compiled output
 dist

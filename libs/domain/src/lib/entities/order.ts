@@ -1,6 +1,6 @@
 import { BaseEntity } from "../../assets"
 import { ReleaseId } from "./release"
-import { UserConnectId } from "./user-connect"
+import { UserConnectId } from "./user-auth"
 
 export class Order extends BaseEntity {
 	release_id: ReleaseId
@@ -10,12 +10,11 @@ export class Order extends BaseEntity {
 	constructor(
 		id: number,
 		createdAt: Date,
-		updatedAt: Date,
 		release_id: ReleaseId,
 		user_id: UserConnectId,
 		amount: number
 	) {
-		super(id, createdAt, updatedAt)
+		super(id, createdAt)
 
 		this.release_id = release_id
 		this.user_id = user_id

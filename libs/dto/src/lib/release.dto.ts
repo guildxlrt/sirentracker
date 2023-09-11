@@ -1,6 +1,6 @@
 import { Release } from "Domain"
 import { NewSongDTO } from "./song.dto"
-import { EntityGenres, ReleaseType } from "Shared-utils"
+import { GenresArray, ReleaseType } from "Shared-utils"
 
 type INewRelease = Omit<
 	Release,
@@ -13,7 +13,7 @@ export class CreateReleaseDTO implements INewRelease {
 	releaseType: ReleaseType
 	descript: string | null
 	price: number | null
-	genres: EntityGenres
+	genres: GenresArray
 	private readonly songs: NewSongDTO[]
 	private readonly cover?: File
 
@@ -23,7 +23,7 @@ export class CreateReleaseDTO implements INewRelease {
 		releaseType: ReleaseType,
 		descript: string | null,
 		price: number | null,
-		genres: EntityGenres,
+		genres: GenresArray,
 		songs: NewSongDTO[],
 		cover?: File
 	) {

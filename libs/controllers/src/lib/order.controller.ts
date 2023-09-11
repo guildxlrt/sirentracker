@@ -27,9 +27,9 @@ export class OrderController implements IOrderController {
 		if (request.method !== "POST") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const body: MakeOrderDTO = request.body as MakeOrderDTO
+			const inputs: MakeOrderDTO = request.body as MakeOrderDTO
 
-			const { data, error, status } = await makeOrder.execute(body)
+			const { data, error, status } = await makeOrder.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(202).send(data)

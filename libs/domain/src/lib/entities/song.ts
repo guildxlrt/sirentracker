@@ -1,30 +1,29 @@
 import { ArtistId } from "./artist"
 import { BaseEntity } from "../../assets"
-import { UserConnectId } from "./user-connect"
+import { UserConnectId } from "./user-auth"
 import { ReleaseId } from "./release"
 
 export class Song extends BaseEntity {
-	user_id: UserConnectId
+	artist_id: UserConnectId
 	release_id: ReleaseId
 	title: string
 	audioUrl: string
-	featuring: ArtistId[] | null
+	featuring: ArtistId[]
 	lyrics?: string
 
 	constructor(
 		id: number,
 		createdAt: Date,
-		updatedAt: Date,
-		user_id: UserConnectId,
+		artist_id: UserConnectId,
 		release_id: ReleaseId,
 		title: string,
 		audioUrl: string,
-		featuring: ArtistId[] | null,
+		featuring: ArtistId[],
 		lyrics?: string
 	) {
-		super(id, createdAt, updatedAt)
+		super(id, createdAt)
 
-		this.user_id = user_id
+		this.artist_id = artist_id
 		this.release_id = release_id
 		this.title = title
 		this.audioUrl = audioUrl
@@ -33,7 +32,7 @@ export class Song extends BaseEntity {
 		if (featuring !== null && featuring.length >= 1) {
 			this.featuring = featuring
 		} else {
-			this.featuring = null
+			this.featuring = []
 		}
 	}
 }

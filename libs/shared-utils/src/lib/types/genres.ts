@@ -6,4 +6,4 @@ export const GenresEnum = {
 
 export type GenreType = (typeof GenresEnum)[keyof typeof GenresEnum]
 
-export type EntityGenres = [GenreType, GenreType | undefined, GenreType | undefined]
+export type GenresArray = [GenreType, GenreType | undefined, GenreType | undefined]
