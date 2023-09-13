@@ -1,5 +1,12 @@
 import { Artist, ArtistRepository } from "Domain"
-import { ArtistIdDTO, CreateArtistDTO, EmailDTO, ModifyArtistDTO, ResponseDTO } from "Dto"
+import {
+	ArtistIdDTO,
+	CleanNewArtistDTO,
+	CreateArtistDTO,
+	EmailDTO,
+	ModifyArtistDTO,
+	ResponseDTO,
+} from "Dto"
 import { GenreType } from "Shared-utils"
 
 export class ArtistImplement implements ArtistRepository {
@@ -19,7 +26,7 @@ export class ArtistImplement implements ArtistRepository {
 		return res
 	}
 
-	async create(params: CreateArtistDTO): Promise<ResponseDTO<boolean>> {
+	async create(params: CleanNewArtistDTO): Promise<ResponseDTO<boolean>> {
 		const res = new ResponseDTO(200, null, true)
 
 		return res

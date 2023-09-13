@@ -1,12 +1,12 @@
-import { UserConnect } from "Domain"
+import { UserAuth } from "Domain"
 import validator from "validator"
 
 export type EmailDTO = string
 
-export type LoginDTO = Pick<UserConnect, "email" | "password">
+export type LoginDTO = Pick<UserAuth, "email" | "password">
 
 // EMAIL
-export interface CleanEmailDTO extends Pick<UserConnect, "email"> {
+export interface CleanEmailDTO extends Pick<UserAuth, "email"> {
 	readonly email: string
 	readonly error?: string
 }
@@ -32,7 +32,7 @@ export class ChangeEmailDTO {
 }
 
 // PASSWORD
-export interface CleanPassDTO extends Pick<UserConnect, "password"> {
+export interface CleanPassDTO extends Pick<UserAuth, "password"> {
 	readonly password: string
 	readonly error?: string
 }
@@ -55,44 +55,5 @@ export class ChangePassDTO {
 		if (this.newPass !== this.confirm)
 			return { password: "", error: " | passwords don't match" }
 		else return { password: this.newPass }
-	}
-}
-
-// CREATE
-// export type CleanSignupDTO =
-export interface CleanSignupDTO extends Pick<UserConnect, "email" | "password"> {
-	readonly email: string
-	readonly password: string
-	readonly error?: string
-}
-
-export class SignupDTO {
-	readonly email: string
-	readonly password: string
-	readonly confirmEmail: string
-	readonly confirmPass: string
-
-	constructor(email: string, password: string, confirmEmail: string, confirmPass: string) {
-		this.email = email
-		this.password = password
-		this.confirmEmail = confirmEmail
-		this.confirmPass = confirmPass
-	}
-
-	validate(): CleanSignupDTO {
-		const validEmail = validator.isEmail(this.email)
-		const validPass = validator.isStrongPassword(this.password)
-
-		if (validEmail) return { email: "", password: "", error: " | invalid email format" }
-		if (this.email !== this.confirmEmail)
-			return { email: "", password: "", error: " | emails don't match" }
-		if (validPass) return { email: "", password: "", error: " | weak Password" }
-		if (this.password !== this.confirmPass)
-			return { email: "", password: "", error: " | passwords don't match" }
-		else
-			return {
-				email: this.email,
-				password: this.password,
-			}
 	}
 }

@@ -2,13 +2,10 @@ import { Release } from "Domain"
 import { NewSongDTO } from "./song.dto"
 import { GenresArray, ReleaseType } from "Shared-utils"
 
-type INewRelease = Omit<
-	Release,
-	"id" | "createdAt" | "updatedAt" | "coverUrl" | "totalTime" | "songs"
->
+type INewRelease = Omit<Release, "id" | "createdAt" | "coverUrl" | "totalTime" | "songs">
 
 export class CreateReleaseDTO implements INewRelease {
-	user_id: number
+	artist_id: number
 	title: string
 	releaseType: ReleaseType
 	descript: string | null
@@ -18,7 +15,7 @@ export class CreateReleaseDTO implements INewRelease {
 	private readonly cover?: File
 
 	constructor(
-		user_id: number,
+		artist_id: number,
 		title: string,
 		releaseType: ReleaseType,
 		descript: string | null,
@@ -27,7 +24,7 @@ export class CreateReleaseDTO implements INewRelease {
 		songs: NewSongDTO[],
 		cover?: File
 	) {
-		this.user_id = user_id
+		this.artist_id = artist_id
 		this.title = title
 		this.releaseType = releaseType
 		this.price = price

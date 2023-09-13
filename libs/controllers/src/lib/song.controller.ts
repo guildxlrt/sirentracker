@@ -16,7 +16,7 @@ interface ISongController {
 	findManyByRelease(request: unknown, reply: unknown): Promise<ResponseDTO<Song[]>>
 }
 
-export class SongsController implements ISongController {
+export class SongController implements ISongController {
 	async get(request: FastifyRequest<ParamsId>, reply: FastifyReply): Promise<ResponseDTO<Song>> {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 

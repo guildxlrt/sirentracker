@@ -1,13 +1,13 @@
 import { DatabaseServices } from "Infra-backend"
-import { CreateArtistDTO, ResponseDTO } from "Dto"
+import { CleanNewArtistDTO, ResponseDTO } from "Dto"
 import { BaseUsecase } from "../../assets"
 
-export class CreateArtistUsecase extends BaseUsecase<CreateArtistDTO, ResponseDTO<boolean>> {
+export class CreateArtistUsecase extends BaseUsecase<CleanNewArtistDTO, ResponseDTO<boolean>> {
 	constructor(service: DatabaseServices) {
 		super(service)
 	}
 
-	async execute(params: CreateArtistDTO): Promise<ResponseDTO<boolean>> {
+	async execute(params: CleanNewArtistDTO): Promise<ResponseDTO<boolean>> {
 		return await this.service.artist.create(params)
 	}
 }

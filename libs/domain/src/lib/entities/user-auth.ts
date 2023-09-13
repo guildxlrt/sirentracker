@@ -1,6 +1,6 @@
 import { BaseEntity } from "../../assets"
 
-export class UserConnect extends BaseEntity {
+export class UserAuth extends BaseEntity {
 	email: string
 	password: string
 
@@ -12,5 +12,5 @@ export class UserConnect extends BaseEntity {
 	}
 }
 
-export type UserConnectId = Pick<UserConnect, "id">["id"]
-export type UserConnectEmail = Pick<UserConnect, "email">["email"]
+export type UserAuthId = Pick<UserAuth, "id">["id"]
+export type UserAuthEmail = Pick<UserAuth, "email">["email"]

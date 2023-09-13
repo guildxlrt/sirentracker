@@ -1,9 +1,9 @@
 import { GenresArray, GenreType } from "Shared-utils"
-import { UserConnectId } from "./user-auth"
+import { UserAuthId } from "./user-auth"
 import { BaseEntity } from "../../assets"
 
 export class Artist extends BaseEntity {
-	user_credential: UserConnectId
+	user_credential: UserAuthId
 	name: string
 	bio: string
 	avatarUrl: string

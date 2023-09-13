@@ -3,12 +3,13 @@
 	"version": "0.0.0",
 	"license": "MIT",
 	"scripts": {
-		"format": "nx format:write",
+		"format": "nx format:write && prisma format",
 		"lint": "nx run-many -t lint --projects=tag:scope:api",
 		"prepare": "husky install",
 		"build": "nx run-many -t build --projects=tag:scope:api",
 		"serve": "nx run fan-server:serve",
-		"graph": "nx reset && nx graph"
+		"graph": "nx reset && nx graph",
+		"migrate": "prisma migrate dev --name init"
 	},
 	"private": true,
 	"workspaces": [

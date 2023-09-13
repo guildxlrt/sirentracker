@@ -1,22 +1,31 @@
+import { AdminController } from "./admin.controller"
 import { ArtistsController } from "./artist.controller"
+import { CommentController } from "./comment.controller"
 import { FanController } from "./fan.controller"
 import { OrderController } from "./order.controller"
+import { PostController } from "./post.controller"
 import { ReleaseController } from "./release.controller"
-import { SongsController } from "./song.controller"
+import { SongController } from "./song.controller"
 import { UserAuthController } from "./user-auth.controller"
 
-const userAuthController = new UserAuthController()
+const adminController = new AdminController()
 const artistController = new ArtistsController()
-const fanController = new FanController()
 const releaseController = new ReleaseController()
-const songsController = new SongsController()
+const songController = new SongController()
+const postController = new PostController()
+const fanController = new FanController()
 const orderController = new OrderController()
+const userAuthController = new UserAuthController()
+const commentController = new CommentController()
 
 export const controllers = {
-	userAuth: userAuthController,
+	admin: adminController,
 	artist: artistController,
-	fan: fanController,
 	release: releaseController,
-	song: songsController,
+	song: songController,
+	post: postController,
+	fan: fanController,
 	order: orderController,
+	userAuth: userAuthController,
+	comment: commentController,
 }

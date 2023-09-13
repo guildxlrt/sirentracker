@@ -1,10 +1,9 @@
 import { ArtistId } from "./artist"
 import { BaseEntity } from "../../assets"
-import { UserConnectId } from "./user-auth"
 import { ReleaseId } from "./release"
 
 export class Song extends BaseEntity {
-	artist_id: UserConnectId
+	artist_id: ArtistId
 	release_id: ReleaseId
 	title: string
 	audioUrl: string
@@ -14,7 +13,7 @@ export class Song extends BaseEntity {
 	constructor(
 		id: number,
 		createdAt: Date,
-		artist_id: UserConnectId,
+		artist_id: ArtistId,
 		release_id: ReleaseId,
 		title: string,
 		audioUrl: string,

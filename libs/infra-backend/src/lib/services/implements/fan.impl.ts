@@ -1,8 +1,8 @@
 import { Fan, FanRepository } from "Domain"
-import { FanIdDTO, CreateFanDTO, ModifyFanDTO, EmailDTO, ResponseDTO } from "Dto"
+import { FanIdDTO, CleanNewFanDTO, ModifyFanDTO, EmailDTO, ResponseDTO } from "Dto"
 
 export class FanImplement implements FanRepository {
-	async create(params: CreateFanDTO): Promise<ResponseDTO<boolean>> {
+	async create(params: CleanNewFanDTO): Promise<ResponseDTO<boolean>> {
 		const res = new ResponseDTO(200, null, true)
 
 		return res

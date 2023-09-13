@@ -25,7 +25,7 @@ export class ReleaseImplement implements ReleaseRepository {
 		return res
 	}
 
-	async findManyByArtist(params: ArtistIdDTO): Promise<ResponseDTO<Release[]>> {
+	async findManyByArtist(id: ArtistIdDTO): Promise<ResponseDTO<Release[]>> {
 		const dbRes: Release[] = []
 
 		const res = new ResponseDTO(200, null, dbRes)

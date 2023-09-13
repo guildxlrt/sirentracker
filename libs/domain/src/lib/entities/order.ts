@@ -1,23 +1,17 @@
 import { BaseEntity } from "../../assets"
+import { FanId } from "./fan"
 import { ReleaseId } from "./release"
-import { UserConnectId } from "./user-auth"
 
 export class Order extends BaseEntity {
 	release_id: ReleaseId
-	user_id: UserConnectId
+	fan_id: FanId
 	amount: number
 
-	constructor(
-		id: number,
-		createdAt: Date,
-		release_id: ReleaseId,
-		user_id: UserConnectId,
-		amount: number
-	) {
+	constructor(id: number, createdAt: Date, release_id: ReleaseId, fan_id: FanId, amount: number) {
 		super(id, createdAt)
 
 		this.release_id = release_id
-		this.user_id = user_id
+		this.fan_id = fan_id
 		this.amount = amount
 	}
 }

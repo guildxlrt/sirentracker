@@ -1,10 +1,10 @@
 import { BaseEntity } from "../../assets"
+import { ArtistId } from "./artist"
 import { Song } from "./song"
 import { GenresArray, ReleaseType } from "Shared-utils"
-import { UserConnectId } from "./user-auth"
 
 export class Release extends BaseEntity {
-	artist_id: UserConnectId
+	artist_id: ArtistId
 	title: string
 	releaseType: ReleaseType
 	descript: string | null
@@ -16,7 +16,7 @@ export class Release extends BaseEntity {
 	constructor(
 		id: number,
 		createdAt: Date,
-		artist_id: UserConnectId,
+		artist_id: ArtistId,
 		title: string,
 		releaseType: ReleaseType,
 		descript: string | null,

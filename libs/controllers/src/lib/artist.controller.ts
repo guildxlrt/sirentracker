@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { apiError } from "Shared-utils"
 import { Artist } from "Domain"
-import { CreateArtistDTO, ModifyArtistDTO, ResponseDTO } from "Dto"
+import { CleanNewArtistDTO, CreateArtistDTO, ModifyArtistDTO, ResponseDTO, SignupDTO } from "Dto"
 import {
 	CreateArtistUsecase,
 	GetAllArtistsUsecase,
@@ -9,10 +9,12 @@ import {
 	GetArtistByEmailUsecase,
 	GetArtistByIdUsecase,
 	ModifyArtistUsecase,
+	SignUpUsecase,
 } from "Interactors"
 import { databaseServices } from "Infra-backend"
 import { ParamsEmail, ParamsGenre, ParamsId } from "../assets"
 
+const signUp = new SignUpUsecase(databaseServices)
 const createArtist = new CreateArtistUsecase(databaseServices)
 const modifyArtist = new ModifyArtistUsecase(databaseServices)
 const getAllArtists = new GetAllArtistsUsecase(databaseServices)
@@ -36,7 +38,13 @@ export class ArtistsController implements IArtistController {
 		try {
 			const inputs: CreateArtistDTO = request.body as CreateArtistDTO
 
-			const { data, error, status } = await createArtist.execute(inputs)
+			const validateAuths = inputs.validAuths()
+			const auths = await signUp.execute(validateAuths)
+			if (auths.error) reply.status(auths.status).send({ error: auths.error })
+
+			const cleanedData: CleanNewArtistDTO = inputs.completData(auths.data)
+
+			const { data, error, status } = await createArtist.execute(cleanedData)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(202).send(data)

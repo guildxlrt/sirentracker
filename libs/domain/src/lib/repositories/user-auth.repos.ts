@@ -1,7 +1,7 @@
 import { IResponse } from "../../assets"
 
-export abstract class UserConnectRepository {
-	abstract signUp(params: any): Promise<IResponse<boolean>>
+export abstract class UserAuthRepository {
+	abstract signUp(params: any): Promise<IResponse<number>>
 
 	abstract login(params: any): Promise<IResponse<Credential>>
 

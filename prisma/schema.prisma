@@ -10,41 +10,74 @@ datasource db {
 model User {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  email     String   @unique
-  password  String
-  Artist    Artist[]
-  Fan       Fan[]
-  Order     Order[]
+
+  email    String @unique
+  password String
+
+  Artist Artist[]
+  Fan    Fan[]
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  name     String @unique
+  email    String @unique
+  password String
+
+  Comment Comment[]
 }
 
 model Artist {
-  id              Int       @id @default(autoincrement())
-  createdAt       DateTime  @default(now())
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  name      String
+  bio       String?
+  avatarUrl String?
+  members   String[]
+  genres    String[]
+
   user_credential Int
-  name            String
-  bio             String?
-  avatarUrl       String?
-  members         String[]
-  genres          String[]
-  user            User      @relation(fields: [user_credential], references: [id], onDelete: Cascade)
-  Release         Release[]
-  Song            Song[]
+  user            User @relation(fields: [user_credential], references: [id], onDelete: Cascade)
+
+  Release Release[]
+  Song    Song[]
+  Comment Comment[]
+  Post    Post[]
 }
 
 model Fan {
-  id              Int      @id @default(autoincrement())
-  createdAt       DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  name      String
+  bio       String?
+  avatarUrl String?
+
   user_credential Int
-  name            String
-  bio             String?
-  avatarUrl       String?
-  user            User     @relation(fields: [user_credential], references: [id], onDelete: Cascade)
+  user            User @relation(fields: [user_credential], references: [id], onDelete: Cascade)
+
+  Order   Order[]
+  Comment Comment[]
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  release_id Int
+  release    Release @relation(fields: [release_id], references: [id], onDelete: Cascade)
+  fan_id     Int
+  fan        Fan     @relation(fields: [fan_id], references: [id], onDelete: Cascade)
+  amount     Int
 }
 
 model Release {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  artist_id   Int
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
   title       String
   releaseType String
   descript    String?
@@ -52,30 +85,61 @@ model Release {
   genres      String[]
   songs       Int[]
   coverUrl    String?
-  Order       Order[]
-  artist      Artist   @relation(fields: [artist_id], references: [id], onDelete: Cascade)
-  Song        Song[]
+
+  artist_id Int
+  artist    Artist @relation(fields: [artist_id], references: [id], onDelete: Cascade)
+
+  Song    Song[]
+  Order   Order[]
+  Comment Comment[]
 }
 
 model Song {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  title     String
+  audioUrl  String
+  featuring Int[]
+  lyrics    String?
+
   artist_id  Int
+  artist     Artist  @relation(fields: [artist_id], references: [id], onDelete: Cascade)
   release_id Int
-  title      String
-  audioUrl   String
-  featuring  Int[]
-  lyrics     String?
-  artist     Artist   @relation(fields: [artist_id], references: [id], onDelete: Cascade)
-  release    Release  @relation(fields: [release_id], references: [id], onDelete: Cascade)
+  release    Release @relation(fields: [release_id], references: [id], onDelete: Cascade)
 }
 
-model Order {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
+model Post {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  title    String
+  content  String
+  imageUrl String?
+
+  artist_id Int
+  artist    Artist @relation(fields: [artist_id], references: [id], onDelete: Cascade)
+
+  Comment Comment[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  content String
+
+  // USER ID
+  admin_id  Int
+  admin     Admin  @relation(fields: [admin_id], references: [id], onDelete: Cascade)
+  artist_id Int
+  artist    Artist @relation(fields: [artist_id], references: [id], onDelete: Cascade)
+  fan_id    Int
+  fan       Fan    @relation(fields: [fan_id], references: [id], onDelete: Cascade)
+
+  // TARGET ID
   release_id Int
-  user_id    Int
-  amount     Int
-  release    Release  @relation(fields: [release_id], references: [id], onDelete: Cascade)
-  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  release    Release @relation(fields: [release_id], references: [id], onDelete: Cascade)
+  post_id    Int
+  post       Post    @relation(fields: [post_id], references: [id], onDelete: Cascade)
 }

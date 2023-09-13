@@ -3,24 +3,33 @@ import {
 	ArtistImplement,
 	ReleaseImplement,
 	SongImplement,
-	UserConnectImplement,
+	UserAuthImplement,
 	OrderImplement,
+	AdminImplement,
+	PostImplement,
+	CommentImplement,
 } from "./implements"
 
-const userConnectImplement = new UserConnectImplement()
-const fanImplement = new FanImplement()
+const adminImplement = new AdminImplement()
 const artistImplement = new ArtistImplement()
 const releaseImplement = new ReleaseImplement()
 const songImplement = new SongImplement()
+const postImplement = new PostImplement()
+const fanImplement = new FanImplement()
 const orderImplement = new OrderImplement()
+const userAuthImplement = new UserAuthImplement()
+const commentImplement = new CommentImplement()
 
 export const databaseServices = {
-	userConnect: userConnectImplement,
-	fan: fanImplement,
+	admin: adminImplement,
 	artist: artistImplement,
 	release: releaseImplement,
 	song: songImplement,
+	post: postImplement,
+	fan: fanImplement,
 	order: orderImplement,
+	userAuth: userAuthImplement,
+	comment: commentImplement,
 }
 
 export type DatabaseServices = typeof databaseServices

@@ -17,6 +17,6 @@ export const apiError = {
 	},
 	e500: {
 		status: 500,
-		msg: "internal server error",
+		msg: "server internal error",
 	},
 }

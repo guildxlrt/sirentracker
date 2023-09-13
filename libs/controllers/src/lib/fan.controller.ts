@@ -1,16 +1,18 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { apiError } from "Shared-utils"
 import { Fan } from "Domain"
-import { CreateFanDTO, ModifyFanDTO, ResponseDTO } from "Dto"
+import { CleanNewFanDTO, CreateFanDTO, ModifyFanDTO, ResponseDTO } from "Dto"
 import {
 	CreateFanUsecase,
 	GetFanByEmailUsecase,
 	GetFanByIdUsecase,
 	ModifyFanUsecase,
+	SignUpUsecase,
 } from "Interactors"
 import { databaseServices } from "Infra-backend"
 import { ParamsEmail, ParamsId } from "../assets"
 
+const signUp = new SignUpUsecase(databaseServices)
 const createFan = new CreateFanUsecase(databaseServices)
 const modifyFan = new ModifyFanUsecase(databaseServices)
 const getFanById = new GetFanByIdUsecase(databaseServices)
@@ -30,7 +32,13 @@ export class FanController implements IFanController {
 		try {
 			const inputs: CreateFanDTO = request.body as CreateFanDTO
 
-			const { data, error, status } = await createFan.execute(inputs)
+			const validateAuths = inputs.validAuths()
+			const auths = await signUp.execute(validateAuths)
+			if (auths.error) reply.status(auths.status).send({ error: auths.error })
+
+			const cleanedData: CleanNewFanDTO = inputs.completData(auths.data)
+
+			const { data, error, status } = await createFan.execute(cleanedData)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(202).send(data)
