@@ -1,6 +1,6 @@
 export abstract class BaseEntity {
-	id: number
-	createdAt: Date
+	readonly id: number
+	readonly createdAt: Date
 
 	constructor(id: number, createdAt: Date) {
 		this.id = id

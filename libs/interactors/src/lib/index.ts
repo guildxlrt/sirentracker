@@ -1,12 +1,7 @@
 export * from "./admin"
 
-export * from "./artist"
-export * from "./release"
-export * from "./song"
-export * from "./post"
+export * from "./artists"
 
-export * from "./fan"
-export * from "./order"
+export * from "./fans"
 
-export * from "./user-auth"
-export * from "./comment"
+export * from "./commons"

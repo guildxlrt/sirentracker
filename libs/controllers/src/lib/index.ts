@@ -1,12 +1,7 @@
-import { AdminController } from "./admin.controller"
-import { ArtistsController } from "./artist.controller"
-import { CommentController } from "./comment.controller"
-import { FanController } from "./fan.controller"
-import { OrderController } from "./order.controller"
-import { PostController } from "./post.controller"
-import { ReleaseController } from "./release.controller"
-import { SongController } from "./song.controller"
-import { UserAuthController } from "./user-auth.controller"
+import { AdminController } from "./admins"
+import { ArtistsController, PostController, ReleaseController, SongController } from "./artists"
+import { CommentController, UserAuthController } from "./commons"
+import { FanController, OrderController } from "./fans"
 
 const adminController = new AdminController()
 const artistController = new ArtistsController()
