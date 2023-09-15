@@ -1,13 +1,13 @@
 import { DatabaseServices } from "Infra-backend"
-import { CleanEmailDTO, ResponseDTO } from "Dto"
-import { BaseUsecase } from "../../assets"
+import { ChangeEmailDTO, ResponseDTO } from "Dto"
+import { BaseUsecase } from "../../../assets"
 
-export class ChangeEmailUsecase extends BaseUsecase<CleanEmailDTO, ResponseDTO<boolean>> {
+export class ChangeEmailUsecase extends BaseUsecase<ChangeEmailDTO, ResponseDTO<boolean>> {
 	constructor(service: DatabaseServices) {
 		super(service)
 	}
 
-	async execute(params: CleanEmailDTO): Promise<ResponseDTO<boolean>> {
-		return await this.service.userConnect.changeEmail(params)
+	async execute(params: ChangeEmailDTO): Promise<ResponseDTO<boolean>> {
+		return await this.service.userAuth.changeEmail(params)
 	}
 }

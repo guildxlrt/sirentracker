@@ -1,89 +1,138 @@
-import { Artist, UserAuthId } from "Domain"
-import { GenresArray } from "Shared-utils"
-import { CreateUserDTO, ModifyUserDTO } from "../commons"
+import { Artist, ArtistId } from "Domain"
+import { ErrorMsg, GenreType, GenresArray } from "Shared-utils"
+import validator from "validator"
+import { BasicDTO, NewUserMethods, UserMethods } from "../../assets"
+import { UserEmail } from "../commons"
 
-type ArtistData = Omit<Artist, "createdAt">
-type Updates = Partial<Omit<Artist, "id" | "createdAt" | "user_credential" | "avatarUrl">>
-
-export type ArtistIdDTO = Pick<Artist, "id">["id"]
-
-// MODIFY ARTIST
-export interface CleanArtistDTO {
+// CREATE ARTIST
+interface NewArtist {
+	email: string
+	password: string
+	confirmEmail: string
+	confirmPass: string
 	name: string
 	bio: string
 	members: string[]
 	genres: GenresArray
-	avatarUrl: string | null
-	error?: string
+	avatar?: File
 }
 
-export class ModifyArtistDTO implements ModifyUserDTO {
-	user: ArtistData
-	updates: Updates
-	avatarUrl: string | null
-	avatar?: File | null
+export class CreateArtistDTO implements BasicDTO<NewArtist, boolean>, NewUserMethods {
+	data: NewArtist
+	storage?: boolean
+	error?: string
 
-	constructor(user: ArtistData, updates: Updates, avatar?: File | null) {
-		this.user = user
-		this.updates = updates
-		this.avatar = avatar
-		this.avatarUrl = user.avatarUrl
+	constructor(data: NewArtist) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+
+	validAuths(): void {
+		const { email, password, confirmEmail, confirmPass } = this.data
+
+		const validEmail = validator.isEmail(email)
+		const validPass = validator.isStrongPassword(password)
+
+		if (!validEmail) throw new ErrorMsg(400, "invalid email format")
+
+		if (email !== confirmEmail) throw new ErrorMsg(400, "emails don't match")
+
+		if (validPass) throw new ErrorMsg(400, "weak Password")
+		if (password !== confirmPass) throw new ErrorMsg(400, "passwords don't match")
+		else return
 	}
 
 	verifyImgFormat(): void {
-		//
-		//
+		const { avatar } = this.data
+
+		console.log(avatar)
 
 		return
 	}
+}
 
-	treatingUsrData(): CleanArtistDTO {
-		const data = this.user
+// MODIFY ARTIST
+interface ArtistData {
+	name: string
+	bio: string
+	members: string[]
+	genres: GenresArray
+	avatar?: File | null
+}
+interface IArtistData {
+	user: ArtistData
+	storage: boolean
+}
 
-		const { name, bio, members, genres } = this.updates
-		if (name) data.name = name
-		if (bio) data.bio = bio
-		if (members) data.members = members
-		if (genres) data.genres = genres
-		if (this.avatar !== undefined) data.avatarUrl = this.avatarUrl
+export class ModifyArtistDTO implements BasicDTO<IArtistData, boolean>, UserMethods {
+	data: IArtistData
+	storage?: boolean
+	error?: string
 
-		return data
+	constructor(data: IArtistData) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+
+	verifyImgFormat(): void {
+		const { avatar } = this.data.user
+
+		console.log(avatar)
+
+		return
 	}
 }
 
-// CREATE ARTIST
-export interface CleanNewArtistDTO {
-	user_credential?: UserAuthId
-	name: string
-	bio: string
-	members: string[]
-	genres: GenresArray
-	avatarUrl: string | null
+// GET ALL
+export class GetAllArtistsDTO implements BasicDTO<void, Artist[]> {
+	data: void
+	storage?: Artist[]
 	error?: string
+
+	constructor(data: void) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
 }
 
-export class CreateArtistDTO extends CreateUserDTO {
-	name: string
-	bio: string
-	members: string[]
-	genres: GenresArray
+// ARTISTS BY GENRE
+export class FindArtistsByGenreDTO implements BasicDTO<GenreType, Artist[]> {
+	data: GenreType
+	storage?: Artist[]
+	error?: string
 
-	constructor(
-		email: string,
-		password: string,
-		confirmEmail: string,
-		confirmPass: string,
-		name: string,
-		bio: string,
-		members: string[],
-		genres: GenresArray,
-		avatar?: File
-	) {
-		super(email, password, confirmPass, confirmEmail, avatar)
+	constructor(data: GenreType) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+}
 
-		this.name = name
-		this.bio = bio
-		this.members = members
-		this.genres = genres
+// ARTIST BY ID
+export class GetArtistByIdDTO implements BasicDTO<ArtistId, Artist> {
+	data: ArtistId
+	storage?: Artist
+	error?: string
+
+	constructor(data: ArtistId) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+}
+
+// ARTIST BY EMAIL
+export class GetArtistByEmailDTO implements BasicDTO<UserEmail, Artist> {
+	data: UserEmail
+	storage?: Artist
+	error?: string
+
+	constructor(data: UserEmail) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
 	}
 }

@@ -1,25 +1,82 @@
-import { ArtistId, Post } from "Domain"
 import { IMedia } from "Shared-utils"
+import { BasicDTO } from "../../assets"
+import { ArtistId, Post, PostId } from "Domain"
 
-type INewPost = Omit<Post, "id" | "createdAt" | "imageUrl" | "videoUrl">
-
-export class CreatePostDTO implements INewPost {
+// CREATE POST
+interface NewPost {
 	artist_id: number
 	title: string
 	text: string
-	private readonly media?: IMedia
+	media?: IMedia
+}
 
-	constructor(artist_id: ArtistId, title: string, text: string, media?: IMedia) {
-		this.artist_id = artist_id
-		this.title = title
-		this.text = text
-		this.media = media
+export class CreatePostDTO implements BasicDTO<NewPost, boolean> {
+	readonly data: NewPost
+	storage?: boolean
+	error?: string
+
+	constructor(data: NewPost) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
 	}
 
 	mediaIsValid() {
-		if (this.media && this.media?.type && this.media?.file) return true
+		const { media } = this.data
+
+		if (media && media?.type && media?.file) return true
 		else return false
 	}
 }
 
-export type PostIdDTO = Pick<Post, "id">["id"]
+// DELETE POST
+export class DeletePostsDTO implements BasicDTO<PostId, void> {
+	readonly data: PostId
+	storage?: void
+	error?: string
+
+	constructor(data: PostId) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+}
+
+// GET POST
+export class GetPostsDTO implements BasicDTO<PostId, Post> {
+	readonly data: PostId
+	storage?: Post
+	error?: string
+
+	constructor(data: PostId) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+}
+
+// GET ALL
+export class GetAllPostsDTO implements BasicDTO<void, Post[]> {
+	readonly data: void
+	storage?: Post[]
+	error?: string
+
+	constructor(data: void) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+}
+
+// FIND MANY BY ARTIST
+export class FindPostsByArtistDTO implements BasicDTO<ArtistId, Post[]> {
+	readonly data: ArtistId
+	storage?: Post[]
+	error?: string
+
+	constructor(data: ArtistId) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+}

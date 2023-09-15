@@ -2,20 +2,28 @@ import { UserAuthId } from "Domain"
 import { ErrorMsg } from "Shared-utils"
 import validator from "validator"
 
-export abstract class ModifyUserDTO {
-	abstract user: any
-	abstract readonly updates: any
-	abstract avatarUrl: string | null
-	abstract readonly avatar?: File | null
+export abstract class VerifyUserImgDTO {
+	abstract avatar?: File | null
 
 	verifyImgFormat(): void {}
+}
 
-	treatingUsrData(): unknown {
-		return
+interface UserAuths {
+	email: string
+	password: string
+}
+
+export abstract class CleanUserDTO {
+	error?: string
+
+	constructor(error?: string) {
+		this.error = error
 	}
 }
 
-// CREATE USER
+export interface CreateUserMethodsDTO<T> {
+	treatingData(id: number | undefined): T
+}
 
 export abstract class UserAuthDTO {
 	readonly email: string
@@ -42,12 +50,17 @@ export abstract class UserAuthDTO {
 		if (this.password !== this.confirmPass) throw new ErrorMsg(400, "passwords don't match")
 		else return
 	}
+
+	getAuths(): UserAuths {
+		return { email: this.email, password: this.password }
+	}
 }
 
-export abstract class CreateUserDTO extends UserAuthDTO {
-	user_credential: UserAuthId | null
+// CREATE USER
+export abstract class CreateUserDTO extends UserAuthDTO implements VerifyUserImgDTO {
+	user_auth_id: UserAuthId | null
 	avatarUrl: string | null
-	readonly avatar?: File
+	avatar?: File
 
 	constructor(
 		email: string,
@@ -58,24 +71,38 @@ export abstract class CreateUserDTO extends UserAuthDTO {
 	) {
 		super(email, password, confirmPass, confirmEmail)
 
-		this.user_credential = null
+		this.user_auth_id = null
 
 		this.avatar = avatar
 		this.avatarUrl = null
 	}
 
 	verifyImgFormat(): void {
-		//
-		//
+		console.log(this.avatar)
 
 		return
 	}
+}
 
-	addingCredId(user_credential: UserAuthId | undefined): void {
-		if (typeof user_credential === "undefined") throw Error("internal error")
-		else {
-			this.user_credential = user_credential
-			return
-		}
+// MODIFY USER
+export interface ModifyUserMethodsDTO<T> {
+	treatingUpdates(): T
+}
+
+export abstract class ModifyUserDTO<User, UserUpdate> implements VerifyUserImgDTO {
+	user: User
+	readonly updates: UserUpdate
+	readonly avatar?: File | null
+
+	constructor(user: User, updates: UserUpdate, avatar?: File | null) {
+		this.user = user
+		this.updates = updates
+		this.avatar = avatar
+	}
+
+	verifyImgFormat(): void {
+		console.log(this.avatar)
+
+		return
 	}
 }

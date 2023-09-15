@@ -1,5 +1,5 @@
-import { IResponse } from "../../../assets"
+import { IResponse, InputsLayer } from "../../../assets"
 
 export abstract class AdminRepository {
-	abstract create(data: any): Promise<IResponse<boolean>>
+	abstract create(inputs: InputsLayer<unknown, boolean>): Promise<IResponse<boolean>>
 }

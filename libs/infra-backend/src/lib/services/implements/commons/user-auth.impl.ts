@@ -1,26 +1,26 @@
 import { UserAuthRepository } from "Domain"
-import { LoginDTO, CleanPassDTO, CleanEmailDTO, ResponseDTO } from "Dto"
+import { LoginDTO, ResponseDTO, LogoutDTO, ChangeEmailDTO, ChangePassDTO } from "Dto"
 
 export class UserAuthImplement implements UserAuthRepository {
-	async login(params: LoginDTO): Promise<ResponseDTO<Credential>> {
+	async login(inputs: LoginDTO): Promise<ResponseDTO<Credential>> {
 		const dbRes: any = {}
 
 		return dbRes
 	}
 
-	async logout(): Promise<ResponseDTO<unknown>> {
+	async logout(inputs: LogoutDTO): Promise<ResponseDTO<unknown>> {
 		const res = new ResponseDTO(200, null)
 
 		return res
 	}
 
-	async changeEmail(params: CleanEmailDTO): Promise<ResponseDTO<boolean>> {
+	async changeEmail(inputs: ChangeEmailDTO): Promise<ResponseDTO<boolean>> {
 		const res = new ResponseDTO(200, null, true)
 
 		return res
 	}
 
-	async changePass(params: CleanPassDTO): Promise<ResponseDTO<boolean>> {
+	async changePass(inputs: ChangePassDTO): Promise<ResponseDTO<boolean>> {
 		const res = new ResponseDTO(200, null, true)
 
 		return res

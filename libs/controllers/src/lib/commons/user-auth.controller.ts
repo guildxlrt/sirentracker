@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-import { apiError } from "Shared-utils"
-import { ChangeEmailDTO, ChangePassDTO, LoginDTO, ResponseDTO } from "Dto"
+import { ErrorMsg, apiError } from "Shared-utils"
+import { ChangeEmailDTO, ChangePassDTO, LoginDTO, LogoutDTO, ResponseDTO } from "Dto"
 import { ChangeEmailUsecase, ChangePassUsecase, LoginUsecase, LogoutUsecase } from "Interactors"
 import { databaseServices } from "Infra-backend"
 
@@ -36,7 +36,9 @@ export class UserAuthController implements IUserAuthController {
 		if (request.method !== "DELETE") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const { data, error, status } = await logout.execute()
+			const inputs: LogoutDTO = request.body as LogoutDTO
+
+			const { data, error, status } = await logout.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(202).send(data)
@@ -51,15 +53,15 @@ export class UserAuthController implements IUserAuthController {
 		try {
 			const inputs: ChangeEmailDTO = request.body as ChangeEmailDTO
 
-			const validate = inputs.validate()
-			if (validate.error) return reply.status(400).send({ error: apiError.e400.msg })
+			inputs.validate()
 
-			const { data, error, status } = await changeEmail.execute(validate)
+			const { data, error, status } = await changeEmail.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
-		} catch (error) {
-			return reply.status(500).send({ error: apiError.e500.msg })
+		} catch (error: ErrorMsg | any) {
+			if (error?.status) return reply.status(error.status).send({ error: error.message })
+			else return reply.status(500).send({ error: apiError.e500.msg })
 		}
 	}
 
@@ -69,10 +71,9 @@ export class UserAuthController implements IUserAuthController {
 		try {
 			const inputs: ChangePassDTO = request.body as ChangePassDTO
 
-			const validate = inputs.validate()
-			if (validate.error) return reply.status(400).send({ error: apiError.e400.msg })
+			inputs.validate()
 
-			const { data, error, status } = await changePassword.execute(validate)
+			const { data, error, status } = await changePassword.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)

@@ -1,17 +1,60 @@
-import { Order, ReleaseId, UserAuthId } from "Domain"
+import { FanId, Order, OrderId, ReleaseId, UserAuthId } from "Domain"
+import { BasicDTO } from "../../assets"
 
-export type OrderIdDTO = ReleaseId
-
-type IMakeOrder = Omit<Order, "id" | "createdAt" | "updatedAt">
-
-export class MakeOrderDTO implements IMakeOrder {
+// MAKE ORDER
+interface INewOrderData {
 	release_id: ReleaseId
 	fan_id: UserAuthId
 	amount: number
+}
 
-	constructor(release_id: ReleaseId, user_id: UserAuthId, amount: number) {
-		this.release_id = release_id
-		this.fan_id = user_id
-		this.amount = amount
+export class MakeOrderDTO implements BasicDTO<INewOrderData, boolean> {
+	data: INewOrderData
+	storage?: boolean
+	error?: string
+
+	constructor(data: INewOrderData) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+}
+
+// GET ORDER
+export class GetOrderByIdDTO implements BasicDTO<OrderId, Order> {
+	data: OrderId
+	storage?: Order
+	error?: string
+
+	constructor(data: OrderId) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+}
+
+// FIND MANY BY USER
+export class FindOrdersByUserDTO implements BasicDTO<FanId, Order[]> {
+	readonly data: FanId
+	storage?: Order[]
+	error?: string
+
+	constructor(data: FanId) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+}
+
+// FIND MANY BY USER
+export class GetUserOrdersDTO implements BasicDTO<FanId, Order[]> {
+	readonly data: FanId
+	storage?: Order[]
+	error?: string
+
+	constructor(data: FanId) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
 	}
 }

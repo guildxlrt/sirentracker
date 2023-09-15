@@ -1,6 +1,6 @@
 import { DatabaseServices } from "Infra-backend"
 import { Post } from "Domain"
-import { BaseUsecase } from "../../assets"
+import { BaseUsecase } from "../../../assets"
 import { ArtistIdDTO, ResponseDTO } from "Dto"
 
 export class FindPostsByArtistUsecase extends BaseUsecase<ArtistIdDTO, ResponseDTO<Post[]>> {

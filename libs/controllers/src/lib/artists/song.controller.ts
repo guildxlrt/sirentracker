@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { apiError } from "Shared-utils"
 import { Song } from "Domain"
-import { ResponseDTO } from "Dto"
+import { FindSongsByArtistDTO, FindSongsByReleaseDTO, GetSongDTO, ResponseDTO } from "Dto"
 import { FindSongsByArtistUsecase, FindSongsByReleaseUsecase, GetSongUsecase } from "Interactors"
 import { databaseServices } from "Infra-backend"
 import { ParamsId } from "../../assets"
@@ -22,8 +22,9 @@ export class SongController implements ISongController {
 
 		try {
 			const { id } = request.params
+			const inputs: GetSongDTO = new GetSongDTO(id)
 
-			const { data, error, status } = await getSong.execute(id)
+			const { data, error, status } = await getSong.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(status).send(data)
@@ -40,8 +41,9 @@ export class SongController implements ISongController {
 
 		try {
 			const { id } = request.params
+			const inputs: FindSongsByArtistDTO = new FindSongsByArtistDTO(id)
 
-			const { data, error, status } = await findSongsByArtist.execute(id)
+			const { data, error, status } = await findSongsByArtist.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -58,8 +60,9 @@ export class SongController implements ISongController {
 
 		try {
 			const { id } = request.params
+			const inputs: FindSongsByReleaseDTO = new FindSongsByReleaseDTO(id)
 
-			const { data, error, status } = await findSongsByRelease.execute(id)
+			const { data, error, status } = await findSongsByRelease.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(202).send(data)

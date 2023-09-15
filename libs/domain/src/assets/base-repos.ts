@@ -1,33 +1,39 @@
 import { GenreType } from "Shared-utils"
 
+export interface InputsLayer<D, S> {
+	readonly data: D
+	storage?: S
+	error?: string
+}
+
 export interface BaseReposUser<T> {
-	create(data: unknown): Promise<IResponse<boolean>>
+	create(inputs: InputsLayer<unknown, boolean>): Promise<IResponse<boolean>>
 
-	modify(data: unknown): Promise<IResponse<boolean>>
+	modify(inputs: InputsLayer<unknown, boolean>): Promise<IResponse<boolean>>
 
-	getById(id: number): Promise<IResponse<T>>
+	getById(inputs: InputsLayer<number, T>): Promise<IResponse<T>>
 
-	getByEmail(id: string): Promise<IResponse<T>>
+	getByEmail(inputs: InputsLayer<string, T>): Promise<IResponse<T>>
 }
 
 export interface BaseReposArtistItem<T> {
-	get(id: number): Promise<IResponse<T>>
+	get(inputs: InputsLayer<number, T>): Promise<IResponse<T>>
 
-	getAll(): Promise<IResponse<T[]>>
+	getAll(inputs: InputsLayer<unknown, T[]>): Promise<IResponse<T[]>>
 
-	findManyByArtist(id: number): Promise<IResponse<T[]>>
+	findManyByArtist(inputs: InputsLayer<number, T[]>): Promise<IResponse<T[]>>
 }
 
 export interface BaseReposGenred<T> {
-	getAll(): Promise<IResponse<T[]>>
+	getAll(inputs: InputsLayer<unknown, T[]>): Promise<IResponse<T[]>>
 
-	findManyByGenre(genre: GenreType): Promise<IResponse<T[]>>
+	findManyByGenre(inputs: InputsLayer<GenreType, T[]>): Promise<IResponse<T[]>>
 }
 
 export interface BaseReposRemovableItem {
-	create(params: any): Promise<IResponse<boolean>>
+	create(inputs: InputsLayer<unknown, boolean>): Promise<IResponse<boolean>>
 
-	delete(id: number): Promise<IResponse<unknown>>
+	delete(inputs: InputsLayer<number, unknown>): Promise<IResponse<unknown>>
 }
 
 export interface IResponse<T> {

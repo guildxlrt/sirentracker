@@ -39,8 +39,8 @@ model Artist {
   members   String[]
   genres    String[]
 
-  user_credential Int
-  user            User @relation(fields: [user_credential], references: [id], onDelete: Cascade)
+  user_auth_id Int
+  user         User @relation(fields: [user_auth_id], references: [id], onDelete: Cascade)
 
   Release Release[]
   Song    Song[]
@@ -56,8 +56,8 @@ model Fan {
   bio       String?
   avatarUrl String?
 
-  user_credential Int
-  user            User @relation(fields: [user_credential], references: [id], onDelete: Cascade)
+  user_auth_id Int
+  user         User @relation(fields: [user_auth_id], references: [id], onDelete: Cascade)
 
   Order   Order[]
   Comment Comment[]
@@ -114,7 +114,7 @@ model Post {
   createdAt DateTime @default(now())
 
   title    String
-  text  String?
+  text     String?
   imageUrl String?
   videoUrl String?
 

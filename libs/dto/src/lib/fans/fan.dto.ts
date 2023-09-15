@@ -1,83 +1,111 @@
-import { Fan, UserAuthId } from "Domain"
-import { CreateUserDTO, ModifyUserDTO } from "../commons"
-
-type FanData = Omit<Fan, "createdAt">
-type Updates = Partial<Omit<Fan, "id" | "avatarUrl">>
+import { Fan, FanId } from "Domain"
+import { BasicDTO, NewUserMethods, UserMethods } from "../../assets"
+import validator from "validator"
+import { ErrorMsg } from "Shared-utils"
+import { UserEmail } from "../commons"
 
 export type FanIdDTO = Pick<Fan, "id">["id"]
 
-// MODIFY FAN
-export interface CleanFanDTO {
+// CREATE FAN
+interface INewFanData {
+	email: string
+	password: string
+	confirmEmail: string
+	confirmPass: string
+
 	name: string
 	bio: string
-	avatarUrl: string | null
-	error?: string
+	avatar?: File
 }
 
-export class ModifyFanDTO implements ModifyUserDTO {
-	user: FanData
-	updates: Updates
-	avatarUrl: string | null
-	avatar?: File | null
+export class CreateFanDTO implements BasicDTO<INewFanData, boolean>, NewUserMethods {
+	data: INewFanData
+	storage?: boolean
+	error?: string
 
-	constructor(user: FanData, updates: Updates, avatar?: File | null) {
-		this.user = user
-		this.updates = updates
-		this.avatar = avatar
-		this.avatarUrl = user.avatarUrl
+	constructor(data: INewFanData) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+
+	validAuths(): void {
+		const { email, password, confirmEmail, confirmPass } = this.data
+
+		const validEmail = validator.isEmail(email)
+		const validPass = validator.isStrongPassword(password)
+
+		if (!validEmail) throw new ErrorMsg(400, "invalid email format")
+
+		if (email !== confirmEmail) throw new ErrorMsg(400, "emails don't match")
+
+		if (validPass) throw new ErrorMsg(400, "weak Password")
+		if (password !== confirmPass) throw new ErrorMsg(400, "passwords don't match")
+		else return
 	}
 
 	verifyImgFormat(): void {
-		//
-		//
+		const { avatar } = this.data
+
+		console.log(avatar)
 
 		return
 	}
+}
 
-	treatingUsrData(): CleanFanDTO {
-		const data = {
-			name: this.user.name,
-			bio: this.user.bio,
-			avatarUrl: this.user.avatarUrl,
-		}
+// MODIFY FAN
+interface FanData {
+	name: string
+	bio: string
+	avatar?: File | null
+}
+interface IFanData {
+	user: FanData
+	storage: boolean
+}
 
-		const { name, bio } = this.updates
-		if (name) data.name = name
-		if (bio) data.bio = bio
-		if (this.avatar !== undefined) data.avatarUrl = this.avatarUrl
+export class ModifyFanDTO implements BasicDTO<IFanData, boolean>, UserMethods {
+	data: IFanData
+	storage?: boolean
+	error?: string
 
-		return data
+	constructor(data: IFanData) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+
+	verifyImgFormat(): void {
+		const { avatar } = this.data.user
+
+		console.log(avatar)
+
+		return
 	}
 }
 
-// CREATE FAN
-export interface CleanNewFanDTO {
-	user_credential: UserAuthId
-	name: string
-	bio: string
-	avatarUrl: string | null
+// FAN BY ID
+export class GetFanByIdDTO implements BasicDTO<FanId, Fan> {
+	data: FanId
+	storage?: Fan
 	error?: string
+
+	constructor(data: FanId) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
 }
 
-export class CreateFanDTO extends CreateUserDTO {
-	name: string
-	bio: string
+// FAN BY EMAIL
+export class GetFanByEmailDTO implements BasicDTO<UserEmail, Fan> {
+	data: UserEmail
+	storage?: Fan
+	error?: string
 
-	constructor(
-		email: string,
-		password: string,
-		confirmEmail: string,
-		confirmPass: string,
-		name: string,
-		bio: string,
-		avatar?: File
-	) {
-		super(email, password, confirmPass, confirmEmail, avatar)
-
-		this.name = name
-		this.bio = bio
-
-		this.user_credential = null
-		this.avatarUrl = null
+	constructor(data: UserEmail) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
 	}
 }

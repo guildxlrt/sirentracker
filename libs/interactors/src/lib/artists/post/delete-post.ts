@@ -1,13 +1,13 @@
 import { DatabaseServices } from "Infra-backend"
-import { PostIdDTO, ResponseDTO } from "Dto"
-import { BaseUsecase } from "../../assets"
+import { DeletePostsDTO, ResponseDTO } from "Dto"
+import { BaseUsecase } from "../../../assets"
 
-export class DeletePostUsecase extends BaseUsecase<PostIdDTO, ResponseDTO<unknown>> {
+export class DeletePostUsecase extends BaseUsecase<DeletePostsDTO, ResponseDTO<unknown>> {
 	constructor(service: DatabaseServices) {
 		super(service)
 	}
 
-	async execute(id: PostIdDTO): Promise<ResponseDTO<unknown>> {
-		return await this.service.comment.delete(id)
+	async execute(dto: DeletePostsDTO): Promise<ResponseDTO<unknown>> {
+		return await this.service.comment.delete(dto)
 	}
 }

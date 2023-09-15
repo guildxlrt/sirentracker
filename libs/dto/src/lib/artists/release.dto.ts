@@ -1,46 +1,42 @@
-import { Release } from "Domain"
-import { NewSongDTO } from "./song.dto"
-import { GenresArray, ReleaseType } from "Shared-utils"
+import { ArtistId, Release, ReleaseId } from "Domain"
+import { NewSong } from "./song.dto"
+import { GenreType, GenresArray, ReleaseType } from "Shared-utils"
+import { BasicDTO } from "../../assets"
 
-type INewRelease = Omit<Release, "id" | "createdAt" | "coverUrl" | "totalTime" | "songs">
-
-export class CreateReleaseDTO implements INewRelease {
+// CREATE RELEASE
+interface NewRelease {
 	artist_id: number
 	title: string
 	releaseType: ReleaseType
 	descript: string | null
 	price: number | null
 	genres: GenresArray
-	private readonly songs: NewSongDTO[]
-	private readonly cover?: File
+	songs: NewSong[]
+	cover?: File
+}
 
-	constructor(
-		artist_id: number,
-		title: string,
-		releaseType: ReleaseType,
-		descript: string | null,
-		price: number | null,
-		genres: GenresArray,
-		songs: NewSongDTO[],
-		cover?: File
-	) {
-		this.artist_id = artist_id
-		this.title = title
-		this.releaseType = releaseType
-		this.price = price
-		this.songs = songs
-		this.descript = descript
-		this.genres = genres
-		this.cover = cover
+export class CreateReleaseDTO implements BasicDTO<NewRelease, boolean> {
+	readonly data: NewRelease
+	storage?: boolean
+	error?: string
+
+	constructor(data: NewRelease) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
 	}
 
 	coverIsValid() {
-		if (this.cover) return true
+		const { cover } = this.data
+
+		if (cover) return true
 		else return false
 	}
 
 	songsAreValid(): boolean {
-		const checking: boolean[] = this.songs.map((song) => {
+		const { songs } = this.data
+
+		const checking: boolean[] = songs.map((song) => {
 			return song.isValid()
 		})
 
@@ -51,10 +47,85 @@ export class CreateReleaseDTO implements INewRelease {
 	}
 }
 
-export type ReleaseIdDTO = Pick<Release, "id">["id"]
-export type ReleasePriceDTO = Pick<Release, "price">["price"]
-
-export type ModifyReleasePriceDTO = {
+// MODIFY PRICE
+interface NewPrice {
 	id: Pick<Release, "id">["id"]
 	newAmount: number
+}
+
+export class ModifyReleasePriceDTO implements BasicDTO<NewPrice, boolean> {
+	readonly data: NewPrice
+	storage?: boolean
+	error?: string
+
+	constructor(data: NewPrice) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+}
+
+// GET ARTIST
+export class GetReleaseDTO implements BasicDTO<ReleaseId, Release> {
+	readonly data: ReleaseId
+	storage?: Release
+	error?: string
+
+	constructor(data: ReleaseId) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+}
+
+// GET ALL
+export class GetAllReleasesDTO implements BasicDTO<void, Release[]> {
+	readonly data: void
+	storage?: Release[]
+	error?: string
+
+	constructor(data: void) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+}
+
+// FIND MANY BY GENRE
+export class FindReleasesByGenreDTO implements BasicDTO<GenreType, Release[]> {
+	readonly data: GenreType
+	storage?: Release[]
+	error?: string
+
+	constructor(data: GenreType) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+}
+
+// FIND MANY BY ARTIST
+export class FindReleasesByArtistDTO implements BasicDTO<ArtistId, Release[]> {
+	readonly data: ArtistId
+	storage?: Release[]
+	error?: string
+
+	constructor(data: ArtistId) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+}
+
+// GET USER RELEASES
+export class GetUserReleasesDTO implements BasicDTO<void, Release[]> {
+	readonly data: void
+	storage?: Release[]
+	error?: string
+
+	constructor(data: void) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
 }

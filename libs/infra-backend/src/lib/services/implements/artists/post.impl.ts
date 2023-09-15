@@ -1,8 +1,8 @@
 import { Post, PostRepository } from "Domain"
-import { ArtistIdDTO, CreatePostDTO, PostIdDTO, ResponseDTO } from "Dto"
+import { ArtistIdDTO, CreatePostDTO, GetAllPostsDTO, PostIdDTO, ResponseDTO } from "Dto"
 
 export class PostImplement implements PostRepository {
-	async create(params: CreatePostDTO): Promise<ResponseDTO<boolean>> {
+	async create(inputs: CreatePostDTO): Promise<ResponseDTO<boolean>> {
 		const res = new ResponseDTO(200, null, true)
 
 		return res
@@ -22,7 +22,7 @@ export class PostImplement implements PostRepository {
 		return res
 	}
 
-	async getAll(): Promise<ResponseDTO<Post[]>> {
+	async getAll(inputs: GetAllPostsDTO): Promise<ResponseDTO<Post[]>> {
 		const dbRes: Post[] = []
 
 		const res = new ResponseDTO(200, null, dbRes)

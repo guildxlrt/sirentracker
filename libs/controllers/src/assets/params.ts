@@ -11,9 +11,3 @@ export interface ParamsGenre {
 		genre: GenreType
 	}
 }
-
-export interface ParamsEmail {
-	Params: {
-		email: string
-	}
-}

@@ -1,37 +1,37 @@
 import { Artist, ArtistRepository } from "Domain"
-import { ArtistIdDTO, CreateArtistDTO, EmailDTO, CleanArtistDTO, ResponseDTO } from "Dto"
-import { GenreType } from "Shared-utils"
+import {
+	CreateArtistDTO,
+	ResponseDTO,
+	ModifyArtistDTO,
+	FindArtistsByGenreDTO,
+	GetAllArtistsDTO,
+	GetArtistByEmailDTO,
+	GetArtistByIdDTO,
+} from "Dto"
+import { ErrorMsg } from "Shared-utils"
 
 export class ArtistImplement implements ArtistRepository {
-	async getAll(): Promise<ResponseDTO<Artist[]>> {
-		const dbRes: Artist[] = []
+	async create(inputs: CreateArtistDTO): Promise<ResponseDTO<boolean>> {
+		try {
+			const res = new ResponseDTO(200, null, true)
 
-		const res = new ResponseDTO(200, null, dbRes)
-
-		return res
+			return res
+		} catch (error) {
+			throw new ErrorMsg(500, "error during DB saving")
+		}
 	}
 
-	async findManyByGenre(genre: GenreType): Promise<ResponseDTO<Artist[]>> {
-		const dbRes: Artist[] = []
+	async modify(inputs: ModifyArtistDTO): Promise<ResponseDTO<boolean>> {
+		try {
+			const res = new ResponseDTO(200, null, true)
 
-		const res = new ResponseDTO(200, null, dbRes)
-
-		return res
+			return res
+		} catch (error) {
+			throw new ErrorMsg(500, "error during DB saving")
+		}
 	}
 
-	async create(params: CreateArtistDTO): Promise<ResponseDTO<boolean>> {
-		const res = new ResponseDTO(200, null, true)
-
-		return res
-	}
-
-	async modify(params: CleanArtistDTO): Promise<ResponseDTO<boolean>> {
-		const res = new ResponseDTO(200, null, true)
-
-		return res
-	}
-
-	async getById(id: ArtistIdDTO): Promise<ResponseDTO<Artist>> {
+	async getById(inputs: GetArtistByIdDTO): Promise<ResponseDTO<Artist>> {
 		const dbRes: any = {}
 
 		const res = new ResponseDTO(200, null, dbRes)
@@ -39,8 +39,24 @@ export class ArtistImplement implements ArtistRepository {
 		return res
 	}
 
-	async getByEmail(email: EmailDTO): Promise<ResponseDTO<Artist>> {
+	async getByEmail(inputs: GetArtistByEmailDTO): Promise<ResponseDTO<Artist>> {
 		const dbRes: any = {}
+
+		const res = new ResponseDTO(200, null, dbRes)
+
+		return res
+	}
+
+	async getAll(inputs: GetAllArtistsDTO): Promise<ResponseDTO<Artist[]>> {
+		const dbRes: Artist[] = []
+
+		const res = new ResponseDTO(200, null, dbRes)
+
+		return res
+	}
+
+	async findManyByGenre(inputs: FindArtistsByGenreDTO): Promise<ResponseDTO<Artist[]>> {
+		const dbRes: Artist[] = []
 
 		const res = new ResponseDTO(200, null, dbRes)
 

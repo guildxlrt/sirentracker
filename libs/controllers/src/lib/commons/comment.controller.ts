@@ -1,4 +1,11 @@
-import { CreateCommentDTO, PostIdDTO, ResponseDTO } from "Dto"
+import {
+	CreateCommentDTO,
+	DeleteCommentDTO,
+	FindCommentsByPostDTO,
+	FindCommentsByReleaseDTO,
+	GetOrderByIdDTO,
+	ResponseDTO,
+} from "Dto"
 import { databaseServices } from "Infra-backend"
 import {
 	CreateCommentUsecase,
@@ -38,12 +45,16 @@ export class CommentController implements ICommentController {
 		}
 	}
 
-	async delete(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
+	async delete(
+		request: FastifyRequest<ParamsId>,
+		reply: FastifyReply
+	): Promise<ResponseDTO<boolean>> {
 		if (request.method !== "DELETE") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const inputs: PostIdDTO = request.body as PostIdDTO
-
 		try {
+			const { id } = request.params
+			const inputs: DeleteCommentDTO = new DeleteCommentDTO(id)
+
 			const { data, error, status } = await deleteComment.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
@@ -61,8 +72,9 @@ export class CommentController implements ICommentController {
 
 		try {
 			const { id } = request.params
+			const inputs: FindCommentsByReleaseDTO = new FindCommentsByReleaseDTO(id)
 
-			const { data, error, status } = await findCommentsByRelease.execute(id)
+			const { data, error, status } = await findCommentsByRelease.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(202).send(data)
@@ -79,8 +91,9 @@ export class CommentController implements ICommentController {
 
 		try {
 			const { id } = request.params
+			const inputs: FindCommentsByPostDTO = new FindCommentsByPostDTO(id)
 
-			const { data, error, status } = await findCommentsByPost.execute(id)
+			const { data, error, status } = await findCommentsByPost.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(202).send(data)

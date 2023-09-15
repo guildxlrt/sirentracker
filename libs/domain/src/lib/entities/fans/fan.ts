@@ -2,7 +2,7 @@ import { BaseEntity } from "libs/domain/src/assets"
 import { UserAuthId } from "../commons"
 
 export class Fan extends BaseEntity {
-	user_credential: UserAuthId
+	user_auth_id: UserAuthId
 	name: string
 	bio: string
 	avatarUrl: string | null
@@ -10,14 +10,14 @@ export class Fan extends BaseEntity {
 	constructor(
 		id: number,
 		createdAt: Date,
-		user_credential: number,
+		user_auth_id: number,
 		name: string,
 		bio: string,
 		avatarUrl: string | null
 	) {
 		super(id, createdAt)
 
-		this.user_credential = user_credential
+		this.user_auth_id = user_auth_id
 		this.name = name
 		this.bio = bio
 		this.avatarUrl = avatarUrl

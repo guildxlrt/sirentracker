@@ -1,14 +1,14 @@
 import { Order } from "@prisma/client"
-import { IResponse } from "../../../assets"
+import { IResponse, InputsLayer } from "../../../assets"
 import { OrderId } from "../../entities/fans/order"
 import { FanId } from "../../entities"
 
 export abstract class OrderRepository {
-	abstract make(params: any): Promise<IResponse<boolean>>
+	abstract make(inputs: InputsLayer<unknown, boolean>): Promise<IResponse<boolean>>
 
-	abstract get(id: OrderId): Promise<IResponse<Order>>
+	abstract get(inputs: InputsLayer<OrderId, Order>): Promise<IResponse<Order>>
 
-	abstract findManyByUser(id: FanId): Promise<IResponse<Order[]>>
+	abstract findManyByUser(inputs: InputsLayer<FanId, Order[]>): Promise<IResponse<Order[]>>
 
-	abstract getUserOrders(): Promise<IResponse<Order[]>>
+	abstract getUserOrders(inputs: InputsLayer<FanId, Order[]>): Promise<IResponse<Order[]>>
 }

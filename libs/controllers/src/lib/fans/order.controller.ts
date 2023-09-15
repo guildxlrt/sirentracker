@@ -1,7 +1,13 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { apiError } from "Shared-utils"
 import { Order } from "Domain"
-import { MakeOrderDTO, ResponseDTO } from "Dto"
+import {
+	FindOrdersByUserDTO,
+	GetOrderByIdDTO,
+	GetUserOrdersDTO,
+	MakeOrderDTO,
+	ResponseDTO,
+} from "Dto"
 import {
 	FindOrdersByUserUsecase,
 	GetOrderUsecase,
@@ -41,10 +47,11 @@ export class OrderController implements IOrderController {
 	async get(request: FastifyRequest<ParamsId>, reply: FastifyReply): Promise<ResponseDTO<Order>> {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const { id } = request.params
-
 		try {
-			const { data, error, status } = await getOrder.execute(id)
+			const { id } = request.params
+			const inputs: GetOrderByIdDTO = new GetOrderByIdDTO(id)
+
+			const { data, error, status } = await getOrder.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -59,10 +66,11 @@ export class OrderController implements IOrderController {
 	): Promise<ResponseDTO<Order[]>> {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const { id } = request.params
-
 		try {
-			const { data, error, status } = await findOrdersByUser.execute(id)
+			const { id } = request.params
+			const inputs: FindOrdersByUserDTO = new FindOrdersByUserDTO(id)
+
+			const { data, error, status } = await findOrdersByUser.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -78,7 +86,9 @@ export class OrderController implements IOrderController {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const { data, error, status } = await getUserOrders.execute()
+			const inputs: GetUserOrdersDTO = request.body as GetUserOrdersDTO
+
+			const { data, error, status } = await getUserOrders.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)

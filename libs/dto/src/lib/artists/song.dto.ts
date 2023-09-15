@@ -1,10 +1,11 @@
 import { ArtistId, ReleaseId, Song, UserAuthId } from "Domain"
+import { BasicDTO } from "../../assets"
 
 export type SongIdDTO = Pick<Song, "id">["id"]
 
 type INewSong = Omit<Song, "id" | "createdAt" | "updatedAt" | "audioUrl" | "duration">
 
-export class NewSongDTO implements INewSong {
+export class NewSong implements INewSong {
 	artist_id: UserAuthId
 	release_id: ReleaseId
 	title: string
@@ -38,5 +39,44 @@ export class NewSongDTO implements INewSong {
 		// ...
 		if (this.audio) return true
 		else return false
+	}
+}
+
+// GET SONG
+export class GetSongDTO implements BasicDTO<ReleaseId, Song> {
+	readonly data: ReleaseId
+	storage?: Song
+	error?: string
+
+	constructor(data: ReleaseId) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+}
+
+// FIND MANY BY ARTIST
+export class FindSongsByArtistDTO implements BasicDTO<ArtistId, Song[]> {
+	readonly data: ArtistId
+	storage?: Song[]
+	error?: string
+
+	constructor(data: ArtistId) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
+	}
+}
+
+// FIND MANY BY RELEASE
+export class FindSongsByReleaseDTO implements BasicDTO<ArtistId, Song[]> {
+	readonly data: ReleaseId
+	storage?: Song[]
+	error?: string
+
+	constructor(data: ArtistId) {
+		this.data = data
+		this.storage = undefined
+		this.error = undefined
 	}
 }

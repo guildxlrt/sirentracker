@@ -1,20 +1,26 @@
 import { Comment, CommentRepository } from "Domain"
-import { CommentIdDTO, CreateCommentDTO, PostIdDTO, ReleaseIdDTO, ResponseDTO } from "Dto"
+import {
+	CreateCommentDTO,
+	DeleteCommentDTO,
+	FindCommentsByPostDTO,
+	FindCommentsByReleaseDTO,
+	ResponseDTO,
+} from "Dto"
 
 export class CommentImplement implements CommentRepository {
-	async create(params: CreateCommentDTO): Promise<ResponseDTO<boolean>> {
+	async create(inputs: CreateCommentDTO): Promise<ResponseDTO<boolean>> {
 		const res = new ResponseDTO(200, null, true)
 
 		return res
 	}
 
-	async delete(id: CommentIdDTO): Promise<ResponseDTO<unknown>> {
+	async delete(inputs: DeleteCommentDTO): Promise<ResponseDTO<unknown>> {
 		const res = new ResponseDTO(200, null, true)
 
 		return res
 	}
 
-	async findManyByRelease(id: ReleaseIdDTO): Promise<ResponseDTO<Comment[]>> {
+	async findManyByRelease(inputs: FindCommentsByReleaseDTO): Promise<ResponseDTO<Comment[]>> {
 		const dbRes: Comment[] = []
 
 		const res = new ResponseDTO(200, null, dbRes)
@@ -22,7 +28,7 @@ export class CommentImplement implements CommentRepository {
 		return res
 	}
 
-	async findManyByPost(id: PostIdDTO): Promise<ResponseDTO<Comment[]>> {
+	async findManyByPost(inputs: FindCommentsByPostDTO): Promise<ResponseDTO<Comment[]>> {
 		const dbRes: Comment[] = []
 
 		const res = new ResponseDTO(200, null, dbRes)

@@ -1,5 +1,5 @@
 import { DatabaseServices } from "Infra-backend"
-import { BaseUsecase } from "../../assets"
+import { BaseUsecase } from "../../../assets"
 import { ModifyReleasePriceDTO, ResponseDTO } from "Dto"
 
 export class ModifyReleasePriceUsecase extends BaseUsecase<

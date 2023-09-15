@@ -1,7 +1,7 @@
 import { DatabaseServices } from "Infra-backend"
 import { ArtistIdDTO, ResponseDTO } from "Dto"
 import { Artist } from "Domain"
-import { BaseUsecase } from "../../assets"
+import { BaseUsecase } from "../../../assets"
 
 export class GetArtistByIdUsecase extends BaseUsecase<ArtistIdDTO, ResponseDTO<Artist>> {
 	constructor(service: DatabaseServices) {

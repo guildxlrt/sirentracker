@@ -1,7 +1,13 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { ErrorMsg, apiError } from "Shared-utils"
-import { Artist } from "Domain"
-import { CleanArtistDTO, CreateArtistDTO, ModifyArtistDTO, ResponseDTO } from "Dto"
+import {
+	CreateArtistDTO,
+	FindArtistsByGenreDTO,
+	GetAllArtistsDTO,
+	GetArtistByEmailDTO,
+	GetArtistByIdDTO,
+	ModifyArtistDTO,
+} from "Dto"
 import {
 	CreateArtistUsecase,
 	GetAllArtistsUsecase,
@@ -11,7 +17,7 @@ import {
 	ModifyArtistUsecase,
 } from "Interactors"
 import { databaseServices } from "Infra-backend"
-import { ParamsEmail, ParamsGenre, ParamsId } from "../../assets"
+import { ParamsGenre, ParamsId } from "../../assets"
 
 const createArtist = new CreateArtistUsecase(databaseServices)
 const modifyArtist = new ModifyArtistUsecase(databaseServices)
@@ -21,16 +27,16 @@ const getArtistById = new GetArtistByIdUsecase(databaseServices)
 const getArtistByEmail = new GetArtistByEmailUsecase(databaseServices)
 
 interface IArtistController {
-	create(request: unknown, reply: unknown): Promise<ResponseDTO<boolean>>
-	modify(request: unknown, reply: unknown): Promise<ResponseDTO<boolean>>
-	getAll(request: unknown, reply: unknown): Promise<ResponseDTO<Artist[]>>
-	findManyByGenre(request: unknown, reply: unknown): Promise<ResponseDTO<Artist[]>>
-	getById(request: unknown, reply: unknown): Promise<ResponseDTO<Artist>>
-	getByEmail(request: unknown, reply: unknown): Promise<ResponseDTO<Artist>>
+	create(request: unknown, reply: unknown): Promise<never>
+	modify(request: unknown, reply: unknown): Promise<never>
+	getAll(request: unknown, reply: unknown): Promise<never>
+	findManyByGenre(request: unknown, reply: unknown): Promise<never>
+	getById(request: unknown, reply: unknown): Promise<never>
+	getByEmail(request: unknown, reply: unknown): Promise<never>
 }
 
 export class ArtistsController implements IArtistController {
-	async create(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
+	async create(request: FastifyRequest, reply: FastifyReply) {
 		if (request.method !== "POST") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
@@ -49,12 +55,11 @@ export class ArtistsController implements IArtistController {
 			return reply.status(202).send(data)
 		} catch (error: ErrorMsg | any) {
 			if (error?.status) return reply.status(error.status).send({ error: error.message })
-
-			return reply.status(500).send({ error: apiError.e500.msg })
+			else return reply.status(500).send({ error: apiError.e500.msg })
 		}
 	}
 
-	async modify(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
+	async modify(request: FastifyRequest, reply: FastifyReply) {
 		if (request.method !== "PUT") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
@@ -62,9 +67,7 @@ export class ArtistsController implements IArtistController {
 
 			inputs.verifyImgFormat()
 
-			const userData: CleanArtistDTO = inputs.treatingUsrData()
-
-			const { data, error, status } = await modifyArtist.execute(userData)
+			const { data, error, status } = await modifyArtist.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -73,11 +76,13 @@ export class ArtistsController implements IArtistController {
 		}
 	}
 
-	async getAll(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<Artist[]>> {
+	async getAll(request: FastifyRequest, reply: FastifyReply) {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const { data, error, status } = await getAllArtists.execute()
+			const inputs: GetAllArtistsDTO = request.body as GetAllArtistsDTO
+
+			const { data, error, status } = await getAllArtists.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(status).send(data)
@@ -86,16 +91,14 @@ export class ArtistsController implements IArtistController {
 		}
 	}
 
-	async findManyByGenre(
-		request: FastifyRequest<ParamsGenre>,
-		reply: FastifyReply
-	): Promise<ResponseDTO<Artist[]>> {
+	async findManyByGenre(request: FastifyRequest<ParamsGenre>, reply: FastifyReply) {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
 			const { genre } = request.params
+			const inputs: FindArtistsByGenreDTO = new FindArtistsByGenreDTO(genre)
 
-			const { data, error, status } = await findArtistsByGenre.execute(genre)
+			const { data, error, status } = await findArtistsByGenre.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -104,16 +107,14 @@ export class ArtistsController implements IArtistController {
 		}
 	}
 
-	async getById(
-		request: FastifyRequest<ParamsId>,
-		reply: FastifyReply
-	): Promise<ResponseDTO<Artist>> {
+	async getById(request: FastifyRequest<ParamsId>, reply: FastifyReply) {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const { id } = request.params
-
 		try {
-			const { data, error, status } = await getArtistById.execute(id)
+			const { id } = request.params
+			const inputs: GetArtistByIdDTO = new GetArtistByIdDTO(id)
+
+			const { data, error, status } = await getArtistById.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -122,16 +123,13 @@ export class ArtistsController implements IArtistController {
 		}
 	}
 
-	async getByEmail(
-		request: FastifyRequest<ParamsEmail>,
-		reply: FastifyReply
-	): Promise<ResponseDTO<Artist>> {
+	async getByEmail(request: FastifyRequest, reply: FastifyReply) {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const { email } = request.params
-
 		try {
-			const { data, error, status } = await getArtistByEmail.execute(email)
+			const inputs: GetArtistByEmailDTO = request.body as GetArtistByEmailDTO
+
+			const { data, error, status } = await getArtistByEmail.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)

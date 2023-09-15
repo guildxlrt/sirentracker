@@ -1,12 +1,12 @@
-import { BaseReposRemovableItem, IResponse } from "../../../assets"
+import { BaseReposRemovableItem, IResponse, InputsLayer } from "../../../assets"
 import { Comment, CommentId, PostId, ReleaseId } from "../../entities"
 
 export abstract class CommentRepository implements BaseReposRemovableItem {
-	abstract create(params: any): Promise<IResponse<boolean>>
+	abstract create(inputs: InputsLayer<unknown, boolean>): Promise<IResponse<boolean>>
 
-	abstract delete(id: CommentId): Promise<IResponse<unknown>>
+	abstract delete(id: InputsLayer<CommentId, unknown>): Promise<IResponse<unknown>>
 
-	abstract findManyByRelease(id: ReleaseId): Promise<IResponse<Comment[]>>
+	abstract findManyByRelease(id: InputsLayer<ReleaseId, Comment[]>): Promise<IResponse<Comment[]>>
 
-	abstract findManyByPost(id: PostId): Promise<IResponse<Comment[]>>
+	abstract findManyByPost(id: InputsLayer<PostId, Comment[]>): Promise<IResponse<Comment[]>>
 }

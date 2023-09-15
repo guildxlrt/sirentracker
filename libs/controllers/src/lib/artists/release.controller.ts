@@ -2,7 +2,16 @@ import { FastifyReply, FastifyRequest } from "fastify"
 import { ParamsGenre, ParamsId } from "../../assets"
 import { apiError } from "Shared-utils"
 import { Release } from "Domain"
-import { CreateReleaseDTO, ModifyReleasePriceDTO, ResponseDTO } from "Dto"
+import {
+	CreateReleaseDTO,
+	FindReleasesByArtistDTO,
+	FindReleasesByGenreDTO,
+	GetAllReleasesDTO,
+	GetReleaseDTO,
+	GetUserReleasesDTO,
+	ModifyReleasePriceDTO,
+	ResponseDTO,
+} from "Dto"
 import {
 	CreateReleaseUsecase,
 	GetAllReleasesUsecase,
@@ -51,9 +60,9 @@ export class ReleaseController implements IReleaseController {
 	async modifyPrice(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
 		if (request.method !== "PUT") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const inputs: ModifyReleasePriceDTO = request.body as ModifyReleasePriceDTO
-
 		try {
+			const inputs: ModifyReleasePriceDTO = request.body as ModifyReleasePriceDTO
+
 			const { data, error, status } = await modifyReleasePrice.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
@@ -69,10 +78,11 @@ export class ReleaseController implements IReleaseController {
 	): Promise<ResponseDTO<Release>> {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const { id } = request.params
-
 		try {
-			const { data, error, status } = await getRelease.execute(id)
+			const { id } = request.params
+			const inputs: GetReleaseDTO = new GetReleaseDTO(id)
+
+			const { data, error, status } = await getRelease.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -85,7 +95,9 @@ export class ReleaseController implements IReleaseController {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const { data, error, status } = await getAllReleases.execute()
+			const inputs: GetAllReleasesDTO = request.body as GetAllReleasesDTO
+
+			const { data, error, status } = await getAllReleases.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(status).send(data)
@@ -102,8 +114,9 @@ export class ReleaseController implements IReleaseController {
 
 		try {
 			const { genre } = request.params
+			const inputs: FindReleasesByGenreDTO = new FindReleasesByGenreDTO(genre)
 
-			const { data, error, status } = await findReleasesByGenre.execute(genre)
+			const { data, error, status } = await findReleasesByGenre.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -120,8 +133,9 @@ export class ReleaseController implements IReleaseController {
 
 		try {
 			const { id } = request.params
+			const inputs: FindReleasesByArtistDTO = new FindReleasesByArtistDTO(id)
 
-			const { data, error, status } = await findReleasesByArtist.execute(id)
+			const { data, error, status } = await findReleasesByArtist.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)
@@ -137,7 +151,9 @@ export class ReleaseController implements IReleaseController {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const { data, error, status } = await getUserReleases.execute()
+			const inputs: GetUserReleasesDTO = request.body as GetUserReleasesDTO
+
+			const { data, error, status } = await getUserReleases.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)

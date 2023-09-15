@@ -1,5 +1,10 @@
-import { Post } from "Domain"
-import { CommentIdDTO, CreatePostDTO, ResponseDTO } from "Dto"
+import {
+	CreatePostDTO,
+	DeletePostsDTO,
+	FindPostsByArtistDTO,
+	GetAllPostsDTO,
+	GetPostsDTO,
+} from "Dto"
 import { databaseServices } from "Infra-backend"
 import {
 	CreatePostUsecase,
@@ -19,15 +24,15 @@ const getAll = new GetAllPostsUsecase(databaseServices)
 const findManyByArtist = new FindPostsByArtistUsecase(databaseServices)
 
 interface IPostController {
-	create(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>>
-	delete(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<unknown>>
-	get(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<Post>>
-	getAll(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<Post[]>>
-	findManyByArtist(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<Post[]>>
+	create(request: FastifyRequest, reply: FastifyReply): Promise<never>
+	delete(request: FastifyRequest, reply: FastifyReply): Promise<never>
+	get(request: FastifyRequest, reply: FastifyReply): Promise<never>
+	getAll(request: FastifyRequest, reply: FastifyReply): Promise<never>
+	findManyByArtist(request: FastifyRequest, reply: FastifyReply): Promise<never>
 }
 
 export class PostController implements IPostController {
-	async create(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
+	async create(request: FastifyRequest, reply: FastifyReply) {
 		if (request.method !== "POST") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
@@ -42,12 +47,13 @@ export class PostController implements IPostController {
 		}
 	}
 
-	async delete(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<unknown>> {
+	async delete(request: FastifyRequest<ParamsId>, reply: FastifyReply) {
 		if (request.method !== "DELETE") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const inputs: CommentIdDTO = request.body as CommentIdDTO
-
 		try {
+			const { id } = request.params
+			const inputs: DeletePostsDTO = new DeletePostsDTO(id)
+
 			const { data, error, status } = await deletePost.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
@@ -57,12 +63,13 @@ export class PostController implements IPostController {
 		}
 	}
 
-	async get(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<Post>> {
+	async get(request: FastifyRequest<ParamsId>, reply: FastifyReply) {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
-		const inputs: CommentIdDTO = request.body as CommentIdDTO
-
 		try {
+			const { id } = request.params
+			const inputs: GetPostsDTO = new GetPostsDTO(id)
+
 			const { data, error, status } = await getPost.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
@@ -72,11 +79,13 @@ export class PostController implements IPostController {
 		}
 	}
 
-	async getAll(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<Post[]>> {
+	async getAll(request: FastifyRequest, reply: FastifyReply) {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
-			const { data, error, status } = await getAll.execute()
+			const inputs: GetAllPostsDTO = request.body as GetAllPostsDTO
+
+			const { data, error, status } = await getAll.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(status).send(data)
@@ -85,16 +94,14 @@ export class PostController implements IPostController {
 		}
 	}
 
-	async findManyByArtist(
-		request: FastifyRequest<ParamsId>,
-		reply: FastifyReply
-	): Promise<ResponseDTO<Post[]>> {
+	async findManyByArtist(request: FastifyRequest<ParamsId>, reply: FastifyReply) {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
 			const { id } = request.params
+			const inputs: FindPostsByArtistDTO = new FindPostsByArtistDTO(id)
 
-			const { data, error, status } = await findManyByArtist.execute(id)
+			const { data, error, status } = await findManyByArtist.execute(inputs)
 			if (error) reply.status(status).send({ error: error })
 
 			return reply.status(200).send(data)

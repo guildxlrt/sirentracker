@@ -1,7 +1,7 @@
 import { DatabaseServices } from "Infra-backend"
 import { CreateReleaseDTO, ResponseDTO } from "Dto"
 
-import { BaseUsecase } from "../../assets"
+import { BaseUsecase } from "../../../assets"
 
 export class CreateReleaseUsecase extends BaseUsecase<CreateReleaseDTO, ResponseDTO<boolean>> {
 	constructor(service: DatabaseServices) {

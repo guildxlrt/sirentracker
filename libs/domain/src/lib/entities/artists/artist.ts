@@ -3,7 +3,7 @@ import { UserAuthId } from "../commons/user-auth"
 import { BaseEntity } from "../../../assets"
 
 export class Artist extends BaseEntity {
-	readonly user_credential: UserAuthId
+	readonly user_auth_id: UserAuthId
 	name: string
 	bio: string
 	avatarUrl: string | null
@@ -13,7 +13,7 @@ export class Artist extends BaseEntity {
 	constructor(
 		id: number,
 		createdAt: Date,
-		user_credential: number,
+		user_auth_id: number,
 		name: string,
 		bio: string,
 		avatarUrl: string | null,
@@ -24,7 +24,7 @@ export class Artist extends BaseEntity {
 	) {
 		super(id, createdAt)
 
-		this.user_credential = user_credential
+		this.user_auth_id = user_auth_id
 		this.name = name
 		this.bio = bio
 		this.avatarUrl = avatarUrl
