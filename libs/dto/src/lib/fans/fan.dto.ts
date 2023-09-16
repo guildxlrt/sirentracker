@@ -18,17 +18,7 @@ interface INewFanData {
 	avatar?: File
 }
 
-export class CreateFanDTO implements BasicDTO<INewFanData, boolean>, NewUserMethods {
-	data: INewFanData
-	storage?: boolean
-	error?: string
-
-	constructor(data: INewFanData) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-
+export class CreateFanDTO extends BasicDTO<INewFanData, boolean> implements NewUserMethods {
 	validAuths(): void {
 		const { email, password, confirmEmail, confirmPass } = this.data
 
@@ -64,17 +54,7 @@ interface IFanData {
 	storage: boolean
 }
 
-export class ModifyFanDTO implements BasicDTO<IFanData, boolean>, UserMethods {
-	data: IFanData
-	storage?: boolean
-	error?: string
-
-	constructor(data: IFanData) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-
+export class ModifyFanDTO extends BasicDTO<IFanData, boolean> implements UserMethods {
 	verifyImgFormat(): void {
 		const { avatar } = this.data.user
 
@@ -85,27 +65,7 @@ export class ModifyFanDTO implements BasicDTO<IFanData, boolean>, UserMethods {
 }
 
 // FAN BY ID
-export class GetFanByIdDTO implements BasicDTO<FanId, Fan> {
-	data: FanId
-	storage?: Fan
-	error?: string
-
-	constructor(data: FanId) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-}
+export class GetFanByIdDTO extends BasicDTO<FanId, Fan> {}
 
 // FAN BY EMAIL
-export class GetFanByEmailDTO implements BasicDTO<UserEmail, Fan> {
-	data: UserEmail
-	storage?: Fan
-	error?: string
-
-	constructor(data: UserEmail) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-}
+export class GetFanByEmailDTO extends BasicDTO<UserEmail, Fan> {}

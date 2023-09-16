@@ -1,13 +1,13 @@
 import { DatabaseServices } from "Infra-backend"
-import { CreateCommentDTO, ResponseDTO } from "Dto"
+import { CreateCommentDTO } from "Dto"
 import { BaseUsecase } from "../../../assets"
 
-export class CreateCommentUsecase extends BaseUsecase<CreateCommentDTO, ResponseDTO<boolean>> {
+export class CreateCommentUsecase extends BaseUsecase<CreateCommentDTO> {
 	constructor(service: DatabaseServices) {
 		super(service)
 	}
 
-	async execute(params: CreateCommentDTO): Promise<ResponseDTO<boolean>> {
-		return await this.service.comment.create(params)
+	async execute(inputs: CreateCommentDTO): Promise<CreateCommentDTO> {
+		return await this.service.comment.create(inputs)
 	}
 }

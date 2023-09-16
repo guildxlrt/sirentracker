@@ -7,59 +7,58 @@ import {
 	GetReleaseDTO,
 	GetUserReleasesDTO,
 	ModifyReleasePriceDTO,
-	ResponseDTO,
 } from "Dto"
 
 export class ReleaseImplement implements ReleaseRepository {
-	async create(inputs: CreateReleaseDTO): Promise<ResponseDTO<boolean>> {
-		const res = new ResponseDTO(200, null, true)
+	async create(inputs: CreateReleaseDTO): Promise<CreateReleaseDTO> {
+		inputs.putInStorage(true)
 
-		return res
+		return inputs
 	}
 
-	async modifyPrice(price: ModifyReleasePriceDTO): Promise<ResponseDTO<boolean>> {
-		const res = new ResponseDTO(200, null, true)
+	async modifyPrice(inputs: ModifyReleasePriceDTO): Promise<ModifyReleasePriceDTO> {
+		inputs.putInStorage(true)
 
-		return res
+		return inputs
 	}
 
-	async get(id: GetReleaseDTO): Promise<ResponseDTO<Release>> {
+	async get(inputs: GetReleaseDTO): Promise<GetReleaseDTO> {
 		const dbRes: any = {}
 
-		const res = new ResponseDTO(200, null, dbRes)
+		inputs.putInStorage(dbRes)
 
-		return res
+		return inputs
 	}
 
-	async getAll(inputs: GetAllReleasesDTO): Promise<ResponseDTO<Release[]>> {
+	async getAll(inputs: GetAllReleasesDTO): Promise<GetAllReleasesDTO> {
 		const dbRes: Release[] = []
 
-		const res = new ResponseDTO(200, null, dbRes)
+		inputs.putInStorage(dbRes)
 
-		return res
+		return inputs
 	}
 
-	async findManyByGenre(genre: FindReleasesByGenreDTO): Promise<ResponseDTO<Release[]>> {
+	async findManyByGenre(inputs: FindReleasesByGenreDTO): Promise<FindReleasesByGenreDTO> {
 		const dbRes: Release[] = []
 
-		const res = new ResponseDTO(200, null, dbRes)
+		inputs.putInStorage(dbRes)
 
-		return res
+		return inputs
 	}
 
-	async findManyByArtist(id: FindReleasesByArtistDTO): Promise<ResponseDTO<Release[]>> {
+	async findManyByArtist(inputs: FindReleasesByArtistDTO): Promise<FindReleasesByArtistDTO> {
 		const dbRes: Release[] = []
 
-		const res = new ResponseDTO(200, null, dbRes)
+		inputs.putInStorage(dbRes)
 
-		return res
+		return inputs
 	}
 
-	async getUserReleases(inputs: GetUserReleasesDTO): Promise<ResponseDTO<Release[]>> {
+	async getUserReleases(inputs: GetUserReleasesDTO): Promise<GetUserReleasesDTO> {
 		const dbRes: Release[] = []
 
-		const res = new ResponseDTO(200, null, dbRes)
+		inputs.putInStorage(dbRes)
 
-		return res
+		return inputs
 	}
 }

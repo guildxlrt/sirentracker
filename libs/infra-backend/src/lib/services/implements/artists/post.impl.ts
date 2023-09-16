@@ -1,40 +1,46 @@
 import { Post, PostRepository } from "Domain"
-import { ArtistIdDTO, CreatePostDTO, GetAllPostsDTO, PostIdDTO, ResponseDTO } from "Dto"
+import {
+	CreatePostDTO,
+	DeletePostsDTO,
+	FindPostsByArtistDTO,
+	GetAllPostsDTO,
+	GetPostDTO,
+} from "Dto"
 
 export class PostImplement implements PostRepository {
-	async create(inputs: CreatePostDTO): Promise<ResponseDTO<boolean>> {
-		const res = new ResponseDTO(200, null, true)
+	async create(inputs: CreatePostDTO): Promise<CreatePostDTO> {
+		inputs.putInStorage(true)
 
-		return res
+		return inputs
 	}
 
-	async delete(id: PostIdDTO): Promise<ResponseDTO<unknown>> {
-		const res = new ResponseDTO(200, null, true)
+	async delete(inputs: DeletePostsDTO): Promise<DeletePostsDTO> {
+		inputs.putInStorage()
 
-		return res
+		return inputs
 	}
 
-	async get(id: PostIdDTO): Promise<ResponseDTO<Post>> {
+	async get(inputs: GetPostDTO): Promise<GetPostDTO> {
 		const dbRes: any = {}
 
-		const res = new ResponseDTO(200, null, dbRes)
+		inputs.putInStorage(dbRes)
 
-		return res
+		return inputs
 	}
 
-	async getAll(inputs: GetAllPostsDTO): Promise<ResponseDTO<Post[]>> {
+	async getAll(inputs: GetAllPostsDTO): Promise<GetAllPostsDTO> {
 		const dbRes: Post[] = []
 
-		const res = new ResponseDTO(200, null, dbRes)
+		inputs.putInStorage(dbRes)
 
-		return res
+		return inputs
 	}
 
-	async findManyByArtist(id: ArtistIdDTO): Promise<ResponseDTO<Post[]>> {
+	async findManyByArtist(inputs: FindPostsByArtistDTO): Promise<FindPostsByArtistDTO> {
 		const dbRes: Post[] = []
 
-		const res = new ResponseDTO(200, null, dbRes)
+		inputs.putInStorage(dbRes)
 
-		return res
+		return inputs
 	}
 }

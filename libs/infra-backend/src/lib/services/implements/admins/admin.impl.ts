@@ -1,10 +1,10 @@
 import { AdminRepository } from "Domain"
-import { CreateAdminDTO, ResponseDTO } from "Dto"
+import { CreateAdminDTO } from "Dto"
 
 export class AdminImplement implements AdminRepository {
-	async create(inputs: CreateAdminDTO): Promise<ResponseDTO<boolean>> {
-		const res = new ResponseDTO(200, null, true)
+	async create(inputs: CreateAdminDTO): Promise<CreateAdminDTO> {
+		inputs.putInStorage(true)
 
-		return res
+		return inputs
 	}
 }

@@ -1,37 +1,32 @@
-import { Fan, FanRepository } from "Domain"
-import { CreateFanDTO, GetFanByEmailDTO, ResponseDTO, ModifyFanDTO, GetFanByIdDTO } from "Dto"
-import { ErrorMsg } from "Shared-utils"
+import { FanRepository } from "Domain"
+import { CreateFanDTO, GetFanByEmailDTO, ModifyFanDTO, GetFanByIdDTO } from "Dto"
 
 export class FanImplement implements FanRepository {
-	async create(inputs: CreateFanDTO): Promise<ResponseDTO<boolean>> {
-		try {
-			const res = new ResponseDTO(200, null, true)
+	async create(inputs: CreateFanDTO): Promise<CreateFanDTO> {
+		inputs.putInStorage(true)
 
-			return res
-		} catch (error) {
-			throw new ErrorMsg(500, "error during DB saving")
-		}
+		return inputs
 	}
 
-	async modify(inputs: ModifyFanDTO): Promise<ResponseDTO<boolean>> {
-		try {
-			const res = new ResponseDTO(200, null, true)
+	async modify(inputs: ModifyFanDTO): Promise<ModifyFanDTO> {
+		inputs.putInStorage(true)
 
-			return res
-		} catch (error) {
-			throw new ErrorMsg(500, "error during DB saving")
-		}
+		return inputs
 	}
 
-	async getById(id: GetFanByIdDTO): Promise<ResponseDTO<Fan>> {
+	async getById(inputs: GetFanByIdDTO): Promise<GetFanByIdDTO> {
 		const dbRes: any = {}
 
-		return dbRes
+		inputs.putInStorage(dbRes)
+
+		return inputs
 	}
 
-	async getByEmail(email: GetFanByEmailDTO): Promise<ResponseDTO<Fan>> {
+	async getByEmail(inputs: GetFanByEmailDTO): Promise<GetFanByEmailDTO> {
 		const dbRes: any = {}
 
-		return dbRes
+		inputs.putInStorage(dbRes)
+
+		return inputs
 	}
 }

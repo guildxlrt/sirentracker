@@ -1,38 +1,36 @@
 import { Order, OrderRepository } from "Domain"
-import {
-	FindOrdersByUserDTO,
-	GetOrderByIdDTO,
-	GetUserOrdersDTO,
-	MakeOrderDTO,
-	ResponseDTO,
-} from "Dto"
+import { FindOrdersByUserDTO, GetOrderByIdDTO, GetUserOrdersDTO, MakeOrderDTO } from "Dto"
 
 export class OrderImplement implements OrderRepository {
-	async make(inputs: MakeOrderDTO): Promise<ResponseDTO<boolean>> {
+	async make(inputs: MakeOrderDTO): Promise<MakeOrderDTO> {
 		const dbRes: any = {}
 
-		return dbRes
+		inputs.putInStorage(dbRes)
+
+		return inputs
 	}
 
-	async get(inputs: GetOrderByIdDTO): Promise<ResponseDTO<Order>> {
+	async get(inputs: GetOrderByIdDTO): Promise<GetOrderByIdDTO> {
 		const dbRes: any = {}
 
-		return dbRes
+		inputs.putInStorage(dbRes)
+
+		return inputs
 	}
 
-	async findManyByUser(inputs: FindOrdersByUserDTO): Promise<ResponseDTO<Order[]>> {
+	async findManyByUser(inputs: FindOrdersByUserDTO): Promise<FindOrdersByUserDTO> {
 		const dbRes: Order[] = []
 
-		const res = new ResponseDTO(200, null, dbRes)
+		inputs.putInStorage(dbRes)
 
-		return res
+		return inputs
 	}
 
-	async getUserOrders(inputs: GetUserOrdersDTO): Promise<ResponseDTO<Order[]>> {
+	async getUserOrders(inputs: GetUserOrdersDTO): Promise<GetUserOrdersDTO> {
 		const dbRes: Order[] = []
 
-		const res = new ResponseDTO(200, null, dbRes)
+		inputs.putInStorage(dbRes)
 
-		return res
+		return inputs
 	}
 }

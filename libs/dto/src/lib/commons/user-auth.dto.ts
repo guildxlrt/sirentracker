@@ -1,6 +1,6 @@
-import { UserAuth } from "Domain"
 import { ErrorMsg } from "Shared-utils"
 import validator from "validator"
+import { BasicDTO } from "../../assets"
 
 export type UserEmail = string
 
@@ -10,30 +10,10 @@ interface ILogin {
 	readonly password: string
 }
 
-export class LoginDTO {
-	data: ILogin
-	storage?: Credential
-	error?: string
-
-	constructor(data: ILogin) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-}
+export class LoginDTO extends BasicDTO<ILogin, Credential> {}
 
 // LOGOUT
-export class LogoutDTO {
-	data: void
-	storage?: void
-	error?: string
-
-	constructor(data: void) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-}
+export class LogoutDTO extends BasicDTO<void, void> {}
 
 // EMAIL
 interface IChangeEmailData {
@@ -41,17 +21,7 @@ interface IChangeEmailData {
 	readonly newEmail: string
 	readonly confirm: string
 }
-export class ChangeEmailDTO {
-	data: IChangeEmailData
-	storage?: boolean
-	error?: string
-
-	constructor(data: IChangeEmailData) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-
+export class ChangeEmailDTO extends BasicDTO<IChangeEmailData, boolean> {
 	validate(): void {
 		const { actual, confirm, newEmail } = this.data
 		const validEmail = validator.isEmail(newEmail)
@@ -70,17 +40,7 @@ interface IChangePassData {
 	readonly newPass: string
 	readonly confirm: string
 }
-export class ChangePassDTO {
-	data: IChangePassData
-	storage?: boolean
-	error?: string
-
-	constructor(data: IChangePassData) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-
+export class ChangePassDTO extends BasicDTO<IChangePassData, boolean> {
 	validate(): void {
 		const { actual, confirm, newPass } = this.data
 

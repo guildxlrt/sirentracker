@@ -1,17 +1,13 @@
 import { DatabaseServices } from "Infra-backend"
-import { Song } from "Domain"
 import { BaseUsecase } from "../../../assets"
-import { FindSongsByArtistDTO, ResponseDTO } from "Dto"
+import { FindSongsByArtistDTO } from "Dto"
 
-export class FindSongsByArtistUsecase extends BaseUsecase<
-	FindSongsByArtistDTO,
-	ResponseDTO<Song[]>
-> {
+export class FindSongsByArtistUsecase extends BaseUsecase<FindSongsByArtistDTO> {
 	constructor(service: DatabaseServices) {
 		super(service)
 	}
 
-	async execute(id: FindSongsByArtistDTO): Promise<ResponseDTO<Song[]>> {
+	async execute(id: FindSongsByArtistDTO): Promise<FindSongsByArtistDTO> {
 		return await this.service.song.findManyByArtist(id)
 	}
 }

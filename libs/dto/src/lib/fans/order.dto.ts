@@ -8,53 +8,13 @@ interface INewOrderData {
 	amount: number
 }
 
-export class MakeOrderDTO implements BasicDTO<INewOrderData, boolean> {
-	data: INewOrderData
-	storage?: boolean
-	error?: string
-
-	constructor(data: INewOrderData) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-}
+export class MakeOrderDTO extends BasicDTO<INewOrderData, boolean> {}
 
 // GET ORDER
-export class GetOrderByIdDTO implements BasicDTO<OrderId, Order> {
-	data: OrderId
-	storage?: Order
-	error?: string
-
-	constructor(data: OrderId) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-}
+export class GetOrderByIdDTO extends BasicDTO<OrderId, Order> {}
 
 // FIND MANY BY USER
-export class FindOrdersByUserDTO implements BasicDTO<FanId, Order[]> {
-	readonly data: FanId
-	storage?: Order[]
-	error?: string
-
-	constructor(data: FanId) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-}
+export class FindOrdersByUserDTO extends BasicDTO<FanId, Order[]> {}
 
 // FIND MANY BY USER
-export class GetUserOrdersDTO implements BasicDTO<FanId, Order[]> {
-	readonly data: FanId
-	storage?: Order[]
-	error?: string
-
-	constructor(data: FanId) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-}
+export class GetUserOrdersDTO extends BasicDTO<FanId, Order[]> {}

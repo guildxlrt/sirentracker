@@ -1,14 +1,13 @@
 import { DatabaseServices } from "Infra-backend"
-import { GetOrderByIdDTO, ResponseDTO } from "Dto"
+import { GetOrderByIdDTO } from "Dto"
 import { BaseUsecase } from "../../../assets"
-import { Order } from "Domain"
 
-export class GetOrderUsecase extends BaseUsecase<GetOrderByIdDTO, ResponseDTO<Order>> {
+export class GetOrderUsecase extends BaseUsecase<GetOrderByIdDTO> {
 	constructor(service: DatabaseServices) {
 		super(service)
 	}
 
-	async execute(params: GetOrderByIdDTO): Promise<ResponseDTO<Order>> {
+	async execute(params: GetOrderByIdDTO): Promise<GetOrderByIdDTO> {
 		return await this.service.order.get(params)
 	}
 }

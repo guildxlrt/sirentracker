@@ -1,13 +1,13 @@
 import { DatabaseServices } from "Infra-backend"
-import { ResponseDTO, LoginDTO } from "Dto"
+import { LoginDTO } from "Dto"
 import { BaseUsecase } from "../../../assets"
 
-export class LoginUsecase extends BaseUsecase<LoginDTO, ResponseDTO<Credential>> {
+export class LoginUsecase extends BaseUsecase<LoginDTO> {
 	constructor(service: DatabaseServices) {
 		super(service)
 	}
 
-	async execute(params: LoginDTO): Promise<ResponseDTO<Credential>> {
+	async execute(params: LoginDTO): Promise<LoginDTO> {
 		return await this.service.userAuth.login(params)
 	}
 }

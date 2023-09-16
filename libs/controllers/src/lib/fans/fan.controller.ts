@@ -36,8 +36,8 @@ export class FanController implements IFanController {
 			inputs.validAuths()
 
 			// Saving Profile
-			const { data, error, status } = await createFan.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await createFan.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(202).send(data)
 		} catch (error: ErrorMsg | any) {
@@ -54,8 +54,8 @@ export class FanController implements IFanController {
 
 			inputs.verifyImgFormat()
 
-			const { data, error, status } = await modifyFan.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await modifyFan.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(200).send(data)
 		} catch (error) {
@@ -70,8 +70,8 @@ export class FanController implements IFanController {
 			const { id } = request.params
 			const inputs: GetFanByIdDTO = new GetFanByIdDTO(id)
 
-			const { data, error, status } = await getFanById.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await getFanById.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(200).send(data)
 		} catch (error) {
@@ -85,8 +85,8 @@ export class FanController implements IFanController {
 		try {
 			const inputs: GetFanByEmailDTO = request.body as GetFanByEmailDTO
 
-			const { data, error, status } = await getFanByEmail.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await getFanByEmail.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(200).send(data)
 		} catch (error) {

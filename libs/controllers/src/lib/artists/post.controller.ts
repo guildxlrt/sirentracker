@@ -3,7 +3,7 @@ import {
 	DeletePostsDTO,
 	FindPostsByArtistDTO,
 	GetAllPostsDTO,
-	GetPostsDTO,
+	GetPostDTO,
 } from "Dto"
 import { databaseServices } from "Infra-backend"
 import {
@@ -38,8 +38,8 @@ export class PostController implements IPostController {
 		try {
 			const inputs: CreatePostDTO = request.body as CreatePostDTO
 
-			const { data, error, status } = await createPost.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await createPost.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(202).send(data)
 		} catch (error) {
@@ -54,8 +54,8 @@ export class PostController implements IPostController {
 			const { id } = request.params
 			const inputs: DeletePostsDTO = new DeletePostsDTO(id)
 
-			const { data, error, status } = await deletePost.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await deletePost.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(200).send(data)
 		} catch (error) {
@@ -68,10 +68,10 @@ export class PostController implements IPostController {
 
 		try {
 			const { id } = request.params
-			const inputs: GetPostsDTO = new GetPostsDTO(id)
+			const inputs: GetPostDTO = new GetPostDTO(id)
 
-			const { data, error, status } = await getPost.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await getPost.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(200).send(data)
 		} catch (error) {
@@ -85,10 +85,10 @@ export class PostController implements IPostController {
 		try {
 			const inputs: GetAllPostsDTO = request.body as GetAllPostsDTO
 
-			const { data, error, status } = await getAll.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await getAll.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
-			return reply.status(status).send(data)
+			return reply.status(200).send(data)
 		} catch (error) {
 			return reply.status(500).send({ error: apiError.e500.msg })
 		}
@@ -101,8 +101,8 @@ export class PostController implements IPostController {
 			const { id } = request.params
 			const inputs: FindPostsByArtistDTO = new FindPostsByArtistDTO(id)
 
-			const { data, error, status } = await findManyByArtist.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await findManyByArtist.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(200).send(data)
 		} catch (error) {

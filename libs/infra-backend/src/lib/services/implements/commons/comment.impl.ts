@@ -4,35 +4,34 @@ import {
 	DeleteCommentDTO,
 	FindCommentsByPostDTO,
 	FindCommentsByReleaseDTO,
-	ResponseDTO,
 } from "Dto"
 
 export class CommentImplement implements CommentRepository {
-	async create(inputs: CreateCommentDTO): Promise<ResponseDTO<boolean>> {
-		const res = new ResponseDTO(200, null, true)
+	async create(inputs: CreateCommentDTO): Promise<CreateCommentDTO> {
+		inputs.putInStorage(true)
 
-		return res
+		return inputs
 	}
 
-	async delete(inputs: DeleteCommentDTO): Promise<ResponseDTO<unknown>> {
-		const res = new ResponseDTO(200, null, true)
+	async delete(inputs: DeleteCommentDTO): Promise<DeleteCommentDTO> {
+		inputs.putInStorage(true)
 
-		return res
+		return inputs
 	}
 
-	async findManyByRelease(inputs: FindCommentsByReleaseDTO): Promise<ResponseDTO<Comment[]>> {
+	async findManyByRelease(inputs: FindCommentsByReleaseDTO): Promise<FindCommentsByReleaseDTO> {
 		const dbRes: Comment[] = []
 
-		const res = new ResponseDTO(200, null, dbRes)
+		inputs.putInStorage(dbRes)
 
-		return res
+		return inputs
 	}
 
-	async findManyByPost(inputs: FindCommentsByPostDTO): Promise<ResponseDTO<Comment[]>> {
+	async findManyByPost(inputs: FindCommentsByPostDTO): Promise<FindCommentsByPostDTO> {
 		const dbRes: Comment[] = []
 
-		const res = new ResponseDTO(200, null, dbRes)
+		inputs.putInStorage(dbRes)
 
-		return res
+		return inputs
 	}
 }

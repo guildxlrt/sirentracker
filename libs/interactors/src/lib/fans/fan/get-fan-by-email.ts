@@ -1,14 +1,13 @@
 import { DatabaseServices } from "Infra-backend"
-import { GetFanByEmailDTO, ResponseDTO } from "Dto"
-import { Fan } from "Domain"
+import { GetFanByEmailDTO } from "Dto"
 import { BaseUsecase } from "../../../assets"
 
-export class GetFanByEmailUsecase extends BaseUsecase<GetFanByEmailDTO, ResponseDTO<Fan>> {
+export class GetFanByEmailUsecase extends BaseUsecase<GetFanByEmailDTO> {
 	constructor(service: DatabaseServices) {
 		super(service)
 	}
 
-	async execute(email: GetFanByEmailDTO): Promise<ResponseDTO<Fan>> {
+	async execute(email: GetFanByEmailDTO): Promise<GetFanByEmailDTO> {
 		return await this.service.fan.getByEmail(email)
 	}
 }

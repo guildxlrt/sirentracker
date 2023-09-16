@@ -17,17 +17,7 @@ interface NewArtist {
 	avatar?: File
 }
 
-export class CreateArtistDTO implements BasicDTO<NewArtist, boolean>, NewUserMethods {
-	data: NewArtist
-	storage?: boolean
-	error?: string
-
-	constructor(data: NewArtist) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-
+export class CreateArtistDTO extends BasicDTO<NewArtist, boolean> implements NewUserMethods {
 	validAuths(): void {
 		const { email, password, confirmEmail, confirmPass } = this.data
 
@@ -65,17 +55,7 @@ interface IArtistData {
 	storage: boolean
 }
 
-export class ModifyArtistDTO implements BasicDTO<IArtistData, boolean>, UserMethods {
-	data: IArtistData
-	storage?: boolean
-	error?: string
-
-	constructor(data: IArtistData) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-
+export class ModifyArtistDTO extends BasicDTO<IArtistData, boolean> implements UserMethods {
 	verifyImgFormat(): void {
 		const { avatar } = this.data.user
 
@@ -86,53 +66,13 @@ export class ModifyArtistDTO implements BasicDTO<IArtistData, boolean>, UserMeth
 }
 
 // GET ALL
-export class GetAllArtistsDTO implements BasicDTO<void, Artist[]> {
-	data: void
-	storage?: Artist[]
-	error?: string
-
-	constructor(data: void) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-}
+export class GetAllArtistsDTO extends BasicDTO<void, Artist[]> {}
 
 // ARTISTS BY GENRE
-export class FindArtistsByGenreDTO implements BasicDTO<GenreType, Artist[]> {
-	data: GenreType
-	storage?: Artist[]
-	error?: string
-
-	constructor(data: GenreType) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-}
+export class FindArtistsByGenreDTO extends BasicDTO<GenreType, Artist[]> {}
 
 // ARTIST BY ID
-export class GetArtistByIdDTO implements BasicDTO<ArtistId, Artist> {
-	data: ArtistId
-	storage?: Artist
-	error?: string
-
-	constructor(data: ArtistId) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-}
+export class GetArtistByIdDTO extends BasicDTO<ArtistId, Artist> {}
 
 // ARTIST BY EMAIL
-export class GetArtistByEmailDTO implements BasicDTO<UserEmail, Artist> {
-	data: UserEmail
-	storage?: Artist
-	error?: string
-
-	constructor(data: UserEmail) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-}
+export class GetArtistByEmailDTO extends BasicDTO<UserEmail, Artist> {}

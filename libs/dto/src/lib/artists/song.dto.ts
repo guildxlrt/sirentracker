@@ -43,40 +43,10 @@ export class NewSong implements INewSong {
 }
 
 // GET SONG
-export class GetSongDTO implements BasicDTO<ReleaseId, Song> {
-	readonly data: ReleaseId
-	storage?: Song
-	error?: string
-
-	constructor(data: ReleaseId) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-}
+export class GetSongDTO extends BasicDTO<ReleaseId, Song> {}
 
 // FIND MANY BY ARTIST
-export class FindSongsByArtistDTO implements BasicDTO<ArtistId, Song[]> {
-	readonly data: ArtistId
-	storage?: Song[]
-	error?: string
-
-	constructor(data: ArtistId) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-}
+export class FindSongsByArtistDTO extends BasicDTO<ArtistId, Song[]> {}
 
 // FIND MANY BY RELEASE
-export class FindSongsByReleaseDTO implements BasicDTO<ArtistId, Song[]> {
-	readonly data: ReleaseId
-	storage?: Song[]
-	error?: string
-
-	constructor(data: ArtistId) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-}
+export class FindSongsByReleaseDTO extends BasicDTO<ArtistId, Song[]> {}

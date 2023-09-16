@@ -11,17 +11,7 @@ interface INewAdminData {
 	confirmPass: string
 }
 
-export class CreateAdminDTO implements BasicDTO<INewAdminData, boolean> {
-	data: INewAdminData
-	storage?: boolean
-	error?: string
-
-	constructor(data: INewAdminData) {
-		this.data = data
-		this.storage = undefined
-		this.error = undefined
-	}
-
+export class CreateAdminDTO extends BasicDTO<INewAdminData, boolean> {
 	validAuths(): void {
 		const { email, password, confirmEmail, confirmPass } = this.data
 

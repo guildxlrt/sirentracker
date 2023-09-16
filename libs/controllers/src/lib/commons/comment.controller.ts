@@ -3,8 +3,6 @@ import {
 	DeleteCommentDTO,
 	FindCommentsByPostDTO,
 	FindCommentsByReleaseDTO,
-	GetOrderByIdDTO,
-	ResponseDTO,
 } from "Dto"
 import { databaseServices } from "Infra-backend"
 import {
@@ -23,21 +21,21 @@ const findCommentsByRelease = new FindCommentsByReleaseUsecase(databaseServices)
 const findCommentsByPost = new FindCommentsByPostUsecase(databaseServices)
 
 interface ICommentController {
-	create(request: unknown, reply: unknown): Promise<ResponseDTO<boolean>>
-	delete(request: unknown, reply: unknown): Promise<ResponseDTO<unknown>>
-	findManyByRelease(request: unknown, reply: unknown): Promise<ResponseDTO<Comment[]>>
-	findManyByPost(request: unknown, reply: unknown): Promise<ResponseDTO<Comment[]>>
+	create(request: unknown, reply: unknown): Promise<never>
+	delete(request: unknown, reply: unknown): Promise<never>
+	findManyByRelease(request: unknown, reply: unknown): Promise<never>
+	findManyByPost(request: unknown, reply: unknown): Promise<never>
 }
 
 export class CommentController implements ICommentController {
-	async create(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
+	async create(request: FastifyRequest, reply: FastifyReply) {
 		if (request.method !== "POST") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
 			const inputs: CreateCommentDTO = request.body as CreateCommentDTO
 
-			const { data, error, status } = await createComment.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await createComment.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(202).send(data)
 		} catch (error) {
@@ -45,18 +43,15 @@ export class CommentController implements ICommentController {
 		}
 	}
 
-	async delete(
-		request: FastifyRequest<ParamsId>,
-		reply: FastifyReply
-	): Promise<ResponseDTO<boolean>> {
+	async delete(request: FastifyRequest<ParamsId>, reply: FastifyReply) {
 		if (request.method !== "DELETE") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
 			const { id } = request.params
 			const inputs: DeleteCommentDTO = new DeleteCommentDTO(id)
 
-			const { data, error, status } = await deleteComment.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await deleteComment.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(200).send(data)
 		} catch (error) {
@@ -64,18 +59,15 @@ export class CommentController implements ICommentController {
 		}
 	}
 
-	async findManyByRelease(
-		request: FastifyRequest<ParamsId>,
-		reply: FastifyReply
-	): Promise<ResponseDTO<Comment[]>> {
+	async findManyByRelease(request: FastifyRequest<ParamsId>, reply: FastifyReply) {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
 			const { id } = request.params
 			const inputs: FindCommentsByReleaseDTO = new FindCommentsByReleaseDTO(id)
 
-			const { data, error, status } = await findCommentsByRelease.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await findCommentsByRelease.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(202).send(data)
 		} catch (error) {
@@ -83,18 +75,15 @@ export class CommentController implements ICommentController {
 		}
 	}
 
-	async findManyByPost(
-		request: FastifyRequest<ParamsId>,
-		reply: FastifyReply
-	): Promise<ResponseDTO<Comment[]>> {
+	async findManyByPost(request: FastifyRequest<ParamsId>, reply: FastifyReply) {
 		if (request.method !== "GET") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
 			const { id } = request.params
 			const inputs: FindCommentsByPostDTO = new FindCommentsByPostDTO(id)
 
-			const { data, error, status } = await findCommentsByPost.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await findCommentsByPost.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(202).send(data)
 		} catch (error) {

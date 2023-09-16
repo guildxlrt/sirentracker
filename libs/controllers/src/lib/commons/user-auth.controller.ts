@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { ErrorMsg, apiError } from "Shared-utils"
-import { ChangeEmailDTO, ChangePassDTO, LoginDTO, LogoutDTO, ResponseDTO } from "Dto"
+import { ChangeEmailDTO, ChangePassDTO, LoginDTO, LogoutDTO } from "Dto"
 import { ChangeEmailUsecase, ChangePassUsecase, LoginUsecase, LogoutUsecase } from "Interactors"
 import { databaseServices } from "Infra-backend"
 
@@ -10,21 +10,21 @@ const changeEmail = new ChangeEmailUsecase(databaseServices)
 const changePassword = new ChangePassUsecase(databaseServices)
 
 interface IUserAuthController {
-	login(request: unknown, reply: unknown): Promise<ResponseDTO<Credential>>
-	logout(request: unknown, reply: unknown): Promise<ResponseDTO<unknown>>
-	changeEmail(request: unknown, reply: unknown): Promise<ResponseDTO<boolean>>
-	changePass(request: unknown, reply: unknown): Promise<ResponseDTO<boolean>>
+	login(request: unknown, reply: unknown): Promise<never>
+	logout(request: unknown, reply: unknown): Promise<never>
+	changeEmail(request: unknown, reply: unknown): Promise<never>
+	changePass(request: unknown, reply: unknown): Promise<never>
 }
 
 export class UserAuthController implements IUserAuthController {
-	async login(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<Credential>> {
+	async login(request: FastifyRequest, reply: FastifyReply) {
 		if (request.method !== "POST") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
 			const inputs: LoginDTO = request.body as LoginDTO
 
-			const { data, error, status } = await login.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await login.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(200).send(data)
 		} catch (error) {
@@ -32,14 +32,14 @@ export class UserAuthController implements IUserAuthController {
 		}
 	}
 
-	async logout(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
+	async logout(request: FastifyRequest, reply: FastifyReply) {
 		if (request.method !== "DELETE") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
 			const inputs: LogoutDTO = request.body as LogoutDTO
 
-			const { data, error, status } = await logout.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await logout.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(202).send(data)
 		} catch (error) {
@@ -47,7 +47,7 @@ export class UserAuthController implements IUserAuthController {
 		}
 	}
 
-	async changeEmail(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
+	async changeEmail(request: FastifyRequest, reply: FastifyReply) {
 		if (request.method !== "PUT") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
@@ -55,8 +55,8 @@ export class UserAuthController implements IUserAuthController {
 
 			inputs.validate()
 
-			const { data, error, status } = await changeEmail.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await changeEmail.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(200).send(data)
 		} catch (error: ErrorMsg | any) {
@@ -65,7 +65,7 @@ export class UserAuthController implements IUserAuthController {
 		}
 	}
 
-	async changePass(request: FastifyRequest, reply: FastifyReply): Promise<ResponseDTO<boolean>> {
+	async changePass(request: FastifyRequest, reply: FastifyReply) {
 		if (request.method !== "PUT") return reply.status(405).send({ error: apiError.e405.msg })
 
 		try {
@@ -73,8 +73,8 @@ export class UserAuthController implements IUserAuthController {
 
 			inputs.validate()
 
-			const { data, error, status } = await changePassword.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await changePassword.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(200).send(data)
 		} catch (error) {

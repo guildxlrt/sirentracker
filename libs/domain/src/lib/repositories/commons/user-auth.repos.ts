@@ -1,11 +1,17 @@
-import { IResponse, InputsLayer } from "../../../assets"
+import { InputsLayer } from "../../../assets"
 
 export abstract class UserAuthRepository {
-	abstract login(inputs: InputsLayer<unknown, Credential>): Promise<IResponse<Credential>>
+	abstract login(
+		inputs: InputsLayer<unknown, Credential>
+	): Promise<InputsLayer<unknown, Credential>>
 
-	abstract logout(inputs: InputsLayer<unknown, unknown>): Promise<IResponse<unknown>>
+	abstract logout(inputs: InputsLayer<unknown, unknown>): Promise<InputsLayer<unknown, unknown>>
 
-	abstract changeEmail(inputs: InputsLayer<unknown, boolean>): Promise<IResponse<boolean>>
+	abstract changeEmail(
+		inputs: InputsLayer<unknown, boolean>
+	): Promise<InputsLayer<unknown, boolean>>
 
-	abstract changePass(inputs: InputsLayer<unknown, boolean>): Promise<IResponse<boolean>>
+	abstract changePass(
+		inputs: InputsLayer<unknown, boolean>
+	): Promise<InputsLayer<unknown, boolean>>
 }

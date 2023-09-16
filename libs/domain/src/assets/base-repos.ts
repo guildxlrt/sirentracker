@@ -1,43 +1,42 @@
 import { GenreType } from "Shared-utils"
 
+interface IError {
+	status: number
+	message: string
+}
+
 export interface InputsLayer<D, S> {
 	readonly data: D
 	storage?: S
-	error?: string
+	error?: IError
 }
 
 export interface BaseReposUser<T> {
-	create(inputs: InputsLayer<unknown, boolean>): Promise<IResponse<boolean>>
+	create(inputs: InputsLayer<unknown, boolean>): Promise<InputsLayer<unknown, boolean>>
 
-	modify(inputs: InputsLayer<unknown, boolean>): Promise<IResponse<boolean>>
+	modify(inputs: InputsLayer<unknown, boolean>): Promise<InputsLayer<unknown, boolean>>
 
-	getById(inputs: InputsLayer<number, T>): Promise<IResponse<T>>
+	getById(inputs: InputsLayer<number, T>): Promise<InputsLayer<number, T>>
 
-	getByEmail(inputs: InputsLayer<string, T>): Promise<IResponse<T>>
+	getByEmail(inputs: InputsLayer<string, T>): Promise<InputsLayer<string, T>>
 }
 
 export interface BaseReposArtistItem<T> {
-	get(inputs: InputsLayer<number, T>): Promise<IResponse<T>>
+	get(inputs: InputsLayer<number, T>): Promise<InputsLayer<number, T>>
 
-	getAll(inputs: InputsLayer<unknown, T[]>): Promise<IResponse<T[]>>
+	getAll(inputs: InputsLayer<unknown, T[]>): Promise<InputsLayer<unknown, T[]>>
 
-	findManyByArtist(inputs: InputsLayer<number, T[]>): Promise<IResponse<T[]>>
+	findManyByArtist(inputs: InputsLayer<number, T[]>): Promise<InputsLayer<number, T[]>>
 }
 
 export interface BaseReposGenred<T> {
-	getAll(inputs: InputsLayer<unknown, T[]>): Promise<IResponse<T[]>>
+	getAll(inputs: InputsLayer<unknown, T[]>): Promise<InputsLayer<unknown, T[]>>
 
-	findManyByGenre(inputs: InputsLayer<GenreType, T[]>): Promise<IResponse<T[]>>
+	findManyByGenre(inputs: InputsLayer<GenreType, T[]>): Promise<InputsLayer<GenreType, T[]>>
 }
 
 export interface BaseReposRemovableItem {
-	create(inputs: InputsLayer<unknown, boolean>): Promise<IResponse<boolean>>
+	create(inputs: InputsLayer<unknown, boolean>): Promise<InputsLayer<unknown, boolean>>
 
-	delete(inputs: InputsLayer<number, unknown>): Promise<IResponse<unknown>>
-}
-
-export interface IResponse<T> {
-	status: number
-	error: string | null
-	data?: T
+	delete(inputs: InputsLayer<number, unknown>): Promise<InputsLayer<number, unknown>>
 }

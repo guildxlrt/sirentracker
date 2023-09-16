@@ -49,8 +49,8 @@ export class ArtistsController implements IArtistController {
 			inputs.validAuths()
 
 			// Saving Profile
-			const { data, error, status } = await createArtist.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await createArtist.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(202).send(data)
 		} catch (error: ErrorMsg | any) {
@@ -67,8 +67,8 @@ export class ArtistsController implements IArtistController {
 
 			inputs.verifyImgFormat()
 
-			const { data, error, status } = await modifyArtist.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await modifyArtist.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(200).send(data)
 		} catch (error) {
@@ -82,10 +82,10 @@ export class ArtistsController implements IArtistController {
 		try {
 			const inputs: GetAllArtistsDTO = request.body as GetAllArtistsDTO
 
-			const { data, error, status } = await getAllArtists.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await getAllArtists.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
-			return reply.status(status).send(data)
+			return reply.status(200).send(data)
 		} catch (error) {
 			return reply.status(500).send({ error: apiError.e500.msg })
 		}
@@ -98,8 +98,8 @@ export class ArtistsController implements IArtistController {
 			const { genre } = request.params
 			const inputs: FindArtistsByGenreDTO = new FindArtistsByGenreDTO(genre)
 
-			const { data, error, status } = await findArtistsByGenre.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await findArtistsByGenre.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(200).send(data)
 		} catch (error) {
@@ -114,8 +114,8 @@ export class ArtistsController implements IArtistController {
 			const { id } = request.params
 			const inputs: GetArtistByIdDTO = new GetArtistByIdDTO(id)
 
-			const { data, error, status } = await getArtistById.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await getArtistById.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(200).send(data)
 		} catch (error) {
@@ -129,8 +129,8 @@ export class ArtistsController implements IArtistController {
 		try {
 			const inputs: GetArtistByEmailDTO = request.body as GetArtistByEmailDTO
 
-			const { data, error, status } = await getArtistByEmail.execute(inputs)
-			if (error) reply.status(status).send({ error: error })
+			const { data, error } = await getArtistByEmail.execute(inputs)
+			if (error) reply.status(error.status).send({ error: error.message })
 
 			return reply.status(200).send(data)
 		} catch (error) {

@@ -1,17 +1,13 @@
 import { DatabaseServices } from "Infra-backend"
-import { FindOrdersByUserDTO, ResponseDTO } from "Dto"
+import { FindOrdersByUserDTO } from "Dto"
 import { BaseUsecase } from "../../../assets"
-import { Order } from "Domain"
 
-export class FindOrdersByUserUsecase extends BaseUsecase<
-	FindOrdersByUserDTO,
-	ResponseDTO<Order[]>
-> {
+export class FindOrdersByUserUsecase extends BaseUsecase<FindOrdersByUserDTO> {
 	constructor(service: DatabaseServices) {
 		super(service)
 	}
 
-	async execute(params: FindOrdersByUserDTO): Promise<ResponseDTO<Order[]>> {
+	async execute(params: FindOrdersByUserDTO): Promise<FindOrdersByUserDTO> {
 		return await this.service.order.findManyByUser(params)
 	}
 }
